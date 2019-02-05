@@ -1,0 +1,219 @@
+body{
+    background-color: #e5e6f7d5;
+}
+
+.sharpxchange-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.sharpxchange-header-logo {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 2.25rem;
+}
+
+.sharpxchange-header-logo:hover {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+}
+@media (min-width: 768px) {
+    .display-4 {
+      font-size: 3rem;
+  }
+}
+
+.nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroller .nav-link {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .875rem;
+}
+
+.card-img-right {
+    height: 100%;
+    border-radius: 0 3px 3px 0;
+}
+
+.flex-auto {
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.h-250 { height: 250px; }
+@media (min-width: 768px) {
+    .h-md-250 { height: 250px; }
+}
+.sharpxchange-title {
+    margin-bottom: 0;
+    font-size: 2rem;
+    font-weight: 400;
+}
+.sharpxchange-description {
+    font-size: 1.1rem;
+    color: #999;
+}
+
+@media (min-width: 40em) {
+    .sharpxchange-title {
+      font-size: 3.5rem;
+  }
+}
+.sharpxchange-pagination {
+    margin-bottom: 4rem;
+}
+.sharpxchange-pagination > .btn {
+    border-radius: 2rem;
+}
+.sharpxchange-post {
+    margin-bottom: 4rem;
+}
+.sharpxchange-post-title {
+    margin-bottom: .25rem;
+    font-size: 2.5rem;
+}
+.sharpxchange-post-meta {
+    margin-bottom: 1.25rem;
+    color: #999;
+}
+.sharpxchange-footer {
+    margin-top: 20px;
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+}
+.sharpxchange-footer p:last-child {
+    margin-bottom: 0;
+}
+.exchageRate .exchageRateSection .title{
+    background: #060a40;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px
+}
+.exchageRateTable{
+    margin-top: -8px;
+}
+.exchageTrack .title{
+    background: #060a40;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
+.section1{
+    background: #fff;
+    color: #000;
+    padding: 30px 20px 30px 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+.section2{
+    background: #fff;
+    color: #000;
+    padding: 0px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
+.section3{
+    background: #fff;
+    color: #000;
+    padding: 0px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
+.section4{
+    background: #fff;
+    color: #000;
+    padding: 0px 0px 10px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
+.section4 .input-group{
+    width: 90%;
+    margin: auto;
+}
+.section5{
+    background: #fff;
+    color: #000;
+    padding: 0px;
+    text-align: center;
+    border-radius: 5px;
+}
+.item {
+    background: #fff;
+    padding-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    min-height: 150px;
+    margin: 10px;
+}
+.thumb{
+    position: relative;
+}
+.sharpxchange-section-group1{
+    background-image: url(../../assets/img/banknotes1.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding: 35px 0px 25px 0px;
+}
+.masthead {
+    margin-bottom: 2rem;
+}
+.masthead-brand {
+    margin-bottom: 0;
+}
+.nav-masthead .nav-link {
+    padding: .25rem 0;
+    font-weight: 700;
+    color: #000;
+    background-color: transparent;
+    border-bottom: .25rem solid transparent;
+}
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+    border-bottom-color: rgba(247, 1, 1, 0.966);
+}
+.nav-masthead .nav-link + .nav-link {
+    margin-left: 1rem;
+}
+.nav-masthead .active {
+    color: #000;
+    border-bottom-color: #000;
+}
+@media (min-width: 48em) {
+    .masthead-brand {
+        float: left;
+    }
+    .nav-masthead {
+        float: right;
+    }
+}
