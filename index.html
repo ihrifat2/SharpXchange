@@ -27,6 +27,8 @@
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <script src="assets/js/sharpxchange.js"></script>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,6 +36,7 @@
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
                     <a class="text-muted" href="#">Registration</a>
+                    <a>/</a>
                     <a class="text-muted" href="#">login</a>
                 </div>
                 <div class="col-sm-4 col-md-4 text-center">
@@ -54,7 +57,7 @@
                         <a class="nav-link active" href="#">EXCHANGE</a>
                         <a class="nav-link" href="#">TESTIMONIALS</a>
                         <a class="nav-link" href="#">CONTACT</a>
-                        <a class="nav-link" href="#">ABOUT US</a>
+                        <a class="nav-link" href="aboutUs.html">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -67,9 +70,9 @@
                         <span class="btn btn" style="text-align: center; font-weight: 600; background: #1b1464; color: white; width: 100%; height:35px;">
                             <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="MARQUEE1" style="text-align: left;" class="scrolling">  
                                 <span style="color: yellow">
-                                    <strong> Only For Paypal  :  </strong>
+                                    <strong> Notice : </strong>
                                 </span>
-                                Good And Service Option এ যারা সেন্ড করবে এবং যারা Paypal নোট লেখবেন না তাদের ডলার ফ্রেরত দেওয়া হবে না। যারা পেপালে ওর্ডার করবেন তারা অবশ্যই পেপাল সেন্ড ওপশন (Friends And Family) তে ডলার সেন্ড করবেন Note Must be:(Flow Footer Option - Terms Of Services 2 &amp; 3)। অনথ্যায় Good And Service Option এ যারা সেন্ড করবে এবং যারা Paypal নোট লেখবেন না তাদের ডলার ফ্রেরত দেওয়া হবে না। যে কোন প্রয়োজনে আমাদের কে ফোন করুন 01979888664 এবং লেনদেন শেষে আমাদের TESTIMONIALS দিতে ভুলবেন না। 
+                                যে কোন প্রয়োজনে আমাদের কে ফোন করুন 01XXXXXXXXX এবং লেনদেন শেষে আমাদের TESTIMONIALS দিতে ভুলবেন না। 
                             </marquee>
                         </span>
                     </center>
@@ -105,16 +108,23 @@
                                     </h3>
                                     <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                         <div>
-                                            <img src="assets/img/bkash.png" id="bit_image_send" width="72px" height="72px" class="img-circle">
+                                            <img src="assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
+                                            <p id="sxc_imageSendStatus"></p>
                                         </div>
                                     </div>
                                     <div class="form-group mt-4">
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <select class="form-control" id="sxcSendUs" name="sxcSendUs" onBlur="checkSendUsInput()">
+                                            <option value="1" selected="">Skrill. USD</option>
+                                            <option value="2">Bkash Agent BDT</option>
+                                            <option value="3">Coinbase BTC USD</option>
+                                            <option value="4">Coinbase ETH USD</option>
+                                            <option value="5">Coinbase LTC USD</option>
+                                            <option value="6">Coinbase BCH USD</option>
+                                            <option value="7">DBBL BDT</option>
+                                            <option value="8">Neteller USD</option>
+                                            <option value="9">Perfect Money. USD</option>
+                                            <option value="10">Payoneer USD</option>
+                                            <option value="11">Rocket Agent BDT</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -131,16 +141,22 @@
                                     </h3>
                                     <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                         <div>
-                                            <img src="assets/img/coinbase.jpg" id="bit_image_send" width="72px" height="72px" class="img-circle img-bordered">
+                                            <img src="assets/img/bkash.png" id="sxc_imageRecieve" width="72px" height="72px" class="img-circle img-bordered">
                                         </div>
                                     </div>
                                     <div class="form-group mt-4">
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <select class="form-control" id="sxcRecieve" name="sxcRecieve" onBlur="checkRecieveInput()">
+                                            <option value="1" selected="">Skrill. USD</option>
+                                            <option value="2">Bkash Agent BDT</option>
+                                            <option value="3">Coinbase BTC USD</option>
+                                            <option value="4">Coinbase ETH USD</option>
+                                            <option value="5">Coinbase LTC USD</option>
+                                            <option value="6">Coinbase BCH USD</option>
+                                            <option value="7">DBBL BDT</option>
+                                            <option value="8">Neteller USD</option>
+                                            <option value="9">Perfect Money. USD</option>
+                                            <option value="10">Payoneer USD</option>
+                                            <option value="11">Rocket Agent BDT</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -330,7 +346,5 @@
             <a href="#">Back to top</a>
         </p>
     </footer>
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 </body>
 </html>
