@@ -1,73 +1,93 @@
 <?php
 
+session_start();
+require "helper.php";
+// unset($_SESSION['sxcReceive']);
+// unset($_SESSION['sxcSendUs']);
+
+if (isset($_SESSION['sxcSendUs']) == NULL || empty($_SESSION['sxcSendUs'])) {
+	$_SESSION['sxcSendUs'] = 7;
+}
+
+if (isset($_SESSION['sxcReceive']) == NULL || empty($_SESSION['sxcReceive'])) {
+	$_SESSION['sxcReceive'] = 1;
+}
+
+//$_SESSION['sxcSendUs'] 	= "Skrill";
+
 if (!empty($_POST["sxcSendUs"])) {
-	$sxcSendUsInput = $_POST['sxcSendUs'];
-	$sxcNumericConfirm = checkInputIsNumeric($sxcSendUsInput);
+	$sxcSendUsInput 	= $_POST['sxcSendUs'];
+	$sxcNumericConfirm 	= checkInputIsNumeric($sxcSendUsInput);
 	if ($sxcNumericConfirm) {
 		if($sxcSendUsInput >= 0 && $sxcSendUsInput <= 11){
-			echo checkInputExchanger($sxcSendUsInput);
+			$sxcSendUsGW			= checkInputExchanger($sxcSendUsInput);
+			$sxcSendUsDB			= matchExchangerNameWithDatabase($sxcSendUsGW);
+			$_SESSION['sxcSendUs'] 	= $sxcSendUsInput;
+			$gtway_nameForSell		= $_SESSION['sxcSendUs'];
+			$gtway_nameForReceive	= $_SESSION['sxcReceive'];
+			$exchangeRate 			= exchangeRate($gtway_nameForSell, $gtway_nameForReceive);
+			$data 			= $exchangeRate;
+			$data 			= rtrim($data);
+			$data 			= explode(" ",$data);
+			$excSendInpt 	= $data[2];
+			$excRecvInpt 	= $data[5];
+			//echo $gtway_nameForSell . " : " . $gtway_nameForReceive . "\n";
+			$inputSell 		= exchangeSendUs($sxcSendUsDB);
+			$dataSendUs 	= array($sxcSendUsGW, $exchangeRate, $excSendInpt, $excRecvInpt);
+			echo json_encode($dataSendUs);
 		}
 	}
 }
 
-if (!empty($_POST["sxcRecieve"])) {
-	$sxcRecieveInput = $_POST['sxcRecieve'];
-	$sxcNumericConfirm = checkInputIsNumeric($sxcRecieveInput);
+if (!empty($_POST["sxcReceive"])) {
+	$sxcReceiveInput 	= $_POST['sxcReceive'];
+	$sxcNumericConfirm 	= checkInputIsNumeric($sxcReceiveInput);
 	if ($sxcNumericConfirm) {
-		if($sxcRecieveInput >= 0 && $sxcRecieveInput <= 11){
-			echo checkInputExchanger($sxcRecieveInput);
+		if($sxcReceiveInput >= 0 && $sxcReceiveInput <= 11){
+			$sxcReceive 			= checkInputExchanger($sxcReceiveInput);
+			$_SESSION['sxcReceive'] = $sxcReceiveInput;
+			$gtway_nameForSell		= $_SESSION['sxcSendUs'];
+			$gtway_nameForReceive	= $_SESSION['sxcReceive'];
+			$exchangeRate 			= exchangeRate($gtway_nameForSell, $gtway_nameForReceive);
+			$data 			= $exchangeRate;
+			$data 			= rtrim($data);
+			$data 			= explode(" ",$data);
+			$excSendInpt 	= $data[2];
+			$excRecvInpt 	= $data[5];
+			$reserveAmount 	= "Reserve: ".ReceiveReserve($gtway_nameForReceive) . bdtOrUsb($sxcReceiveInput);
+			$dataReceive 	= array($sxcReceive, $reserveAmount, $exchangeRate, $excSendInpt, $excRecvInpt);
+			echo json_encode($dataReceive);
 		}
 	}
 }
 
-
-function checkInputIsNumeric($data)
-{
-	if (is_numeric($data)) {
-		return true; 
-	} else { 
-		return false; 
+if (isset($_POST['sxcAmountSend']) && !empty($_POST["sellUsStatus"]) && !empty($_POST["reserve"])) {
+	$sendAmntInpt = $_POST['sxcAmountSend'];
+	if ($sendAmntInpt == null || $sendAmntInpt == "") {
+		$sendAmntInpt = 0;
 	}
-}
-
-function checkInputExchanger($data)
-{
-	switch ($data) {
-	    case 1:
-	        return "skrill";
-	        break;
-	    case 2:
-	        return "bkash";
-	        break;
-	    case 3:
-	        return "coinbase";
-	        break;
-	    case 4:
-	        return "bitcoin";
-	        break;
-	    case 5:
-	        return "litcoin";
-	        break;
-	    case 6:
-	        return "bitcoin";
-	        break;
-	    case 7:
-	        return "dutchbangla";
-	        break;
-	    case 8:
-	        return "neteller";
-	        break;
-	    case 9:
-	        return "perfectmoney";
-	        break;
-	    case 10:
-	        return "payoneer";
-	        break;
-	    case 11:
-	        return "rocket";
-	        break;
-	    default:
-	        return "Mass with the best die like the rest";
+	$exchangeRate 	= trim($_POST['sellUsStatus']);
+	$rsevSatus 		= trim($_POST['reserve']);
+	$data 			= $exchangeRate;
+	$data 			= rtrim($data);
+	$data 			= explode(" ",$data);
+	$excSendInpt 	= $data[2];
+	$excRecvInpt 	= $data[5];
+	$excSendGtw		= $_SESSION['sxcSendUs'];
+	$excRecvGtw		= $_SESSION['sxcReceive'];
+	$excTotal		= exchangePriceRateSell($excSendGtw, $excRecvGtw, $sendAmntInpt, $excSendInpt, $excRecvInpt);
+	// echo $sendAmntInpt . " : " . $exchangeRate . " : " . $excRecvInpt . " : " . $excSendGtw . " : " . $excRecvGtw . " : " . $excTotal  . " : " . $rsevSatus . "\n";
+	// echo $excTotal;
+	
+	if ($rsevSatus >= $excTotal) {
+		$btnDisable = 0;
+		$dataPrice 	= array($excTotal, $btnDisable);
+		echo json_encode($dataPrice);
+	} else {
+		$btnDisable = 1;
+		$errortxt	= "The amount of exchange exceed our reserve.";
+		$dataPrice 	= array($excTotal, $btnDisable, $errortxt);
+		echo json_encode($dataPrice);
 	}
 }
 

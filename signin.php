@@ -1,3 +1,12 @@
+<?php 
+
+session_start();
+if (isset($_SESSION['user_login_session'])) {
+    header('Location: index.php');
+    exit();
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,7 +35,6 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
@@ -34,15 +42,15 @@
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 pt-1 sharpxchange-header-nav-left">
                     <a class="text-muted" href="signup.php">Registration</a>
                     <a>/</a>
-                    <a class="text-muted" href="signin.php">login</a>
+                    <a class="text-muted" href="signup.php">login</a>
                 </div>
-                <div class="col-sm-4 col-md-4 text-center">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center">
                     <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
                 </div>
-                <div class="col-sm-4 col-md-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -56,7 +64,7 @@
                     <nav class="nav nav-masthead justify-content-end">
                             <a class="nav-link" href="index.php">EXCHANGE</a>
                             <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
-                            <a class="nav-link active" href="contact.html">CONTACT</a>
+                            <a class="nav-link" href="contact.html">CONTACT</a>
                             <a class="nav-link" href="aboutUs.html">ABOUT US</a>
                     </nav>
                 </div>
@@ -66,38 +74,36 @@
 
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-sm-12 col-md-10">
-                <form class="contactsection sharpxchange-main">
-                    <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Contact Us</h2>
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <label for="Name">Your name</label>
-                            <input type="text" class="form-control is-invalid" id="sxcContName" required>
-                            <div class="invalid-feedback">Required</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="Email">Your email</label>
-                            <input type="text" class="form-control is-invalid" id="sxcContMail" required>
-                            <div class="invalid-feedback">Required</div>
+            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8 col-xl-8">
+                <form class="contactsection sharpxchange-main" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Login</h2>
+                    <div class="form-group row mt-3 justify-content-md-center">
+                        <div class="col-sm-12 col-md-12">
+                            <p id="error"></p>
+                            <p id="success"></p>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-md-12">
-                            <label for="Subject">Subject</label>
-                            <input type="text" class="form-control" id="sxcContSub" required>
-                            <div class="invalid-feedback"></div>
+                    <div class="form-group row mt-3">
+                        <label for="sxcSignupEmail" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="sxcSigninEmail" name="sxc_Signin_Email">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-md-12">
-                            <label for="Message">Message</label>
-                            <textarea class="form-control" id="sxcConTxt" required></textarea>
-                            <div class="invalid-feedback"></div>
+                    <div class="form-group row">
+                        <label for="sxcSignupPassword" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="sxcSigninPassword" name="sxc_Signin_Password">
                         </div>
                     </div>
-                    <div class="form-row mt-3">
-                        <div class="col-md-12">
-                            <button class="btn btn-outline-sxc" type="submit">Submit form</button>
+                    <div class="form-row mt-2">
+                        <div class="col-md-12 d-flex bd-highlight">
+                            <button class="btn btn-outline-sxc bd-highlight" type="button" id="showpassword">Show Password</button>
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <div class="col-md-12 d-flex bd-highlight">
+                            <p class="mt-2">Create a account? </p><a class="mr-auto bd-highlight ml-2 mt-2" href="signup.php">Signup</a>
+                            <button class="btn btn-outline-sxc bd-highlight" type="submit" name="sxc_Signin_btn">login</button>
                         </div>
                     </div>
                 </form>
@@ -145,5 +151,43 @@
         <p class="mt-3">Copyright © 2019. SharpXchange</p>
         <p><a href="#">Back to top</a></p>
     </footer>
+    <script src="assets/js/sharpxchange.js"></script>
 </body>
 </html>
+<?php
+
+require "dbconnect.php";
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
+    $sxc_Signin_Email       = validate_input($_POST['sxc_Signin_Email']);
+    $sxc_Signin_Password    = validate_input($_POST['sxc_Signin_Password']);
+
+    //echo $sxc_Signin_Email . " : " . $sxc_Signin_Password;
+
+    if (empty($sxc_Signin_Email) || empty($sxc_Signin_Password)) {
+        echo "<script>document.getElementById('error').innerHTML = 'All fields are required';</script>";
+    } else {
+        $sqlQuery       = "SELECT * FROM `db_user_info` WHERE `email` = '$sxc_Signin_Email'";
+        $result         = mysqli_query($dbconnect, $sqlQuery);
+        $rows           = mysqli_fetch_array($result);
+        $store_password = $rows['passwd'];
+        $sxc_username   = $rows['username'];
+        $check          = password_verify($sxc_Signin_Password, $store_password);
+        // echo $store_password . " : ";
+        // echo $sxc_username;
+        if ($check) {
+            $_SESSION['user_login_session'] = $sxc_username;
+            //header('Location: index.php');
+            echo "<script>javascript:document.location='index.php'</script>";
+        }else{
+            echo "<script>document.getElementById('error').innerHTML = 'Username or Password Invalid.';</script>";
+        }
+    }
+}
+?>

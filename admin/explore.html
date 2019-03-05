@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        SharpXchange | Admin Panel
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' /> 
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="../assets/css/material-dashboard.css"/> 
+    <link rel="stylesheet" href="../assets/css/sxcadmin.css"/>
+</head>
+
+<body class="dark-edition">
+    <div class="wrapper ">
+        <div class="sidebar" data-color="orange" data-background-color="black">
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <h3 class="sidebar-title">Exchanger management</h3>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="gateway.html">
+                            <i class="menu-icon fa fa-credit-card"></i>
+                            <p>Gateway</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="exchanges.html">
+                            <i class="menu-icon fa fa-refresh"></i>
+                            <p>Exchanges</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="rates.html">
+                            <i class="menu-icon fa fa-bar-chart"></i>
+                            <p>XML Rates</p>
+                        </a>
+                    </li>
+                    <h3 class="sidebar-title">Exchanger management</h3>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="users.html">
+                            <i class="menu-icon fa fa-users"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="testimonials.html">
+                            <i class="menu-icon fa fa-comments-o"></i>
+                            <p>Testimonials</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="withdrawals.html">
+                            <i class="menu-icon fa fa-money"></i>
+                            <p>Withdrawals</p>
+                        </a>
+                    </li>
+                    <h3 class="sidebar-title">Web management</h3>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="pages.html">
+                            <i class="menu-icon fa fa-bars"></i>
+                            <p>Pages</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="settings.html">
+                            <i class="menu-icon fa fa-cogs"></i>    
+                            <p>Settings</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <a class="navbar-brand" href="javascript:void(0)">Exchanges</a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="javascript:void(0)" id="adminNotificationNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">notifications</i>
+                                    <span class="notification">5</span>
+                                    <p class="d-lg-none d-md-block">
+                                        Some Actions
+                                    </p>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="adminNotificationNav">
+                                    <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Another One</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="javascript:void(0)" id="adminnav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">person</i>
+                                    <p class="d-lg-none d-md-block">
+                                        Account details
+                                    </p>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="adminnav">
+                                    <a class="dropdown-item">Hello Imran</a>
+                                    <a class="dropdown-item" href="adminsettings.html">Account settings</a>
+                                    <a class="dropdown-item" href="logout.php">logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header text-light">
+                            <strong>01/01/2018</strong> 
+                            <span class="float-right"> <strong>Status:</strong> Pending</span>
+                        </div>
+                        <div class="card-body text-light">
+                            <div class="row mb-4">
+                                <div class="col-sm-6 col-md-6 row justify-content-center">
+                                    <h6 class="mt-4">From: </h6>
+                                    <div>
+                                        <img src="../assets/img/skrill.png" class="img-circle ml-2" id="sxc_imageSendUs" width="72px" height="72px">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 row justify-content-center">
+                                    <h6 class="mt-4">To: </h6>
+                                    <div>
+                                        <img src="../assets/img/bkash.png" class="img-circle ml-2" id="sxc_imageRecieve" width="72px" height="72px">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive-sm">
+                                <table class="table table-striped table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Exchange ID</th>
+                                            <th>We Receive</th>
+                                            <th>we Send</th>
+                                            <th>Rate</th>
+                                            <th>Mobile</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-dark">
+                                            <td>70186F9E915B0323F3F5</td>
+                                            <td>$10</td>
+                                            <td>900 taka</td>
+                                            <td>1 USD = 90 taka</td>
+                                            <td>123467890</td>
+                                            <td>abcd@efgh.com</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-5 ml-auto">
+                                    <table class="table table-clear">
+                                        <tbody>
+                                            <tr>
+                                                <td class="left">
+                                                    <form action="" method="POST">
+                                                        <div class="form-group">
+                                                            <label>Status</label>
+                                                            <select class="form-control quickUpdate" name="status" onchange="show_field(this.value);">
+                                                                <option value="1">Awaiting Confirmation</option>
+                                                                <option value="2">Awaiting Payment</option>
+                                                                <option value="3" selected="">Processing</option>
+                                                                <option value="4">Processed</option>
+                                                                <option value="5">Timeout</option>
+                                                                <option value="6">Denied</option>
+                                                                <option value="7">Canceled</option>
+                                                            </select>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                                <td class="right">
+                                                    <button type="submit" class="btn btn-primary" name="btn_update"><i class="fa fa-check"></i> Update</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="copyright" id="date">, SharpXchange</div>
+                </div>
+            </footer>
+            <script>
+                const x = new Date().getFullYear();
+                let date = document.getElementById('date');
+                date.innerHTML = '&copy; ' + x + date.innerHTML;
+            </script>
+        </div>
+    </div>
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/js/popper.min.js"></script>
+    <script src="../assets/js/bootstrap-material-design.min.js"></script>
+    <script src="https://unpkg.com/default-passive-events"></script>
+    <script src="../assets/js/perfect-scrollbar.jquery.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="../assets/js/chartist.min.js"></script>
+    <script src="../assets/js/bootstrap-notify.js"></script>
+    <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
+    <script src="../assets/js/sxcdashboard.js"></script>
+    <script>
+        $(document).ready(function() { 
+            md.initDashboardPageCharts();
+        });
+    </script>
+</body>
+</html>

@@ -130,7 +130,6 @@ h1, h2, h3, h4, h5, h6 {
     background: #fff;
     color: #000;
     padding: 30px 20px 30px 20px;
-    text-align: center;
     border-radius: 5px;
 }
 .section2{
@@ -165,6 +164,13 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     border-radius: 5px;
 }
+.section6{
+    background: #fff;
+    color: #000;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
 .item {
     background: #fff;
     padding-bottom: 10px;
@@ -180,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
     background-image: url(../../assets/img/banknotes1.jpg);
     background-repeat: no-repeat;
     background-position: top center;
-    padding: 35px 0px 25px 0px;
+    padding: 25px 0px 0px 0px;
 }
 .masthead {
     margin-bottom: 2rem;
@@ -269,4 +275,24 @@ h1, h2, h3, h4, h5, h6 {
     color: #000;
     padding: 15px 15px 30px 20px;
     border-radius: 6px 6px 0px 0px;
+}
+#error{
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 100%;
+    font-weight: 700;
+    color: #dc3545;
+}
+#success{
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 100%;
+    font-weight: 700;
+    color: #348602;
+}
+.hide{
+    display: none;
+}
+.show{
+    display: all;
 }
