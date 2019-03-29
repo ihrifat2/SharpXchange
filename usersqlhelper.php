@@ -57,7 +57,7 @@ function matchPassword($data, $passwd){
 
 function getStatus($data){
     require "dbconnect.php";
-    $sqlQuery       = "SELECT COUNT(`status`) FROM `tbl_exchange_info` WHERE `username` = '$data' AND `status` = 1";
+    $sqlQuery       = "SELECT COUNT(`status`) FROM `tbl_exchange_info` WHERE `username` = '$data' AND `status` = 3";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $status         = $rows['COUNT(`status`)'];

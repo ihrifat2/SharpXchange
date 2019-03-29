@@ -404,7 +404,7 @@ $notice2    = $rows['notice2'];
                                                 <td>' . $lastExchangeRate['amount_sell'] . bdtOrUsbByGTName($lastExchangeRate['gateway_sell']) . '</td>
                                                 <td>' . $lastExchangeRate['username'] . '</td>
                                                 <td>' . getDateFormat($lastExchangeRate['date']) . '</td>
-                                                <td>' . exchangeStatus($lastExchangeRate['status']) . '</td>
+                                                <td>' . getbadgefromStatus($lastExchangeRate['status']) . '</td>
                                             </tr>
                                         ';
                                     }
