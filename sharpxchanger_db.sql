@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2019 at 12:38 PM
+-- Generation Time: Mar 29, 2019 at 01:47 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -61,7 +61,9 @@ CREATE TABLE `tbl_admin_info` (
 --
 
 INSERT INTO `tbl_admin_info` (`admin_id`, `admin_name`, `admin_email`, `admin_uname`, `admin_passwd`) VALUES
-(1, 'Md Imran Hadid', 'imranhadid03@gmail.com', 'admin@imran', '$2y$10$TH7Yqwch/vY4ID7ZTpFhY.YbwYYWtopXxKEJFpZk7qSfvUpiBXp3m');
+(1, 'Md Imran Hadid', 'imranhadid03@gmail.com', 'admin@imran', '$2y$10$TH7Yqwch/vY4ID7ZTpFhY.YbwYYWtopXxKEJFpZk7qSfvUpiBXp3m'),
+(2, 'Nur nobi', 'earnnurnobi@gmail.com', 'admin@nur', '$2y$10$TH7Yqwch/vY4ID7ZTpFhY.YbwYYWtopXxKEJFpZk7qSfvUpiBXp3m'),
+(3, 'Mostakim Hossain', 'dr.mostakim2@gmail.com', 'admin@robin', '$2y$10$TH7Yqwch/vY4ID7ZTpFhY.YbwYYWtopXxKEJFpZk7qSfvUpiBXp3m');
 
 -- --------------------------------------------------------
 
@@ -318,7 +320,7 @@ ALTER TABLE `tbl_additional_info`
 -- AUTO_INCREMENT for table `tbl_admin_info`
 --
 ALTER TABLE `tbl_admin_info`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_admin_notification`
