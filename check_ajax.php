@@ -15,6 +15,7 @@ if (isset($_SESSION['sxcReceive']) == NULL || empty($_SESSION['sxcReceive'])) {
 
 //$_SESSION['sxcSendUs'] 	= "Skrill";
 
+
 if (!empty($_POST["sxcSendUs"])) {
 	$sxcSendUsInput 	= $_POST['sxcSendUs'];
 	$sxcNumericConfirm 	= checkInputIsNumeric($sxcSendUsInput);
@@ -37,7 +38,7 @@ if (!empty($_POST["sxcSendUs"])) {
 			echo json_encode($dataSendUs);
 		}
 	}
-}
+} 
 
 if (!empty($_POST["sxcReceive"])) {
 	$sxcReceiveInput 	= $_POST['sxcReceive'];
@@ -59,7 +60,7 @@ if (!empty($_POST["sxcReceive"])) {
 			echo json_encode($dataReceive);
 		}
 	}
-}
+} 
 
 if (isset($_POST['sxcAmountSend']) && !empty($_POST["sellUsStatus"]) && !empty($_POST["reserve"])) {
 	$sendAmntInpt = $_POST['sxcAmountSend'];

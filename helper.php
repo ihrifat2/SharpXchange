@@ -2,7 +2,7 @@
 
 function exchangeSendUs($data){
 	require "dbconnect.php";
-	$sqlQuery       = "SELECT `we_buy` FROM `gateway_info` WHERE `gateway_name` = '$data'";
+	$sqlQuery       = "SELECT `we_buy` FROM `tbl_gateway_info` WHERE `gateway_name` = '$data'";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $we_buy			= $rows['we_buy'];
@@ -11,7 +11,7 @@ function exchangeSendUs($data){
 
 function exchangeReceive($data){
 	require "dbconnect.php";
-	$sqlQuery       = "SELECT `we_sell` FROM `gateway_info` WHERE `gateway_name` = '$data'";
+	$sqlQuery       = "SELECT `we_sell` FROM `tbl_gateway_info` WHERE `gateway_name` = '$data'";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $we_sell		= $rows['we_sell'];
@@ -22,7 +22,7 @@ function ReceiveReserve($data){
 	require "dbconnect.php";
 	$data = checkInputExchanger($data);
 	$data = matchExchangerNameWithDatabase($data);
-	$sqlQuery       = "SELECT `amount` FROM `reserve_list` WHERE `gateway_name` = '$data'";
+	$sqlQuery       = "SELECT `amount` FROM `tbl_reserve_list` WHERE `gateway_name` = '$data'";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $reserveAmount	= $rows['amount'];
@@ -31,11 +31,29 @@ function ReceiveReserve($data){
 
 function ReceiveReserveDefault($data){
 	require "dbconnect.php";
-	$sqlQuery       = "SELECT `amount` FROM `reserve_list` WHERE `gateway_name` = '$data'";
+	$sqlQuery       = "SELECT `amount` FROM `tbl_reserve_list` WHERE `gateway_name` = '$data'";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $reserveAmount	= $rows['amount'];
     return $reserveAmount;
+}
+
+function getGatewayAddress($data){
+	require "dbconnect.php";
+	$sqlQuery       = "SELECT `gateway_address` FROM `tbl_gateway_info` WHERE `gateway_name` = '$data'";
+    $result         = mysqli_query($dbconnect, $sqlQuery);
+    $rows           = mysqli_fetch_array($result);
+    $gatway_address	= $rows['gateway_address'];
+    return $gatway_address;
+}
+
+function getActiveStatus(){
+    require "dbconnect.php";
+    $sqlQuery   = "SELECT `activeStatus` FROM `tbl_additional_info`";
+    $result     = mysqli_query($dbconnect, $sqlQuery);
+    $rows       = mysqli_fetch_array($result);
+    $data       = $rows['activeStatus'];
+    return $data;
 }
 
 function checkInputIsNumeric($data){
@@ -70,7 +88,7 @@ function checkInputExchanger($data){
 	        return "skrill";
 	        break;
 	    default:
-	        return "Mass with the best die like the rest1";
+	        return "Mass with the best die like the rest";
 	}
 }
 
@@ -98,7 +116,7 @@ function matchExchangerNameWithDatabase($data){
 	        return "Skrill";
 	        break;
 	    default:
-	        return "Mass with the best die like the rest2";
+	        return "Mass with the best die like the rest";
 	}
 }
 
@@ -162,6 +180,171 @@ function exchangePriceRateSell($buyGw, $sellGw, $buyAmount, $buyRate, $sellRate)
 		$total = "ok";
 	}
 	return $total;
+}
+
+function exchangeStatus($value){
+	switch ($value) {
+	    case 1:
+	        return "Processing";
+	        break;
+	    case 2:
+	        return "Awaiting Payment";
+	        break;
+	    case 3:
+	        return "Processed";
+	        break;
+	    case 4:
+	        return "Timeout";
+	        break;
+	    case 5:
+	        return "Canceled";
+	        break;
+	    default:
+	        return "Mass with the best die like the rest";
+	}
+}
+
+function getDateFormat($data){
+	$date = $data;
+	$date = explode(",",$date);
+	$date = $date[0] . $date[1];
+	$date = explode(" ",$date);
+	$month 	= getMonth($date[0]);
+	$day	= $date[1];
+	$year	= $date[2];
+	$date = $day . "-" . $month . "-" . $year;
+	return $date;
+}
+
+function getMonth($value){
+	$value = ucfirst($value);
+	switch ($value) {
+	    case "January":
+	        return "01";
+	        break;
+	    case "February":
+	        return "02";
+	        break;
+	    case "March":
+	        return "03";
+	        break;
+	    case "April":
+	        return "04";
+	        break;
+	    case "May":
+	        return "05";
+	        break;
+	    case "June":
+	        return "06";
+	        break;
+	    case "July":
+	        return "07";
+	        break;
+	    case "August":
+	        return "08";
+	        break;
+	    case "September":
+	        return "09";
+	        break;
+	    case "October":
+	        return "10";
+	        break;
+	    case "November":
+	        return "11";
+	        break;
+	    case "December":
+	        return "12";
+	        break;
+	    default:
+	        return "Mass with the best die like the rest";
+	}
+}
+
+function bdtOrUsbByGTName($data){
+    $currency;
+    switch ($data) {
+        case "Bkash Personal":
+            $currency = " BDT";
+            return $currency;
+            break;
+        case "DBBL Rocket":
+            $currency = " BDT";
+            return $currency;
+            return ;
+            break;
+        case "Coinbase":
+            $currency = " USD";
+            return $currency;
+            break;
+        case "Ethereum":
+            $currency = " USD";
+            return $currency;
+            break;
+        case "Neteller":
+            $currency = " USD";
+            return $currency;
+            break;
+        case "Payza":
+            $currency = " USD";
+            return $currency;
+            break;
+        case "Skrill":
+            $currency = " USD";
+            return $currency;
+            break;
+        default:
+            return "Mass with the best die like the rest";
+    }
+}
+
+function getbadgefromStatus($data) {
+	switch ($data) {
+	    case 1:
+	        return '<span class="badge badge-info"><i class="fa fa-clock-o"></i> Processing</span>';
+	        break;
+	    case 2:
+	        return '<span class="badge badge-warning"><i class="fa fa-clock-o"></i> Awaiting Payment</span>';
+	        break;
+	    case 3:
+	        return '<span class="badge badge-success"><i class="fa fa-check"></i> Processed</span>';
+	        break;
+	    case 4:
+	        return '<span class="badge badge-danger"><i class="fa fa-times"></i> Timeout</span>';
+	        break;
+	    case 5:
+	        return '<span class="badge badge-danger"><i class="fa fa-times"></i> Canceled</span>';
+	        break;
+	    default:
+	        return "Mass with the best die like the rest";
+	}
+}
+
+function datanameToPic($data){
+	switch ($data) {
+	    case "Bkash Personal":
+	        return "bkash.png";
+	        break;
+	    case "DBBL Rocket":
+	        return "dutchbangla.png";
+	        break;
+	    case "Coinbase":
+	        return "coinbase.png";
+	        break;
+	    case "Ethereum":
+	        return "ethereum.png";
+	        break;
+	    case "Neteller":
+	        return "neteller.png";
+	        break;
+	    case "Payza":
+	        return "payza.png";
+	        break;
+	    case "Skrill":
+	        return "skrill.png";
+	        break;
+	    default:
+	        return "Mass with the best die like the rest";
+	}
 }
 
 ?>

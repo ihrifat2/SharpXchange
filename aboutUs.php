@@ -24,25 +24,25 @@
                 font-size: 3.5rem;
             }
         }
+        .content {
+            text-align: justify;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 pt-1 sharpxchange-header-nav-left">
-                    <a class="text-muted" href="signup.html">Registration</a>
-                    <a>/</a>
-                    <a class="text-muted" href="signin.html">login</a>
+                <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
+                    <a class="sharpxchange-header-logo text-dark" href="index.php">
+                        <img src="assets/img/logo.png">
+                    </a>
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="#">SharpXchange</a>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -54,10 +54,10 @@
             <header class="masthead mb-auto">
                 <div class="inner">
                     <nav class="nav nav-masthead justify-content-end">
-                            <a class="nav-link" href="index.html">EXCHANGE</a>
+                            <a class="nav-link" href="index.php">EXCHANGE</a>
                             <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                             <a class="nav-link" href="contact.html">CONTACT</a>
-                            <a class="nav-link" href="aboutUs.html">ABOUT US</a>
+                            <a class="nav-link active" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -65,29 +65,21 @@
     </div>
 
     <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8 col-xl-8">
-                <form class="contactsection sharpxchange-main">
-                    <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Registration</h2>
-                    <div class="form-group row mt-3">
-                        <label for="sxcSignupEmail" class="col-sm-3 col-form-label">Email</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="sxcSignupEmail">
-                        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="aboutsection sharpxchange-main">
+                    <div class="sharpxchange-post content">
+                        <h2 class="sharpxchange-header sharpxchange-post-title py-3 mb-4">About Us</h2>
+                        <?php 
+                            require "dbconnect.php";
+                            $sqlQuery   = "SELECT `text` FROM `tbl_page_settings` WHERE `page_id` = 1";
+                            $result     = mysqli_query($dbconnect, $sqlQuery);
+                            $rows       = mysqli_fetch_array($result);
+                            $text       = $rows['text'];
+                            echo $text;
+                        ?>
                     </div>
-                    <div class="form-group row">
-                        <label for="sxcSignupPassword" class="col-sm-3 col-form-label">Password</label>
-                        <div class="col-sm-9">
-                            <input type="password" class="form-control" id="sxcSignupPassword">
-                        </div>
-                    </div>
-                    <div class="form-row mt-2">
-                        <div class="col-md-12 d-flex bd-highlight">
-                            <p class="mt-2">Create a account? </p><a class="mr-auto bd-highlight ml-2 mt-2" href="signup.html">Signup</a>
-                            <button class="btn btn-outline-sxc bd-highlight" type="submit">login</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -99,7 +91,7 @@
                     <h3>Quick access</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Exchanger</a>
+                            <a href="index.php">Exchanger</a>
                         </li>
                         <li>
                             <a href="testimonials.html">Testimonials</a>
@@ -110,10 +102,10 @@
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>
@@ -129,8 +121,10 @@
                 </div>
             </div>
         </div>
-        <p class="mt-3">Copyright © 2019. SharpXchange</p>
-        <p><a href="#">Back to top</a></p>
+        <center>
+            <p class="mt-3">Copyright © 2019. SharpXchange</p>
+            <p><a href="#">Back to top</a></p>
+        </center>
     </footer>
 </body>
 </html>

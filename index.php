@@ -51,26 +51,34 @@ $recvRate       = $data[5];
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="assets/js/sharpxchange.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header class="sharpxchange-header py-3">
+    <div class="container-fluid">
+        <header class="sharpxchange-header py-3 sharpxchange-section-index">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <?php
                     if (isset($_SESSION['user_login_session'])) {
                         echo '
-                        <div class="col-sm-6 col-md-6 pt-1 sharpxchange-header-nav-left">
-                            <a class="text-muted" href="logout.php">Logout</a>
+                        <div class="col-md-6 pt-1 sharpxchange-header-nav-left dropdown">
+                            <a class="btn btn-outline-sxc dropdown-toggle" href="#" role="button" id="accountDetails" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Settings
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountDetails">
+                                <a class="dropdown-item" href="account.php">Account Settings</a>
+                                <a class="dropdown-item" href="exchange.php">Exchange Details</a>
+                                <a class="dropdown-item" href="testimonial.php">Testimonial</a>
+                                <a class="dropdown-item" href="logout.php">Logout</a>
+                            </div>
                         </div>
                         ';
                     } else {
                         echo '
-                        <div class="col-sm-6 col-md-6 pt-1 sharpxchange-header-nav-left">
+                        <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
                             <a class="text-muted" href="signup.php">Registration</a>
                             <a>/</a>
                             <a class="text-muted" href="signin.php">login</a>
@@ -79,32 +87,44 @@ $recvRate       = $data[5];
                     }
                 ?>
                 <div class="col-sm-6 col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
-                    <a class="text-muted">
+                    <span>
+                        Operator : 
+                        <?php
+                        if (getActiveStatus() == 0) {
+                            echo '<span class="badge badge-danger mr-2"><i class="fa fa-times"></i>Offline</span>';
+                        } else {
+                            echo '<span class="badge badge-success mr-2"><i class="fa fa-check"></i>Active</span>';
+                        }
+                        ?>
+                    </span>
+                    <a class="text-dark">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
                 </div>
             </div>
         </header>
 
-        <div class="nav-scroller">
+        <div class="nav-scroller sharpxchange-section-index">
             <header class="masthead mb-auto">
                 <div class="inner">
-                    <h3 class="masthead-brand">SharpXchange</h3>
+                    <h3 class="masthead-brand mb-3">
+                        <img src="assets/img/logo.png">
+                    </h3>
                     <nav class="nav nav-masthead justify-content-end">
                         <a class="nav-link active" href="index.php">EXCHANGE</a>
                         <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                         <a class="nav-link" href="contact.html">CONTACT</a>
-                        <a class="nav-link" href="aboutUs.html">ABOUT US</a>
+                        <a class="nav-link" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-12 col-md-12">
+        <div class="row mb-3 mt-2">
+            <div class="sharpxchange-section-index col-md-12">
                 <center> 
-                    <span class="btn" style="text-align: center; font-weight: 600; background: #1b1464; color: white; width: 100%; height:35px;">
-                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="MARQUEE1" style="text-align: left;" class="scrolling">  
+                    <span class="btn notice1" >
+                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
                             <span style="color: yellow">
                                 <strong> Notice : </strong>
                             </span>
@@ -116,10 +136,10 @@ $recvRate       = $data[5];
         </div>
 
         <div class="row mb-3">
-            <div class="col-sm-12 col-md-12">
+            <div class="sharpxchange-section-index col-md-12">
                 <center> 
-                    <span class="btn" style="text-align: center; font-weight: 600; background: #29abe2; color: white; width: 100%; height:35px;">
-                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="MARQUEE1" style="text-align: left;" class="scrolling">  
+                    <span class="btn notice1">
+                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
                             <span style="color: yellow"><strong> New Update  :  </strong>
                             </span>
                             Skrill 10 Dollar (1060 Taka) Neteller 10 Dolllar (1060 Taka) Old Or New Rate:- Skrill Buy = 100 (old rate 96) Neteller Buy = 100 (old rate 96)  এখন থেকে যারা &zwj;skrill or neteller dollar ওডার করবেন তাদের কে skrill or neteller full fee বহন করতে হবে।   
@@ -129,10 +149,10 @@ $recvRate       = $data[5];
             </div>
         </div>  
 
-        <div class="row mt-3 mb-3 sharpxchange-section-group1">
-            <div class="col-sm-8 col-md-8">
+        <div class="row mt-3 mb-3 sharpxchange-section-group1" id="exchangeSection">
+            <div class="col-md-8">
                 <div class="section1 mb-4">
-                    <form method="POST" id="sharpxchange-form" action="#">
+                    <form method="POST" id="sharpxchange-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                         <p id="sxc_exchange_results"></p>
                         <div class="tab-content">
                             <div class="tab-pane active" id="sharpxchange_step1">
@@ -150,7 +170,7 @@ $recvRate       = $data[5];
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4">
-                                                    <select class="form-control" id="sxcSendUs" name="sxcSendUs" onchange="checkSendUsGateway()">
+                                                    <select class="form-control" id="sxcSendUs" name="sxcSendUsGT" onchange="checkSendUsGateway()">
                                                         <option value="1">Bkash Personal BDT</option>
                                                         <option value="2">DBBL Rocket BDT</option>
                                                         <option value="3">Coinbase USD</option>
@@ -161,12 +181,12 @@ $recvRate       = $data[5];
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" id="sxcAmountSend" placeholder="0" value="<?php echo $sendRate; ?>" onkeyup="calculateAmount()">
+                                                    <input type="number" class="form-control" id="sxcAmountSend" name="sxcSendUsAmnt" placeholder="0" value="<?php echo $sendRate; ?>" onkeyup="calculateAmount()">
                                                 </div>
                                                 <div class="form-group">
                                                     <p id="sellUsStatus">
                                                         <?php
-                                                        echo defaultExchangeRate();
+                                                            echo defaultExchangeRate();
                                                         ?>
                                                     </p>
                                                 </div>
@@ -185,7 +205,7 @@ $recvRate       = $data[5];
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4">
-                                                    <select class="form-control" id="sxcReceive" name="sxcReceive" onchange="checkReceiveGateway()">
+                                                    <select class="form-control" id="sxcReceive" name="sxcReceiveGt" onchange="checkReceiveGateway()">
                                                         <option value="1" selected>Bkash Personal BDT</option>
                                                         <option value="2">DBBL Rocket BDT</option>
                                                         <option value="3">Coinbase USD</option>
@@ -196,12 +216,12 @@ $recvRate       = $data[5];
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" id="sxcAmountReceive" value="<?php echo $recvRate; ?>" placeholder="0" readonly>
+                                                    <input type="number" class="form-control" id="sxcAmountReceive" name="sxcReceiveAmnt" value="<?php echo $recvRate; ?>" placeholder="0" readonly>
                                                 </div>
                                                 <div class="form-group">
                                                     <p id="reserveStatus">
                                                         <?php 
-                                                        echo defaultReserve();
+                                                            echo defaultReserve();
                                                         ?>
                                                     </p>
                                                 </div>
@@ -212,7 +232,7 @@ $recvRate       = $data[5];
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <center>
-                                            <button type="button" class="btn btn-outline-sxc" id="btn_sharpxchange_step1" onclick="sxc_exchange_step1()">
+                                            <button type="button" class="btn btn-outline-sxc" id="btn_sharpxchange_step1" onclick="sxc_exchange_stepone()">
                                                 <i class="fa fa-refresh"></i> Exchange
                                             </button>
                                         </center>
@@ -223,23 +243,23 @@ $recvRate       = $data[5];
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="sxcActiveEmail">Active Email address</label>
-                                            <input type="email" class="form-control" id="sxcActiveEmail">
+                                            <label for="sxcEmail">Active Email address</label>
+                                            <input type="email" class="form-control" id="sxcActiveEmail" name="sxcActEmail">
                                         </div>
                                         <div class="form-group">
-                                            <label for="sxcGatewayEmail">Skrill address</label>
-                                            <input type="email" class="form-control" id="sxcGatewayEmail">
+                                            <label for="sxcGatewayEmail" id="sxcReceiveGatewayName"></label>
+                                            <input type="text" class="form-control" id="sxcReceiveGatewayEmail" name="sxcRecvGWEm">
                                         </div>
                                         <div class="form-group">
-                                            <label for="sxcActivePhone">Active Phone Number</label>
-                                            <input type="email" class="form-control" id="sxcActivePhone">
+                                            <label for="sxcPhone">Active Phone Number</label>
+                                            <input type="text" class="form-control" id="sxcActivePhone" name="sxcActPhone">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <center>
-                                            <button type="button" class="btn btn-outline-sxc" id="btn_sharpxchange_step2">
+                                            <button type="button" class="btn btn-outline-sxc" id="btn_sharpxchange_step2" onclick="sxc_exchange_steptwo()">
                                                 <i class="fa fa-refresh"></i> Process Exchange
                                             </button>
                                         </center>
@@ -255,25 +275,25 @@ $recvRate       = $data[5];
                                                     Account details
                                                 </tr>
                                                 <tr>
-                                                    <td>Our Skrill Account</td>
-                                                    <td>skrill@email.com</td>
+                                                    <td id="gateway_name"></td>
+                                                    <td id="gateway_address"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Paymant Amount</td>
-                                                    <td>10 USD</td>
+                                                    <td id="payoutAmount"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <div class="form-group">
-                                            <label for="sxcActivePhone">Enter Transaction ID/Number/Batch</label>
-                                            <input type="email" class="form-control" id="sxctransactionID">
+                                            <label for="sxctransactionID">Enter Transaction ID/Number/Batch</label>
+                                            <input type="text" class="form-control" id="sxctransactionID" name="sxctransID">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <center>
-                                            <button type="button" class="btn btn-outline-sxc">
+                                            <button type="submit" class="btn btn-outline-sxc" name="sxcConfirmTransaction">
                                                 <i class="fa fa-refresh"></i> Confirm Transaction
                                             </button>
                                         </center>
@@ -285,7 +305,7 @@ $recvRate       = $data[5];
                 </div>
             </div>
 
-            <div class="col-sm-4 col-md-4">
+            <div class="col-md-4">
                 <div class="exchageRate section2 mb-4">
                     <div class="exchageRateSection">
                         <h5 class="title">Buy-Sell Rate</h5>
@@ -299,9 +319,8 @@ $recvRate       = $data[5];
                             </thead>
                             <tbody>
                                 <?php
-
                                     $buySelldata = array();
-                                    $buySellquery = "SELECT `gateway_name`, `we_buy`, `we_sell` FROM `gateway_info`";
+                                    $buySellquery = "SELECT `gateway_name`, `we_buy`, `we_sell` FROM `tbl_gateway_info`";
                                     $buySellresult = $dbconnect->query($buySellquery);
                                     if ($buySellresult) {
                                         while ($buySellrows = $buySellresult->fetch_array(MYSQLI_ASSOC)) {
@@ -328,9 +347,9 @@ $recvRate       = $data[5];
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-9 col-md-9 sharpxchange-main section3 mb-3">
+    <div class="container-fluid">
+        <div class="row sharpxchange-section-group2">
+            <div class="col-md-9 sharpxchange-main section3 mb-3">
                 <div class="exchageRate">
                     <div class="exchageRateSection">
                         <h5 class="title">Latest Exchange's</h5>
@@ -346,55 +365,48 @@ $recvRate       = $data[5];
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Bkash Personal BDT</td>
-                                    <td>Skrill. USD</td>
-                                    <td>1020 BDT</td>
-                                    <td>Jhon</td>
-                                    <td>1/2/19</td>
-                                    <td>Processed</td>
-                                </tr>
-                                <tr>
-                                    <td>DBBL Rocket BDT</td>
-                                    <td>Neteller . USD</td>
-                                    <td>2100 BDT</td>
-                                    <td>Petter</td>
-                                    <td>16/1/19</td>
-                                    <td>Processed</td>
-                                </tr>
-                                <tr>
-                                    <td>Bkash Personal BDT</td>
-                                    <td>Neteller . USD</td>
-                                    <td>2025 BDT</td>
-                                    <td>Mark</td>
-                                    <td>22/5/19</td>
-                                    <td>Awaiting Payment</td>
-                                </tr>
-                                <tr>
-                                    <td>DBBL Rocket BDT</td>
-                                    <td>Skrill. USD</td>
-                                    <td>1170 BDT</td>
-                                    <td>Marry</td>
-                                    <td>7/8/19</td>
-                                    <td>Cancel</td>
-                                </tr>
+                                <?php
+
+                                    $lastExchangedata = array();
+                                    $lastExchangequery = "SELECT `gateway_sell`, `gateway_recieve`, `amount_sell`, `username`, `status`, `date` FROM `tbl_exchange_info` ORDER BY `exchange_id` DESC LIMIT 10";
+                                    $lastExchangeresult = $dbconnect->query($lastExchangequery);
+                                    if ($lastExchangeresult) {
+                                        while ($lastExchangerows = $lastExchangeresult->fetch_array(MYSQLI_ASSOC)) {
+                                            $lastExchangedata[] = $lastExchangerows;
+                                        }
+                                        $lastExchangeresult->close();
+                                    }                                
+                                    foreach ($lastExchangedata as $lastExchangeRate) {
+                                        //$currency = bdtOrUsb($lastExchangeRate['gateway_name']);
+                                        echo '
+                                            <tr>
+                                                <td>' . $lastExchangeRate['gateway_sell'] . '</td>
+                                                <td>' . $lastExchangeRate['gateway_recieve'] . '</td>
+                                                <td>' . $lastExchangeRate['amount_sell'] . bdtOrUsbByGTName($lastExchangeRate['gateway_sell']) . '</td>
+                                                <td>' . $lastExchangeRate['username'] . '</td>
+                                                <td>' . getDateFormat($lastExchangeRate['date']) . '</td>
+                                                <td>' . exchangeStatus($lastExchangeRate['status']) . '</td>
+                                            </tr>
+                                        ';
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <aside class="col-sm-3 col-md-3 sharpxchange-sidebar">
+            <aside class="col-md-3 sharpxchange-sidebar">
                 <div class="exchageTrack section4 mb-2">
-                    <div class="exchageTrackSection">
+                    <form class="exchageTrackSection" method="post" action="<?php echo htmlspecialchars("track.php");?>">
                         <h5 class="title">Track Exchange</h5>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Track ID" aria-label="Track ID" aria-describedby="button-addon1">
+                            <input type="text" class="form-control" placeholder="Exchange ID" name="sxcTrackExID">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-sxc" type="button" id="button-addon1">Track</button>
+                                <button class="btn btn-outline-sxc" type="submit" name="sxcTrackBtn">Track</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="exchageTrack section6 mb-2">
                     <div class="exchageTrackSection">
@@ -403,7 +415,7 @@ $recvRate       = $data[5];
                             <tbody>
                                 <?php
                                     $reserveData = array();
-                                    $reserveQuery = "SELECT `gateway_name`, `amount` FROM `reserve_list`";
+                                    $reserveQuery = "SELECT `gateway_name`, `amount` FROM `tbl_reserve_list`";
                                     $reserveResult = $dbconnect->query($reserveQuery);
                                     if ($reserveResult) {
                                         while ($reserveRows = $reserveResult->fetch_array(MYSQLI_ASSOC)) {
@@ -428,48 +440,33 @@ $recvRate       = $data[5];
             </aside>
         </div>
 
-        <div class="row">
-            <div class="exchageTrack section5 col-sm-12 col-md-12">
+        <div class="row sharpxchange-section-group2">
+            <div class="exchageTrack section5 col-sm-12 col-md-12 ">
                 <div>
                     <h5 class="title">Testimonials</h5>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 col-md-3">
-                        <div class="item popular-item">
-                            <div class="thumb">
-                                <h3 class="item-price"><span class="label label-success" style="color:#fff; font-size: 14px;"><i class="fa fa-smile-o"></i> Positive</span></h3>
-                                <h4>Imran</h4>
-                                <h5>"Great job. awesome service."</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3">
-                        <div class="item popular-item">
-                            <div class="thumb">
-                                <h3 class="item-price"><span class="label label-success" style="color:#fff; font-size: 14px;"><i class="fa fa-smile-o"></i> Positive</span></h3>
-                                <h4>Nur</h4>
-                                <h5>"Very Fast Service Thanks"</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3">
-                        <div class="item popular-item">
-                            <div class="thumb">
-                                <h3 class="item-price"><span class="label label-success" style="color:#fff; font-size: 14px;"><i class="fa fa-smile-o"></i> Positive</span></h3>
-                                <h4>Robin</h4>
-                                <h5>"just awesome site"</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3">
-                        <div class="item popular-item">
-                            <div class="thumb">
-                                <h3 class="item-price"><span class="label label-success" style="color:#fff; font-size: 14px;"><i class="fa fa-smile-o"></i> Positive</span></h3>
-                                <h4>Nipa</h4>
-                                <h5>"Good and fast service! Thank you."</h5>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        $tstimonlData = array();
+                        $tstimonlQuery = "SELECT `username`, `testimonial_text` FROM `tbl_user_testimonials` WHERE `status` = 'Positive' ORDER BY `testimonial_id` DESC LIMIT 4";
+                        $tstimonlResult = $dbconnect->query($tstimonlQuery);
+                        if ($tstimonlResult) {
+                            while ($tstimonlRows = $tstimonlResult->fetch_array(MYSQLI_ASSOC)) {
+                                $tstimonlData[] = $tstimonlRows;
+                            }
+                            $tstimonlResult->close();
+                        }                                
+                        foreach ($tstimonlData as $tstimonlRate) {
+                            echo '
+                                <div class="col-md-4">
+                                    <div class="item">
+                                        <h4>' . $tstimonlRate['username'] . '</h4>
+                                        <h5>' . $tstimonlRate['testimonial_text'] . '</h5>
+                                    </div>
+                                </div>
+                            ';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -493,10 +490,10 @@ $recvRate       = $data[5];
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>
@@ -517,19 +514,19 @@ $recvRate       = $data[5];
     </footer>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#btn_sharpxchange_step1').click(function(){
-                var sxcAmountSend = $("#sxcAmountSend").val();
-                if (sxcAmountSend <= 10) {
-                    $("#sxc_exchange_results").html("The minimum amount for exchange is 10 USD.");
-                } else {
-                    $('#sharpxchange_step1').removeClass('active');
-                    $('#sharpxchange_step2').addClass('active in');
-                }                
-            });
-            $('#btn_sharpxchange_step2').click(function(){
-                $('#sharpxchange_step2').removeClass('active');
-                $('#sharpxchange_step3').addClass('active in');
-            });
+            // $('#btn_sharpxchange_step1').click(function(){
+            //     var sxcAmountSend = $("#sxcAmountSend").val();
+            //     if (sxcAmountSend <= 10) {
+            //         $("#sxc_exchange_results").html("");
+            //     } else {
+            //         $('#sharpxchange_step1').removeClass('active');
+            //         $('#sharpxchange_step2').addClass('active in');
+            //     }                
+            // });
+            // $('#btn_sharpxchange_step2').click(function(){
+            //     $('#sharpxchange_step2').removeClass('active');
+            //     $('#sharpxchange_step3').addClass('active in');
+            // });
             $('#btn_sharpxchange_step3').click(function(){
                 $('#sharpxchange_step3').removeClass('active');
                 $("#sharpxchange-form").submit();
@@ -539,40 +536,109 @@ $recvRate       = $data[5];
 </body>
 </html>
 <?php
-function bdtOrUsbByGTName($data){
-    $currency;
+
+require "hash.php";
+
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if (isset($_POST['sxcConfirmTransaction'])) {
+    sleep(5);
+    $sxcSendUsGT    = validate_input($_POST['sxcSendUsGT']);
+    $sxcSendUsAmnt  = validate_input($_POST['sxcSendUsAmnt']);
+    $sxcReceiveGt   = validate_input($_POST['sxcReceiveGt']);
+    $sxcReceiveAmnt = validate_input($_POST['sxcReceiveAmnt']);
+    $sxcActEmail    = validate_input($_POST['sxcActEmail']);
+    $sxcRecvGWEm    = validate_input($_POST['sxcRecvGWEm']);
+    $sxcActPhone    = validate_input($_POST['sxcActPhone']);
+    $sxctransID     = validate_input($_POST['sxctransID']);
+    $sxcSendUsGT    = checkGTNum($sxcSendUsGT);
+    $sxcReceiveGt   = checkGTNum($sxcReceiveGt);
+    $datetime       = new DateTime('now', new DateTimezone('Asia/Dhaka'));
+    $time           = $datetime->format('F j, Y, l g:i a');
+    $uname          = getUsername();
+    $status         = 1;
+    $hash           = uniqid() . ":" . $uname . ":" . getDateFormat($time);
+    $hash           = encryptTransID($hash);
+    $notifyText     = "New Transaction order Recieved";
+    $notifyUrl      = "exchanges.php";
+
+    if (empty($sxcSendUsGT) || empty($sxcSendUsAmnt) || empty($sxcReceiveGt) || empty($sxcReceiveAmnt) || empty($sxcActEmail) || empty($sxcRecvGWEm) || empty($sxcActPhone) || empty($hash)) {
+        echo "All fields are required.";
+    } else {
+        $sqlQuery = "INSERT INTO `tbl_exchange_info`(`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `date`) VALUES (NULL,'$sxcSendUsGT','$sxcReceiveGt','$sxcSendUsAmnt','$sxcReceiveAmnt','$uname','$sxcActEmail','$sxcActPhone','$sxcRecvGWEm', '$hash','$sxctransID','$status','$time')";
+        $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
+        $result = mysqli_query($dbconnect, $sqlQuery);
+        $resultnotify = mysqli_query($dbconnect, $sqlQuerynotify);
+        if ($result || $resultnotify) {
+            $text1 = '<div class="section0"><div class="row mb-4 box"><div class="col-sm-12 col-md-12">';
+            $text1 .= "Thank you! After manually check all information, your transaction will make the exchange.";
+            $text1 .= "</div></div>";
+            $text1 .= '<div class="row mt-4 box"><div class="col-sm-12 col-md-12">';
+            $text1 .= "You can track your exchange at this exchange Id: <br>";
+            $text1 .= $hash;
+            $text1 .= "</div></div></div>";
+            echo "<script>document.getElementById('exchangeSection').innerHTML = '" . $text1 . "'</script>";
+        } else {
+            $text1 = '<div class="row box"><div class="col-sm-12 col-md-12">';
+            $text1 .= "Thank you! If you facing any error please contact with us.";
+            $text1 .= "</div></div>";
+            echo "<script>document.getElementById('sharpxchange_step1').innerHTML = '" . $text1 . "'</script>";
+            //echo mysqli_error($dbconnect);
+        }
+    }
+    // echo $sxcSendUsGT . " : " . $sxcReceiveGt . " : " . $sxcSendUsAmnt . " : " . $sxcReceiveAmnt . " : " . $uname . " : " . $sxcActEmail . " : " . $sxcActPhone . " : " . $sxcRecvGWEm . " : " . $hash . " : " . $sxctransID . " : " . $status . " : " . $time;
+}
+
+function checkGTNum($data){
+    if ($data >= 0 && $data <= 7) {
+        $data = numToGtName($data);
+        return $data;
+    } else {
+        header('Location : error.html');
+        exit();
+    }
+}
+
+function getUsername(){
+    $username = $_SESSION['user_login_session'];
+    if (empty($username)) {
+        die();
+    } else {
+        return $username;
+    }
+}
+
+function numToGtName($data){
     switch ($data) {
-        case "Bkash Personal":
-            $currency = " BDT";
-            return $currency;
+        case 1:
+            return "Bkash Personal";
             break;
-        case "DBBL Rocket":
-            $currency = " BDT";
-            return $currency;
-            return ;
+        case 2:
+            return "DBBL Rocket";
             break;
-        case "Coinbase":
-            $currency = " USD";
-            return $currency;
+        case 3:
+            return "Coinbase";
             break;
-        case "Ethereum":
-            $currency = " USD";
-            return $currency;
+        case 4:
+            return "Ethereum";
             break;
-        case "Neteller":
-            $currency = " USD";
-            return $currency;
+        case 5:
+            return "Neteller";
             break;
-        case "Payza":
-            $currency = " USD";
-            return $currency;
+        case 6:
+            return "Payza";
             break;
-        case "Skrill":
-            $currency = " USD";
-            return $currency;
+        case 7:
+            return "Skrill";
             break;
         default:
             return "Mass with the best die like the rest";
     }
 }
+
 ?>

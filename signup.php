@@ -35,23 +35,20 @@ if (isset($_SESSION['user_login_session'])) {
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
-                    <a class="text-muted" href="signup.php">Registration</a>
-                    <a>/</a>
-                    <a class="text-muted" href="signin.php">login</a>
+                <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
+                    <a class="sharpxchange-header-logo text-dark" href="index.php">
+                        <img src="assets/img/logo.png">
+                    </a>
                 </div>
-                <div class="col-sm-4 col-md-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
-                </div>
-                <div class="col-sm-4 col-md-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -66,7 +63,7 @@ if (isset($_SESSION['user_login_session'])) {
                         <a class="nav-link" href="index.php">EXCHANGE</a>
                         <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                         <a class="nav-link" href="contact.html">CONTACT</a>
-                        <a class="nav-link" href="aboutUs.html">ABOUT US</a>
+                        <a class="nav-link" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -124,7 +121,7 @@ if (isset($_SESSION['user_login_session'])) {
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-12 d-flex bd-highlight">
-                            <p class="mt-2">Already have a account?</p><a class="mr-auto bd-highlight mt-2" href="signin.php">login</a>
+                            <p class="mt-2">Already have a account?</p><a class="mr-auto bd-highlight ml-2 mt-2" href="signin.php">Login</a>
                             <button class="btn btn-outline-sxc bd-highlight" id="sxcsignupbtn" type="submit" name="sxc_signup_btn" disabled>Registration</button>
                         </div>
                     </div>
@@ -151,10 +148,10 @@ if (isset($_SESSION['user_login_session'])) {
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>
@@ -178,6 +175,8 @@ if (isset($_SESSION['user_login_session'])) {
 <?php
 
 require "dbconnect.php";
+require "helpertwo.php";
+
 function validate_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -187,7 +186,9 @@ function validate_input($data) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
     $sxc_signup_fname       = validate_input($_POST['sxc_signup_fname']);
+    $sxc_signup_fname       = ucfirst($sxc_signup_fname);
     $sxc_signup_lname       = validate_input($_POST['sxc_signup_lname']);
+    $sxc_signup_lname       = ucfirst($sxc_signup_lname);
     $sxc_signup_username    = validate_input($_POST['sxc_signup_username']);
     $sxc_signup_email       = validate_input($_POST['sxc_signup_email']);
     $sxc_signup_paswd       = validate_input($_POST['sxc_signup_paswd']);
@@ -222,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
                         echo "<script>document.getElementById('error').innerHTML = 'Password too weak';</script>";
                     } else {
                         $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
-                        $sqlQuery = "INSERT INTO `db_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
+                        $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
                         $result = mysqli_query($dbconnect, $sqlQuery);
                         if ($result) {
                             //send mail
@@ -239,66 +240,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
             echo "<script>document.getElementById('error').innerHTML = 'Invalid Email';</script>";
         }
     }
-}
-
-function get_ip_address() {
-
-    // check for shared internet/ISP IP
-    if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
-        return $_SERVER['HTTP_CLIENT_IP'];
-    }
-
-    // check for IPs passing through proxies
-    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        // check if multiple ips exist in var
-        if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
-            $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            foreach ($iplist as $ip) {
-                if (validate_ip($ip))
-                    return $ip;
-            }
-        } else {
-            if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
-                return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-    }
-    if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
-        return $_SERVER['HTTP_X_FORWARDED'];
-    if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-        return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-    if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
-        return $_SERVER['HTTP_FORWARDED_FOR'];
-    if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
-        return $_SERVER['HTTP_FORWARDED'];
-
-    // return unreliable ip since all else failed
-    return $_SERVER['REMOTE_ADDR'];
-}
-
-function validate_ip($ip) {
-    if (strtolower($ip) === 'unknown')
-        return false;
-
-    // generate ipv4 network address
-    $ip = ip2long($ip);
-
-    // if the ip is set and not equivalent to 255.255.255.255
-    if ($ip !== false && $ip !== -1) {
-        // make sure to get unsigned long representation of ip
-        // due to discrepancies between 32 and 64 bit OSes and
-        // signed numbers (ints default to signed in PHP)
-        $ip = sprintf('%u', $ip);
-        // do private network range checking
-        if ($ip >= 0 && $ip <= 50331647) return false;
-        if ($ip >= 167772160 && $ip <= 184549375) return false;
-        if ($ip >= 2130706432 && $ip <= 2147483647) return false;
-        if ($ip >= 2851995648 && $ip <= 2852061183) return false;
-        if ($ip >= 2886729728 && $ip <= 2887778303) return false;
-        if ($ip >= 3221225984 && $ip <= 3221226239) return false;
-        if ($ip >= 3232235520 && $ip <= 3232301055) return false;
-        if ($ip >= 4294967040) return false;
-    }
-    return true;
 }
 
 ?>

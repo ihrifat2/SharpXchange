@@ -1,23 +1,39 @@
 <?php 
 
-function encrypt( $string ) {
-    $algorithm = 'imranhadid-1337'; // You can use any of the available
-    $key = md5( "imranHadid", true); // bynary raw 16 byte dimension.
-    $iv_length = mcrypt_get_iv_size( $algorithm, MCRYPT_MODE_CBC );
-    $iv = mcrypt_create_iv( $iv_length, MCRYPT_RAND );
-    $encrypted = mcrypt_encrypt( $algorithm, $key, $string, MCRYPT_MODE_CBC, $iv );
-    $result = base64_encode( $iv . $encrypted );
-    return $result;
+function encryptTransID($string) {
+    $randomNumber = rand(10,99);
+    $encoded        = base64_encode($string);
+    $modencd        = substr($encoded, 0, -2);
+    $hash           = "TransID" . $modencd . $randomNumber;
+    return $hash;
 }
-function decrypt( $string ) {
-    $algorithm =  'imranhadid-1337';
-    $key = md5( "imranHadid", true );
-    $iv_length = mcrypt_get_iv_size( $algorithm, MCRYPT_MODE_CBC );
-    $string = base64_decode( $string );
-    $iv = substr( $string, 0, $iv_length );
-    $encrypted = substr( $string, $iv_length );
-    $result = mcrypt_decrypt( $algorithm, $key, $encrypted, MCRYPT_MODE_CBC, $iv );
-    return $result;
+
+function encrypt($value){
+    $plaintext = $value;
+    $key = "ImranNurRobin-1337";
+    $ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
+    $iv = openssl_random_pseudo_bytes($ivlen);
+    $ciphertext_raw = openssl_encrypt($plaintext, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
+    $hmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
+    $ciphertext = base64_encode( $iv.$hmac.$ciphertext_raw );
+    $ciphertext = substr($ciphertext, 0, -2);
+    return $ciphertext;
+}
+
+function decrypt($value){
+    $value = $value . "==";
+    $key = "ImranNurRobin-1337";
+    $c = base64_decode($value);
+    $ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
+    $iv = substr($c, 0, $ivlen);
+    $hmac = substr($c, $ivlen, $sha2len=32);
+    $ciphertext_raw = substr($c, $ivlen+$sha2len);
+    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
+    $calcmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
+    if (hash_equals($hmac, $calcmac))//PHP 5.6+ timing attack safe comparison
+    {
+        return $original_plaintext."\n";
+    }
 }
 
 ?>

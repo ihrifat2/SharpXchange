@@ -26,23 +26,20 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
-                    <a class="text-muted" href="signup.php">Registration</a>
-                    <a>/</a>
-                    <a class="text-muted" href="signin.php">login</a>
+                <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
+                    <a class="sharpxchange-header-logo text-dark" href="index.php">
+                        <img src="assets/img/logo.png">
+                    </a>
                 </div>
-                <div class="col-sm-4 col-md-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
-                </div>
-                <div class="col-sm-4 col-md-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -57,7 +54,7 @@
                             <a class="nav-link" href="index.php">EXCHANGE</a>
                             <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                             <a class="nav-link active" href="contact.html">CONTACT</a>
-                            <a class="nav-link" href="aboutUs.html">ABOUT US</a>
+                            <a class="nav-link" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -67,18 +64,20 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-sm-12 col-md-10">
-                <form class="contactsection sharpxchange-main">
+                <form class="contactsection sharpxchange-main" onkeyup="contactform()">
                     <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Contact Us</h2>
+                    <p id="error"></p>
+                    <p id="success"></p>
                     <div class="form-row">
                         <div class="col-md-6">
                             <label for="Name">Your name</label>
-                            <input type="text" class="form-control is-invalid" id="sxcContName" required>
-                            <div class="invalid-feedback">Required</div>
+                            <input type="text" class="form-control" id="sxcContName" required>
+                            <div class="invalid-feedback"></div>
                         </div>
                         <div class="col-md-6">
                             <label for="Email">Your email</label>
-                            <input type="text" class="form-control is-invalid" id="sxcContMail" required>
-                            <div class="invalid-feedback">Required</div>
+                            <input type="email" class="form-control" id="sxcContMail" required>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="form-row">
@@ -97,7 +96,7 @@
                     </div>
                     <div class="form-row mt-3">
                         <div class="col-md-12">
-                            <button class="btn btn-outline-sxc" type="submit">Submit form</button>
+                            <button class="btn btn-outline-sxc hide" id="sxcConBtn" type="button" onclick="contactformSubmit()">Submit form</button>
                         </div>
                     </div>
                 </form>
@@ -123,10 +122,10 @@
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>

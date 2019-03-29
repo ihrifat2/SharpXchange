@@ -6,6 +6,12 @@ if (isset($_SESSION['user_login_session'])) {
     exit();
 }
 
+if (isset($_GET['error'])) {
+    $error = "Please Login or create an account.";
+} else {
+    $error = "";
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -36,21 +42,19 @@ if (isset($_SESSION['user_login_session'])) {
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 pt-1 sharpxchange-header-nav-left">
-                    <a class="text-muted" href="signup.php">Registration</a>
-                    <a>/</a>
-                    <a class="text-muted" href="signup.php">login</a>
+                <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
+                    <a class="sharpxchange-header-logo text-dark" href="index.php">
+                        <img src="assets/img/logo.png">
+                    </a>
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -65,7 +69,7 @@ if (isset($_SESSION['user_login_session'])) {
                             <a class="nav-link" href="index.php">EXCHANGE</a>
                             <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                             <a class="nav-link" href="contact.html">CONTACT</a>
-                            <a class="nav-link" href="aboutUs.html">ABOUT US</a>
+                            <a class="nav-link" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -79,7 +83,13 @@ if (isset($_SESSION['user_login_session'])) {
                     <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Login</h2>
                     <div class="form-group row mt-3 justify-content-md-center">
                         <div class="col-sm-12 col-md-12">
-                            <p id="error"></p>
+                            <p id="error">
+                                <?php
+                                    if ($error) {
+                                        echo $error;
+                                    }
+                                ?>
+                            </p>
                             <p id="success"></p>
                         </div>
                     </div>
@@ -129,10 +139,10 @@ if (isset($_SESSION['user_login_session'])) {
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>
@@ -151,7 +161,6 @@ if (isset($_SESSION['user_login_session'])) {
         <p class="mt-3">Copyright © 2019. SharpXchange</p>
         <p><a href="#">Back to top</a></p>
     </footer>
-    <script src="assets/js/sharpxchange.js"></script>
 </body>
 </html>
 <?php
@@ -173,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
     if (empty($sxc_Signin_Email) || empty($sxc_Signin_Password)) {
         echo "<script>document.getElementById('error').innerHTML = 'All fields are required';</script>";
     } else {
-        $sqlQuery       = "SELECT * FROM `db_user_info` WHERE `email` = '$sxc_Signin_Email'";
+        $sqlQuery       = "SELECT `username`, `passwd` FROM `tbl_user_info` WHERE `email` = '$sxc_Signin_Email'";
         $result         = mysqli_query($dbconnect, $sqlQuery);
         $rows           = mysqli_fetch_array($result);
         $store_password = $rows['passwd'];

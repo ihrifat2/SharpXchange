@@ -11,7 +11,7 @@ function validate_input($data) {
 
 if (!empty($_POST["username"])) {
 	$username 	= validate_input($_POST["username"]);
-	$query 		= "SELECT * FROM `db_user_info` WHERE `username` = '$username'";
+	$query 		= "SELECT * FROM `tbl_user_info` WHERE `username` = '$username'";
 	$result		= mysqli_query($dbconnect, $query);
 	$rows 		= mysqli_fetch_array($result);
 	$user_count = $rows[0];
@@ -29,7 +29,7 @@ if (!empty($_POST["username"])) {
 } elseif (!empty($_POST["email"])) {
 	$email 		= validate_input($_POST["email"]);
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		$query 		= "SELECT * FROM `db_user_info` WHERE `email` = '$email'";
+		$query 		= "SELECT * FROM `tbl_user_info` WHERE `email` = '$email'";
 		$result		= mysqli_query($dbconnect, $query);
 		$rows 		= mysqli_fetch_array($result);
 		$user_count = $rows[0];

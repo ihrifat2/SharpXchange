@@ -1,3 +1,6 @@
+html body {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+}
 body{
     background-color: #e5e6f7d5;
 }
@@ -32,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-scroller {
     position: relative;
     z-index: 2;
-    height: 2.75rem;
+    height: 4.00rem;
     overflow-y: hidden;
 }
 
@@ -173,7 +176,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .item {
     background: #fff;
-    padding-bottom: 10px;
+    padding: 10px 3px 0px 3px;
     border-radius: 6px;
     border: 1px solid #ddd;
     min-height: 150px;
@@ -183,10 +186,15 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
 }
 .sharpxchange-section-group1{
-    background-image: url(../../assets/img/banknotes1.jpg);
-    background-repeat: no-repeat;
-    background-position: top center;
-    padding: 25px 0px 0px 0px;
+    background-image: url(../../assets/img/banknotes2.jpg);
+    background-size: cover;
+    padding: 25px 25px 5px 25px;
+}
+.sharpxchange-section-group2{
+    padding: 25px 25px 5px 25px;
+}
+.sharpxchange-section-index{
+    padding: 0px 25px 0px 25px;
 }
 .masthead {
     margin-bottom: 2rem;
@@ -212,19 +220,17 @@ h1, h2, h3, h4, h5, h6 {
     color: #000;
     border-bottom-color: #000;
 }
-@media (min-width: 48em) {
-    .masthead-brand {
-        float: left;
-    }
-    .nav-masthead {
-        float: right;
-    }
+.masthead-brand {
+    float: left;
+}
+.nav-masthead {
+    float: right;
 }
 .img-circle {
     border-radius: 50%;
 }
 .sharpxchange-header-nav-left{
-    padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 20px;
     font-weight: 700;
     color: #000;
     background-color: transparent;
@@ -233,7 +239,7 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 .sharpxchange-header-nav-right{
-    padding: .25rem 0;
+    padding: 0px 25px 0px 0px;
     font-weight: 500;
     color: #000;
     background-color: transparent;
@@ -263,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color:#060a40;
     border-color:#060a40
 }
- .btn-outline-sxc.focus,.btn-outline-sxc:focus{
+.btn-outline-sxc.focus,.btn-outline-sxc:focus{
     box-shadow:0 0 0 .2rem #060a40
 }
  .btn-outline-sxc.disabled,.btn-outline-sxc:disabled{
@@ -295,4 +301,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 .show{
     display: all;
+}
+.section0{
+    background: #fff;
+    color: #000;
+    margin-bottom: 15px;
+    margin: auto;
+    padding: 50px 30px 50px 30px;
+    border-radius: 5px;
+}
+.box{
+    border: 1px solid #949292;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px;
+}
+.notice1{
+    text-align: center;
+    font-weight: 600;
+    background: #1b1464;
+    color: #fff!important;
+    width: 100%;
+    height:35px;
+}
+
+#marquee{
+    text-align: left;
 }

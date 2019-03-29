@@ -26,23 +26,20 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
-                    <a class="text-muted" href="signup.php">Registration</a>
-                    <a>/</a>
-                    <a class="text-muted" href="signin.php">login</a>
+                <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
+                    <a class="sharpxchange-header-logo text-dark" href="index.php">
+                        <img src="assets/img/logo.png">
+                    </a>
                 </div>
-                <div class="col-sm-4 col-md-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
-                </div>
-                <div class="col-sm-4 col-md-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
+                <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
                         Work time: 10:00 - 20:00, GMT +6
                     </a>
@@ -57,7 +54,7 @@
                             <a class="nav-link" href="index.php">EXCHANGE</a>
                             <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
                             <a class="nav-link" href="contact.html">CONTACT</a>
-                            <a class="nav-link active" href="aboutUs.html">ABOUT US</a>
+                            <a class="nav-link" href="aboutUs.php">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -69,23 +66,15 @@
             <div class="col-sm-12 col-md-12">
                 <div class="aboutsection sharpxchange-main">
                     <div class="sharpxchange-post">
-                        <h2 class="sharpxchange-header sharpxchange-post-title py-3 mb-4">About Us</h2>
-                        <P class="text-justify">
-                            Welcome to SharpXchange!! Here you can exchange your money in a moment. We are the first people in Bangladesh who are working with all types of crypto currencies. For Freelancers, here is an innovative arrangement of money. From here you can exchange money from Bangladeshi taka in dollars or USD to BDT. Can be used to change the widely used international wallet in a few moments. Customers can avail this facility from anywhere in Bangladesh. We receive all countries currency to exchange dollars to specific currency what you want from all over the world. Our Exchange Services Skrill, Neteller, all cryptocurrency.
-                        </P>
-                        <P class="text-justify">
-                            In the era of modern e-commerce, the SharpXchange has begun to focus on the ease and simplicity of money transactions on the Internet. Especially in recent times foreign currency transactions are increasing. Use SharpXchange to eliminate the unauthorized fraud and suffering of different currency transactions. However, the SharpXchange online payment gateway has been playing a significant role in money transactions on the internet so far.
-                        </P>
-                        <P class="text-justify">
-                            There is no limit to receiving or transferring money to the personal account. However, if the user accepts the money or receives a dollar, the charge will be 4% from the principal. However, one of the advantages is that the registration of the user through their own referral link or the currency exchange can be 0.5% bonus. If the website or blog is linked to your referral link, then the commission will receive a service exchange.
-                        </P>
-                        <p>Benefits of using SharpXchange</p>
-                        <ul>
-                            <li class="text-justify">SharpXchange for Bangladesh is a good exchange of currency. We provide specialization services for Bangladesh through <a href="http://SharpXchange.com">SharpXchange</a></li>
-                            <li class="text-justify">You can exchange money at any time through bKash, Rocket, Dutch Bangla Bank.</li>
-                            <li class="text-justify">From your SharpXchange account, you can load the dollar into the international wallet.</li>
-                            <li class="text-justify">Many online shops in Bangladesh support the page, so you can buy the product from a lot of shop with the penny account. For more information or to inquire, please click on</li>
-                        </ul>
+                        <h2 class="sharpxchange-header sharpxchange-post-title py-3 mb-4">Privacy Policy</h2>
+                        <?php 
+                            require "dbconnect.php";
+                            $sqlQuery   = "SELECT `text` FROM `tbl_page_settings` WHERE `page_id` = 2";
+                            $result     = mysqli_query($dbconnect, $sqlQuery);
+                            $rows       = mysqli_fetch_array($result);
+                            $text       = $rows['text'];
+                            echo $text;
+                        ?>
                     </div>
                 </div>
             </div>
@@ -110,10 +99,10 @@
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.html">Privacy Policy</a>
+                            <a href="policy.php">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.html">About Us</a>
+                            <a href="aboutUs.php">About Us</a>
                         </li>
                         <li>
                             <a href="contact.html">Contact</a>
