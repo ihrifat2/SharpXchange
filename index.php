@@ -25,7 +25,7 @@ $sendRate       = $data[2];
 $recvRate       = $data[5];
 
 $sqlQueryForNotice = "SELECT `notice1`, `notice2` FROM `tbl_additional_info`";
-$result     = mysqli_query($dbconnect, $sqlQuery);
+$result     = mysqli_query($dbconnect, $sqlQueryForNotice);
 $rows       = mysqli_fetch_array($result);
 $notice1    = $rows['notice1'];
 $notice2    = $rows['notice2'];
