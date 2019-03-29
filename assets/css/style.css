@@ -323,7 +323,10 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     height:35px;
 }
-
 #marquee{
     text-align: left;
+}
+#sxc_exchange_results{
+    color: red;
+    font-weight: bold;
 }

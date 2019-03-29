@@ -24,6 +24,12 @@ $data           = explode(" ",$data);
 $sendRate       = $data[2];
 $recvRate       = $data[5];
 
+$sqlQueryForNotice = "SELECT `notice1`, `notice2` FROM `tbl_additional_info`";
+$result     = mysqli_query($dbconnect, $sqlQuery);
+$rows       = mysqli_fetch_array($result);
+$notice1    = $rows['notice1'];
+$notice2    = $rows['notice2'];
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -120,34 +126,47 @@ $recvRate       = $data[5];
             </header>
         </div>
 
-        <div class="row mb-3 mt-2">
-            <div class="sharpxchange-section-index col-md-12">
-                <center> 
-                    <span class="btn notice1" >
-                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
-                            <span style="color: yellow">
-                                <strong> Notice : </strong>
+        <?php
+            if ($notice1 != NULL || $notice1 != "") {
+                ?>
+                <div class="row mb-3 mt-2">
+                    <div class="sharpxchange-section-index col-md-12">
+                        <center> 
+                            <span class="btn notice1" >
+                                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
+                                    <span style="color: yellow">
+                                        <strong> Notice : </strong>
+                                    </span>
+                                    <?php echo $notice1; ?>
+                                </marquee>
                             </span>
-                            যে কোন প্রয়োজনে আমাদের কে ফোন করুন 01XXXXXXXXX এবং লেনদেন শেষে আমাদের TESTIMONIALS দিতে ভুলবেন না। 
-                        </marquee>
-                    </span>
-                </center>
-            </div>
-        </div>
+                        </center>
+                    </div>
+                </div>
+                <?php
+            }
+        ?>
 
-        <div class="row mb-3">
-            <div class="sharpxchange-section-index col-md-12">
-                <center> 
-                    <span class="btn notice1">
-                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
-                            <span style="color: yellow"><strong> New Update  :  </strong>
+        <?php
+            if ($notice2 != NULL || $notice2 != "") {
+                ?>
+                <div class="row mb-3 mt-2">
+                    <div class="sharpxchange-section-index col-md-12">
+                        <center> 
+                            <span class="btn notice1" >
+                                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
+                                    <span style="color: yellow">
+                                        <strong> New Update : </strong>
+                                    </span>
+                                    <?php echo $notice2; ?>
+                                </marquee>
                             </span>
-                            Skrill 10 Dollar (1060 Taka) Neteller 10 Dolllar (1060 Taka) Old Or New Rate:- Skrill Buy = 100 (old rate 96) Neteller Buy = 100 (old rate 96)  এখন থেকে যারা &zwj;skrill or neteller dollar ওডার করবেন তাদের কে skrill or neteller full fee বহন করতে হবে।   
-                        </marquee>
-                    </span>
-                </center>
-            </div>
-        </div>  
+                        </center>
+                    </div>
+                </div>
+                <?php
+            }
+        ?> 
 
         <div class="row mt-3 mb-3 sharpxchange-section-group1" id="exchangeSection">
             <div class="col-md-8">

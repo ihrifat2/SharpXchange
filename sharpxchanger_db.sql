@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2019 at 11:40 AM
+-- Generation Time: Mar 29, 2019 at 12:38 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE `tbl_additional_info` (
 --
 
 INSERT INTO `tbl_additional_info` (`id`, `notice1`, `notice2`, `activeStatus`) VALUES
-(1, '', '', 0);
+(1, 'যে কোন প্রয়োজনে আমাদের সাথে যোগাযোগ করুন এবং লেনদেন শেষে আমাদের TESTIMONIALS দিতে ভুলবেন না।', '', 0);
 
 -- --------------------------------------------------------
 
@@ -78,15 +78,6 @@ CREATE TABLE `tbl_admin_notification` (
   `notify_robin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_admin_notification`
---
-
-INSERT INTO `tbl_admin_notification` (`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES
-(1, 'New Contact Message Recieved', 'contactus.php', 0, 0, 0),
-(2, 'New Transaction order Recieved', 'exchanges.php', 0, 0, 0),
-(3, 'New Testimonial Recieved', 'testimonials.php', 1, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -105,17 +96,6 @@ CREATE TABLE `tbl_contact_info` (
   `contact_browser` varchar(10) NOT NULL,
   `contact_version` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_contact_info`
---
-
-INSERT INTO `tbl_contact_info` (`contact_id`, `contact_name`, `contact_mail`, `contact_sub`, `contact_text`, `contact_date`, `contact_ip`, `contact_platform`, `contact_browser`, `contact_version`) VALUES
-(1, 'imran', 'imran@mail.com', 'error', 'there is an error in index.php page', 'March 17, 2019, Sunday 2:20 pm', '127.0.0.1', 'Windows', 'Chrome', '72.0.3626.121'),
-(2, 'nur', 'ss@ss.ss', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। য', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।', 'March 17, 2019, Sunday 4:31 pm', '127.0.0.1', 'Windows', 'Chrome', '72.0.3626.121'),
-(3, 'robin', 'ss@ss.ss', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। য', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।', 'March 17, 2019, Sunday 4:31 pm', '127.0.0.1', 'Windows', 'Chrome', '72.0.3626.121'),
-(4, 'Imran', 'ss@f.com', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।', '???ুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।', 'March 17, 2019, Sunday 4:33 pm', '127.0.0.1', 'Windows', 'Chrome', '72.0.3626.121'),
-(5, 'Imran', 'hadid@mail.com', 'Help ', 'Lolololololol', 'March 27, 2019, Wednesday 11:20 am', '127.0.0.1', 'Windows', 'Chrome', '73.0.3683.86');
 
 -- --------------------------------------------------------
 
@@ -138,30 +118,6 @@ CREATE TABLE `tbl_exchange_info` (
   `status` int(11) NOT NULL,
   `date` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_exchange_info`
---
-
-INSERT INTO `tbl_exchange_info` (`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `date`) VALUES
-(1, 'Skrill', 'Bkash Personal', 10, 850, 'demo', 'active@gmail.com', '987654321', '23456789', 'tran45545464', NULL, 1, 'March 1, 2019, Saturday 1:19 pm'),
-(2, 'Bkash Personal', 'Coinbase', 2000, 22, 'demo', 'Active@Email.address', '123456789', 'Coinbase@Address.com', 'tran33333333', NULL, 1, 'March 2, 2019, Saturday 1:20 pm'),
-(3, 'Bkash Personal', 'Skrill', 1234, 13, 'demo', 'Active@Email.address', '1234567890', 'Skrill@Email.address', 'tran555555555', NULL, 1, 'March 3, 2019, Saturday 8:40 pm'),
-(4, 'DBBL Rocket', 'Coinbase', 15000, 160, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran2222222222', NULL, 2, 'March 4, 2019, Saturday 8:46 pm'),
-(5, 'DBBL Rocket', 'Coinbase', 1500, 16, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran2222222222', NULL, 2, 'March 5, 2019, Saturday 8:46 pm'),
-(6, 'DBBL Rocket', 'Coinbase', 1500, 19, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran2222222222', NULL, 2, 'March 6, 2019, Saturday 8:50 pm'),
-(7, 'DBBL Rocket', 'Coinbase', 2500, 16, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran444444444444', NULL, 3, 'March 7, 2019, Saturday 8:51 pm'),
-(8, 'DBBL Rocket', 'Coinbase', 1000, 16, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran2222222222', NULL, 1, 'March 8, 2019, Saturday 8:51 pm'),
-(9, 'DBBL Rocket', 'Coinbase', 3500, 16, 'demo', 'Active@Email.address', '345678998765', 'Coinbase@Email.address', 'tran2222222222', NULL, 2, 'March 9, 2019, Saturday 8:52 pm'),
-(10, 'Bkash Personal', 'Neteller', 1000, 11, 'demo', 'active@mail.com', '2345678', 'neteller@add.com', 'TransIDNWM4NjY0NmRiZDZmYzppaHJpZmF0OjExLTAzLTIwMT82', 'tranlol1111111', 2, 'March 11, 2019, Monday 7:36 pm'),
-(11, 'Neteller', 'DBBL Rocket', 15, 1275, 'demo', 'lol@lo.com', '234567887654', '2345678', 'TransIDNWM4NjY5YmU3MjQxNDppaHJpZmF0OjExLTAzLTIwMT80', '', 5, 'March 11, 2019, Monday 7:59 pm'),
-(12, 'Neteller', 'Bkash Personal', 15, 1275, 'demo', 'lol@lo.com', '234567887654', '2345678', 'TransIDNWM4NjY5ZGM4OThjMTppaHJpZmF0OjExLTAzLTIwMT30', '', 5, 'March 11, 2019, Monday 7:59 pm'),
-(13, 'Neteller', 'Bkash Personal', 15, 1275, 'demo', 'a@a.com', '22222222222', '11111111', 'TransIDNWM4YmYxOTEyNDljODppaHJpZmF0OjE2LTAzLTIwMT22', '111111111', 4, 'March 16, 2019, Saturday 12:40 am'),
-(14, 'Neteller', 'DBBL Rocket', 15, 935, 'demo', 'a@s.com', '2222222', '11111111', 'TransIDNWM4YmYyZWRhZGExMjppaHJpZmF0OjE2LTAzLTIwMT56', '', 3, 'March 16, 2019, Saturday 12:46 am'),
-(15, 'Neteller', 'DBBL Rocket', 13, 935, 'demo', 'a@s.com', '2222222', '11111111', 'TransIDNWM4YmY4Mzc0ZmFhMjppaHJpZmF0OjE2LTAzLTIwMT20', '', 3, 'March 16, 2019, Saturday 1:08 am'),
-(16, 'Neteller', 'DBBL Rocket', 11, 935, 'demo', 'a@s.com', '2222222', '11111111', 'TransIDNWM4YmY4NjA1YzlmMjppaHJpZmF0OjE2LTAzLTIwMT71', '', 3, 'March 16, 2019, Saturday 1:09 am'),
-(17, 'Coinbase', 'DBBL Rocket', 20, 1640, 'joynal', 'joynal@mail.com', '123654799', '017017017017', 'TransIDNWM4ZThhYTM3MmU3NDpqb3luYWw6MTctMDMtMjAxOQ26', '4545454545454', 3, 'March 17, 2019, Sunday 11:57 pm'),
-(18, 'Ethereum', 'DBBL Rocket', 11, 902, 'demo', 'Active@Email.address', '87654321', '234567890', 'TransIDNWM5YjA4OGE5NGVhYTpkZW1vOjI3LTAzLTIwMT58', '', 2, 'March 27, 2019, Wednesday 11:22 am');
 
 -- --------------------------------------------------------
 
@@ -267,8 +223,7 @@ CREATE TABLE `tbl_user_info` (
 --
 
 INSERT INTO `tbl_user_info` (`user_id`, `first_name`, `last_name`, `username`, `phone`, `gender`, `email`, `passwd`, `signup_time`, `signup_ip`, `acc_update`) VALUES
-(1, 'Imran', 'Hadid', 'demo', 24567890, 'Female', 'imranhadid03@gmail.com', '$2y$10$p8um0QiSgRLb9rAjBh89/.rWBYXHMDg2uswLkfOcfqsrtHlhxZHqe', 'March 9, 2019, Saturday 1:26 am', '127.0.0.1', 'March 15, 2019, Friday 11:47 pm'),
-(2, 'Joynal', 'Abedin', 'joynal', NULL, NULL, 'joynal@mail.com', '$2y$10$.Scosik6Pl2GIx0B10XDseuf/8X8vpXmgFZzazfYMbpYCloy83Wjy', 'March 17, 2019, Sunday 11:56 pm', '127.0.0.1', NULL);
+(1, 'Imran', 'Hadid', 'demo', 24567890, 'Male', 'imranhadid03@gmail.com', '$2y$10$p8um0QiSgRLb9rAjBh89/.rWBYXHMDg2uswLkfOcfqsrtHlhxZHqe', 'March 9, 2019, Saturday 1:26 am', '127.0.0.1', 'March 15, 2019, Friday 11:47 pm');
 
 -- --------------------------------------------------------
 
@@ -284,16 +239,6 @@ CREATE TABLE `tbl_user_testimonials` (
   `status` varchar(10) NOT NULL,
   `date` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_user_testimonials`
---
-
-INSERT INTO `tbl_user_testimonials` (`testimonial_id`, `username`, `testimonial_text`, `view`, `status`, `date`) VALUES
-(1, 'demo', 'খুব সুন্দর সার্ভিস প্রদান করে। যদিও কিছুটা দেরী হয়। তবুও খারাপ না।', 1, 'Positive', 'March 17, 2019, Sunday 3:36 pm'),
-(2, 'demo', 'Excellent..!!! Exchanging site... Very good service..!!!! I love ( sharpxchange)...!!!', 1, 'Positive', 'March 17, 2019, Sunday 3:37 pm'),
-(3, 'demo', 'Excellent services! Within 5mins service complete. Thanks', 1, 'Positive', 'March 17, 2019, Sunday 3:38 pm'),
-(4, 'demo', 'Love that site', 2, 'Negative', 'March 27, 2019, Wednesday 11:32 am');
 
 --
 -- Indexes for dumped tables
@@ -379,19 +324,19 @@ ALTER TABLE `tbl_admin_info`
 -- AUTO_INCREMENT for table `tbl_admin_notification`
 --
 ALTER TABLE `tbl_admin_notification`
-  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_contact_info`
 --
 ALTER TABLE `tbl_contact_info`
-  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_exchange_info`
 --
 ALTER TABLE `tbl_exchange_info`
-  MODIFY `exchange_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `exchange_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_gateway_info`
@@ -415,13 +360,13 @@ ALTER TABLE `tbl_reserve_list`
 -- AUTO_INCREMENT for table `tbl_user_info`
 --
 ALTER TABLE `tbl_user_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_testimonials`
 --
 ALTER TABLE `tbl_user_testimonials`
-  MODIFY `testimonial_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `testimonial_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
