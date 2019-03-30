@@ -2,6 +2,9 @@
 session_start();
 require "dbconnect.php";
 require "helper.php";
+require "xsrf.php";
+require "hash.php";
+
 unset($_SESSION['sxcReceive']);
 unset($_SESSION['sxcSendUs']);
 
@@ -29,6 +32,67 @@ $result     = mysqli_query($dbconnect, $sqlQueryForNotice);
 $rows       = mysqli_fetch_array($result);
 $notice1    = $rows['notice1'];
 $notice2    = $rows['notice2'];
+
+if (isset($_POST['sxcConfirmTransaction'])) {
+    sleep(5);
+
+    $sessionHash   = 1337;
+    $sessionHash   = encode($sessionHash);
+    $_SESSION['SharpXchanger'] = $sessionHash;
+
+    $status         = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+    $sxcSendUsGT    = validate_input($_POST['sxcSendUsGT']);
+    $sxcSendUsAmnt  = validate_input($_POST['sxcSendUsAmnt']);
+    $sxcReceiveGt   = validate_input($_POST['sxcReceiveGt']);
+    $sxcReceiveAmnt = validate_input($_POST['sxcReceiveAmnt']);
+    $sxcActEmail    = validate_input($_POST['sxcActEmail']);
+    $sxcRecvGWEm    = validate_input($_POST['sxcRecvGWEm']);
+    $sxcActPhone    = validate_input($_POST['sxcActPhone']);
+    $sxctransID     = validate_input($_POST['sxctransID']);
+    $sxcSendUsGT    = checkGTNum($sxcSendUsGT);
+    $sxcReceiveGt   = checkGTNum($sxcReceiveGt);
+    $datetime       = new DateTime('now', new DateTimezone('Asia/Dhaka'));
+    $time           = $datetime->format('F j, Y, l g:i a');
+    $uname          = getUsername();
+    $status         = 1;
+    $hash           = uniqid() . ":" . $uname . ":" . getDateFormat($time);
+    $hash           = encryptTransID($hash);
+    $notifyText     = "New Transaction order Recieved";
+    $notifyUrl      = "exchanges.php";
+
+    if (!$status) {
+        echo '<div id="snackbar">CSRF FAILED!</div>';
+        echo "<script>snackbarMessage()</script>";
+    } else {
+        if (empty($sxcSendUsGT) || empty($sxcSendUsAmnt) || empty($sxcReceiveGt) || empty($sxcReceiveAmnt) || empty($sxcActEmail) || empty($sxcRecvGWEm) || empty($sxcActPhone) || empty($hash)) {
+            echo "All fields are required.";
+        } else {
+            $sqlQuery = "INSERT INTO `tbl_exchange_info`(`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `date`) VALUES (NULL,'$sxcSendUsGT','$sxcReceiveGt','$sxcSendUsAmnt','$sxcReceiveAmnt','$uname','$sxcActEmail','$sxcActPhone','$sxcRecvGWEm', '$hash','$sxctransID','$status','$time')";
+            $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
+            $result = mysqli_query($dbconnect, $sqlQuery);
+            $resultnotify = mysqli_query($dbconnect, $sqlQuerynotify);
+            if ($result || $resultnotify) {
+                $text1 = '<div class="section0"><div class="row mb-4 box"><div class="col-sm-12 col-md-12">';
+                $text1 .= "Thank you! After manually check all information, your transaction will make the exchange.";
+                $text1 .= "</div></div>";
+                $text1 .= '<div class="row mt-4 box"><div class="col-sm-12 col-md-12">';
+                $text1 .= "You can track your exchange at this exchange Id: <br>";
+                $text1 .= $hash;
+                $text1 .= "</div></div></div>";
+                echo "<script>document.getElementById('exchangeSection').innerHTML = '" . $text1 . "'</script>";
+            } else {
+                $text1 = '<div class="row box"><div class="col-sm-12 col-md-12">';
+                $text1 .= "Thank you! If you facing any error please contact with us.";
+                $text1 .= "</div></div>";
+                echo "<script>document.getElementById('sharpxchange_step1').innerHTML = '" . $text1 . "'</script>";
+                //echo mysqli_error($dbconnect);
+            }
+        }
+    }        
+    // echo $sxcSendUsGT . " : " . $sxcReceiveGt . " : " . $sxcSendUsAmnt . " : " . $sxcReceiveAmnt . " : " . $uname . " : " . $sxcActEmail . " : " . $sxcActPhone . " : " . $sxcRecvGWEm . " : " . $hash . " : " . $sxctransID . " : " . $status . " : " . $time;
+}
+generateSessionToken();
+
 
 ?>
 <!doctype html>
@@ -168,9 +232,28 @@ $notice2    = $rows['notice2'];
             }
         ?> 
 
+        <?php
+            if (isset($_SESSION['SharpXchanger'])) {
+                $session    = htmlspecialchars($_SESSION['SharpXchanger']);
+                $session    = decode($session);
+                if ($session == 1337) {
+                    echo '<div class="row mt-3 mb-3 sharpxchange-section-group1">';
+                    echo $text1;
+                    echo "</div>";
+                    // echo $text1;
+                }
+            }
+        ?>
+
         <div class="row mt-3 mb-3 sharpxchange-section-group1" id="exchangeSection">
+            <?php
+                if (isset($_SESSION['SharpXchanger'])) {
+                    unset($_SESSION['SharpXchanger']);
+                    echo "<script>document.getElementById('exchangeSection').setAttribute('class', 'hide')</script>";
+                }
+            ?>
             <div class="col-md-8">
-                <div class="section1 mb-4">
+                <div class="section1 mb-4" id="section1">
                     <form method="POST" id="sharpxchange-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                         <p id="sxc_exchange_results"></p>
                         <div class="tab-content">
@@ -312,6 +395,7 @@ $notice2    = $rows['notice2'];
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <center>
+                                            <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                                             <button type="submit" class="btn btn-outline-sxc" name="sxcConfirmTransaction">
                                                 <i class="fa fa-refresh"></i> Confirm Transaction
                                             </button>
@@ -556,61 +640,11 @@ $notice2    = $rows['notice2'];
 </html>
 <?php
 
-require "hash.php";
-
 function validate_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-}
-
-if (isset($_POST['sxcConfirmTransaction'])) {
-    sleep(5);
-    $sxcSendUsGT    = validate_input($_POST['sxcSendUsGT']);
-    $sxcSendUsAmnt  = validate_input($_POST['sxcSendUsAmnt']);
-    $sxcReceiveGt   = validate_input($_POST['sxcReceiveGt']);
-    $sxcReceiveAmnt = validate_input($_POST['sxcReceiveAmnt']);
-    $sxcActEmail    = validate_input($_POST['sxcActEmail']);
-    $sxcRecvGWEm    = validate_input($_POST['sxcRecvGWEm']);
-    $sxcActPhone    = validate_input($_POST['sxcActPhone']);
-    $sxctransID     = validate_input($_POST['sxctransID']);
-    $sxcSendUsGT    = checkGTNum($sxcSendUsGT);
-    $sxcReceiveGt   = checkGTNum($sxcReceiveGt);
-    $datetime       = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-    $time           = $datetime->format('F j, Y, l g:i a');
-    $uname          = getUsername();
-    $status         = 1;
-    $hash           = uniqid() . ":" . $uname . ":" . getDateFormat($time);
-    $hash           = encryptTransID($hash);
-    $notifyText     = "New Transaction order Recieved";
-    $notifyUrl      = "exchanges.php";
-
-    if (empty($sxcSendUsGT) || empty($sxcSendUsAmnt) || empty($sxcReceiveGt) || empty($sxcReceiveAmnt) || empty($sxcActEmail) || empty($sxcRecvGWEm) || empty($sxcActPhone) || empty($hash)) {
-        echo "All fields are required.";
-    } else {
-        $sqlQuery = "INSERT INTO `tbl_exchange_info`(`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `date`) VALUES (NULL,'$sxcSendUsGT','$sxcReceiveGt','$sxcSendUsAmnt','$sxcReceiveAmnt','$uname','$sxcActEmail','$sxcActPhone','$sxcRecvGWEm', '$hash','$sxctransID','$status','$time')";
-        $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
-        $result = mysqli_query($dbconnect, $sqlQuery);
-        $resultnotify = mysqli_query($dbconnect, $sqlQuerynotify);
-        if ($result || $resultnotify) {
-            $text1 = '<div class="section0"><div class="row mb-4 box"><div class="col-sm-12 col-md-12">';
-            $text1 .= "Thank you! After manually check all information, your transaction will make the exchange.";
-            $text1 .= "</div></div>";
-            $text1 .= '<div class="row mt-4 box"><div class="col-sm-12 col-md-12">';
-            $text1 .= "You can track your exchange at this exchange Id: <br>";
-            $text1 .= $hash;
-            $text1 .= "</div></div></div>";
-            echo "<script>document.getElementById('exchangeSection').innerHTML = '" . $text1 . "'</script>";
-        } else {
-            $text1 = '<div class="row box"><div class="col-sm-12 col-md-12">';
-            $text1 .= "Thank you! If you facing any error please contact with us.";
-            $text1 .= "</div></div>";
-            echo "<script>document.getElementById('sharpxchange_step1').innerHTML = '" . $text1 . "'</script>";
-            //echo mysqli_error($dbconnect);
-        }
-    }
-    // echo $sxcSendUsGT . " : " . $sxcReceiveGt . " : " . $sxcSendUsAmnt . " : " . $sxcReceiveAmnt . " : " . $uname . " : " . $sxcActEmail . " : " . $sxcActPhone . " : " . $sxcRecvGWEm . " : " . $hash . " : " . $sxctransID . " : " . $status . " : " . $time;
 }
 
 function checkGTNum($data){
