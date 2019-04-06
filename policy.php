@@ -32,7 +32,7 @@
     <script src="assets/js/sharpxchange.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body class="pagecontainer">
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
@@ -123,5 +123,12 @@
         <p class="mt-3">Copyright © 2019. SharpXchange</p>
         <p><a href="#">Back to top</a></p>
     </footer>
+
+    <noscript>
+        <style type="text/css">
+            .pagecontainer {display:none;}
+        </style>
+        Your browser does not support JavaScript!
+    </noscript>
 </body>
 </html>

@@ -129,7 +129,7 @@ generateSessionToken();
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/sharpxchange.js"></script>
 </head>
-<body>
+<body class="pagecontainer">
     <div class="container-fluid">
         <header class="sharpxchange-header py-3 sharpxchange-section-index">
             <div class="row flex-nowrap justify-content-between align-items-center">
@@ -649,6 +649,13 @@ generateSessionToken();
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
+
+    <noscript>
+        <style type="text/css">
+            .pagecontainer {display:none;}
+        </style>
+        Your browser does not support JavaScript!
+    </noscript>
 </body>
 </html>
 <?php
