@@ -651,8 +651,16 @@ generateSessionToken();
     </script>
 
     <noscript>
+        <img src="assets/img/JS.jpg">
         <style type="text/css">
             .pagecontainer {display:none;}
+            html {
+                background-image: url("assets/img/JS.jpg");
+                background-color: #eedb50;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: center;
+            }
         </style>
         Your browser does not support JavaScript!
     </noscript>

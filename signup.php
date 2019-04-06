@@ -187,6 +187,13 @@ if (isset($_SESSION['user_login_session'])) {
     <noscript>
         <style type="text/css">
             .pagecontainer {display:none;}
+            html {
+                background-image: url("assets/img/JS.jpg");
+                background-color: #eedb50;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: center;
+            }
         </style>
         Your browser does not support JavaScript!
     </noscript>
