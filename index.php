@@ -8,6 +8,8 @@ require "hash.php";
 unset($_SESSION['sxcReceive']);
 unset($_SESSION['sxcSendUs']);
 
+$baseurl = "http://".$_SERVER['SERVER_NAME'];
+
 function defaultExchangeRate(){
     $sendGT = 7;
     $recvGT = 1;
@@ -100,16 +102,15 @@ generateSessionToken();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta name="keywords" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:url" content="https://www.sharpxchange.com">
-    <meta property="og:title" content="Money Exchanger, Dollar Buy and Sell">
-    <meta property="og:description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:image" content="https://www.sharpxchange.com/assets/img/logo.png">
-    <meta property="og:type" content="Website">
+    <meta name="description" content="SharpXchange">
+    <meta name="author" content="Imran Hadid">
+    <meta name="generator" content="Imran">
     <title>SharpXchange</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <base href="<?php echo $baseurl ?>" target="_blank">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
     <style>
@@ -124,12 +125,12 @@ generateSessionToken();
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/sharpxchange.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/popper.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
-<body class="pagecontainer">
+<body>
     <div class="container-fluid">
         <header class="sharpxchange-header py-3 sharpxchange-section-index">
             <div class="row flex-nowrap justify-content-between align-items-center">
@@ -141,19 +142,19 @@ generateSessionToken();
                                 Settings
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDetails">
-                                <a class="dropdown-item" href="account.php">Account Settings</a>
-                                <a class="dropdown-item" href="exchange.php">Exchange Details</a>
-                                <a class="dropdown-item" href="testimonial.php">Testimonial</a>
-                                <a class="dropdown-item" href="logout.php">Logout</a>
+                                <a class="dropdown-item" href="account">Account Settings</a>
+                                <a class="dropdown-item" href="exchange">Exchange Details</a>
+                                <a class="dropdown-item" href="testimonial">Testimonial</a>
+                                <a class="dropdown-item" href="logout">Logout</a>
                             </div>
                         </div>
                         ';
                     } else {
                         echo '
                         <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
-                            <a class="text-muted" href="signup.php">Registration</a>
+                            <a class="text-muted" href="/signup">Registration</a>
                             <a>/</a>
-                            <a class="text-muted" href="signin.php">login</a>
+                            <a class="text-muted" href="/signin">login</a>
                         </div>
                         ';
                     }
@@ -180,13 +181,13 @@ generateSessionToken();
             <header class="masthead mb-auto">
                 <div class="inner">
                     <h3 class="masthead-brand mb-3">
-                        <img src="assets/img/logo.png">
+                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
                     </h3>
                     <nav class="nav nav-masthead justify-content-end">
-                        <a class="nav-link active" href="index.php">EXCHANGE</a>
-                        <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
-                        <a class="nav-link" href="contact.html">CONTACT</a>
-                        <a class="nav-link" href="aboutUs.php">ABOUT US</a>
+                        <a class="nav-link active" href="/">EXCHANGE</a>
+                        <a class="nav-link" href="/testimonials">TESTIMONIALS</a>
+                        <a class="nav-link" href="/contact">CONTACT</a>
+                        <a class="nav-link" href="/about">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -256,7 +257,7 @@ generateSessionToken();
             ?>
             <div class="col-md-8">
                 <div class="section1 mb-4" id="section1">
-                    <form method="POST" id="sharpxchange-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <form method="POST" id="sharpxchange-form" action="<?php echo htmlspecialchars("/");?>">
                         <p id="sxc_exchange_results"></p>
                         <div class="tab-content">
                             <div class="tab-pane active" id="sharpxchange_step1">
@@ -269,7 +270,7 @@ generateSessionToken();
                                                 </h3>
                                                 <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                                     <div>
-                                                        <img src="assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
+                                                        <img src="http://asset.sharpxchange.com/assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
                                                         <p id="sxc_imageSendStatus"></p>
                                                     </div>
                                                 </div>
@@ -305,7 +306,7 @@ generateSessionToken();
                                                 </h3>
                                                 <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                                     <div>
-                                                        <img src="assets/img/bkash.png" id="sxc_imageReceive" width="72px" height="72px" class="img-circle img-bordered">
+                                                        <img src="http://asset.sharpxchange.com/assets/img/bkash.png" id="sxc_imageReceive" width="72px" height="72px" class="img-circle img-bordered">
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4">
@@ -503,7 +504,7 @@ generateSessionToken();
 
             <aside class="col-md-3 sharpxchange-sidebar">
                 <div class="exchageTrack section4 mb-2">
-                    <form class="exchageTrackSection" method="post" action="<?php echo htmlspecialchars("track.php");?>">
+                    <form class="exchageTrackSection" method="get" action="<?php echo htmlspecialchars("/track");?>">
                         <h5 class="title">Track Exchange</h5>
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Exchange ID" name="sxcTrackExID">
@@ -553,7 +554,7 @@ generateSessionToken();
                 <div class="row">
                     <?php
                         $tstimonlData = array();
-                        $tstimonlQuery = "SELECT `username`, `testimonial_text` FROM `tbl_user_testimonials` WHERE `status` = 'Positive' ORDER BY `testimonial_id` DESC LIMIT 4";
+                        $tstimonlQuery = "SELECT `username`, `testimonial_text` FROM `tbl_user_testimonials` WHERE `view` = 1 ORDER BY RAND() DESC LIMIT 3";
                         $tstimonlResult = $dbconnect->query($tstimonlQuery);
                         if ($tstimonlResult) {
                             while ($tstimonlRows = $tstimonlResult->fetch_array(MYSQLI_ASSOC)) {
@@ -584,10 +585,10 @@ generateSessionToken();
                     <h3>Quick access</h3>
                     <ul>
                         <li>
-                            <a href="index.php">Exchanger</a>
+                            <a href="/">Exchanger</a>
                         </li>
                         <li>
-                            <a href="testimonials.html">Testimonials</a>
+                            <a href="/testimonials">Testimonials</a>
                         </li>
                     </ul>
                 </div>
@@ -595,13 +596,13 @@ generateSessionToken();
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.php">Privacy Policy</a>
+                            <a href="/policy">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.php">About Us</a>
+                            <a href="/about">About Us</a>
                         </li>
                         <li>
-                            <a href="contact.html">Contact</a>
+                            <a href="/contact">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -649,21 +650,6 @@ generateSessionToken();
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-
-    <noscript>
-        <img src="assets/img/JS.jpg">
-        <style type="text/css">
-            .pagecontainer {display:none;}
-            html {
-                background-image: url("assets/img/JS.jpg");
-                background-color: #eedb50;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background-position: center;
-            }
-        </style>
-        Your browser does not support JavaScript!
-    </noscript>
 </body>
 </html>
 <?php
