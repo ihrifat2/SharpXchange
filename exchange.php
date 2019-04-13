@@ -11,17 +11,16 @@ $username   = $_SESSION['user_login_session'];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta name="keywords" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:url" content="https://www.sharpxchange.com">
-    <meta property="og:title" content="Money Exchanger, Dollar Buy and Sell">
-    <meta property="og:description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:image" content="https://www.sharpxchange.com/assets/img/logo.png">
-    <meta property="og:type" content="Website">
+    <meta name="description" content="SharpXchange">
+    <meta name="author" content="Imran Hadid">
+    <meta name="generator" content="Imran">
     <title>SharpXchange</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/accountupdate.css">
 
     <style>
         .bd-placeholder-img {
@@ -36,12 +35,12 @@ $username   = $_SESSION['user_login_session'];
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/sharpxchange.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/popper.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
-<body class="pagecontainer">
+<body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
@@ -54,25 +53,17 @@ $username   = $_SESSION['user_login_session'];
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="accountDetails">
-                                <a class="dropdown-item" href="account.php">Account Settings</a>
-                                <a class="dropdown-item" href="exchange.php">Exchange Details</a>
-                                <a class="dropdown-item" href="testimonial.php">Testimonial</a>
-                                <a class="dropdown-item" href="logout.php">Logout</a>
+                                <a class="dropdown-item" href="account">Account Settings</a>
+                                <a class="dropdown-item" href="exchange">Exchange Details</a>
+                                <a class="dropdown-item" href="testimonial">Testimonial</a>
+                                <a class="dropdown-item" href="logout">Logout</a>
                             </div>
-                        </div>
-                        ';
-                    } else {
-                        echo '
-                        <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
-                            <a class="text-muted" href="signup.php">Registration</a>
-                            <a>/</a>
-                            <a class="text-muted" href="signin.php">login</a>
                         </div>
                         ';
                     }
                 ?>
                 <div class="col-sm-4 col-md-4 text-center">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">SharpXchange</a>
+                    <a class="sharpxchange-header-logo text-dark" href="/">SharpXchange</a>
                 </div>
                 <div class="col-sm-4 col-md-4 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
                     <a class="text-muted">
@@ -86,10 +77,10 @@ $username   = $_SESSION['user_login_session'];
             <header class="masthead mb-auto">
                 <div class="inner">
                     <nav class="nav nav-masthead justify-content-end">
-                        <a class="nav-link" href="index.php">EXCHANGE</a>
-                        <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
-                        <a class="nav-link active" href="contact.html">CONTACT</a>
-                        <a class="nav-link" href="aboutUs.php">ABOUT US</a>
+                        <a class="nav-link" href="/">EXCHANGE</a>
+                        <a class="nav-link" href="testimonials">TESTIMONIALS</a>
+                        <a class="nav-link" href="contact">CONTACT</a>
+                        <a class="nav-link" href="about">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -161,16 +152,16 @@ $username   = $_SESSION['user_login_session'];
                 <div class="col-md-4">
                     <h3>Quick access</h3>
                     <ul>
-                        <li><a href="index.php">Exchanger</a></li>
-                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="/">Exchanger</a></li>
+                        <li><a href="testimonials">Testimonials</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h3>Terms & Support</h3>
                     <ul>
-                        <li><a href="policy.php">Privacy Policy</a></li>
-                        <li><a href="aboutUs.php">About Us</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="policy">Privacy Policy</a></li>
+                        <li><a href="about">About Us</a></li>
+                        <li><a href="contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -196,19 +187,5 @@ $username   = $_SESSION['user_login_session'];
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-
-    <noscript>
-        <style type="text/css">
-            .pagecontainer {display:none;}
-            html {
-                background-image: url("assets/img/JS.jpg");
-                background-color: #eedb50;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background-position: center;
-            }
-        </style>
-        Your browser does not support JavaScript!
-    </noscript>
 </body>
 </html>
