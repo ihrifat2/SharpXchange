@@ -18,17 +18,15 @@ if (isset($_GET['error'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta name="keywords" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:url" content="https://www.sharpxchange.com">
-    <meta property="og:title" content="Money Exchanger, Dollar Buy and Sell">
-    <meta property="og:description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
-    <meta property="og:image" content="https://www.sharpxchange.com/assets/img/logo.png">
-    <meta property="og:type" content="Website">
+    <meta name="description" content="SharpXchange">
+    <meta name="author" content="Imran Hadid">
+    <meta name="generator" content="Imran">
     <title>SharpXchange</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         .bd-placeholder-img {
@@ -43,17 +41,17 @@ if (isset($_GET['error'])) {
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/sharpxchange.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
-<body class="pagecontainer">
+<body>
     <div class="container">
         <header class="sharpxchange-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
-                    <a class="sharpxchange-header-logo text-dark" href="index.php">
-                        <img src="assets/img/logo.png">
+                    <a class="sharpxchange-header-logo text-dark" href="/">
+                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
                     </a>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
@@ -68,10 +66,10 @@ if (isset($_GET['error'])) {
             <header class="masthead mb-auto">
                 <div class="inner">
                     <nav class="nav nav-masthead justify-content-end">
-                            <a class="nav-link" href="index.php">EXCHANGE</a>
-                            <a class="nav-link" href="testimonials.html">TESTIMONIALS</a>
-                            <a class="nav-link" href="contact.html">CONTACT</a>
-                            <a class="nav-link" href="aboutUs.php">ABOUT US</a>
+                        <a class="nav-link" href="/">EXCHANGE</a>
+                        <a class="nav-link" href="testimonials">TESTIMONIALS</a>
+                        <a class="nav-link" href="contact">CONTACT</a>
+                        <a class="nav-link" href="about">ABOUT US</a>
                     </nav>
                 </div>
             </header>
@@ -81,7 +79,7 @@ if (isset($_GET['error'])) {
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8 col-xl-8">
-                <form class="contactsection sharpxchange-main" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                <form class="contactsection sharpxchange-main" method="post" action="<?php echo htmlspecialchars("/signin");?>">
                     <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Login</h2>
                     <div class="form-group row mt-3 justify-content-md-center">
                         <div class="col-sm-12 col-md-12">
@@ -98,7 +96,7 @@ if (isset($_GET['error'])) {
                     <div class="form-group row mt-3">
                         <label for="sxcSignupEmail" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="sxcSigninEmail" name="sxc_Signin_Email">
+                            <input type="email" class="form-control" id="sxcSigninEmail" name="sxc_Signin_Email">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -114,7 +112,7 @@ if (isset($_GET['error'])) {
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-12 d-flex bd-highlight">
-                            <p class="mt-2">Create a account? </p><a class="mr-auto bd-highlight ml-2 mt-2" href="signup.php">Signup</a>
+                            <p class="mt-2">Create a account? </p><a class="mr-auto bd-highlight ml-2 mt-2" href="signup">Signup</a>
                             <button class="btn btn-outline-sxc bd-highlight" type="submit" name="sxc_Signin_btn">login</button>
                         </div>
                     </div>
@@ -174,20 +172,6 @@ if (isset($_GET['error'])) {
             s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-
-    <noscript>
-        <style type="text/css">
-            .pagecontainer {display:none;}
-            html {
-                background-image: url("assets/img/JS.jpg");
-                background-color: #eedb50;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background-position: center;
-            }
-        </style>
-        Your browser does not support JavaScript!
-    </noscript>
 </body>
 </html>
 <?php
@@ -219,8 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
         // echo $sxc_username;
         if ($check) {
             $_SESSION['user_login_session'] = $sxc_username;
-            //header('Location: index.php');
-            echo "<script>javascript:document.location='index.php'</script>";
+            echo "<script>javascript:document.location='/'</script>";
         }else{
             echo "<script>document.getElementById('error').innerHTML = 'Username or Password Invalid.';</script>";
         }
