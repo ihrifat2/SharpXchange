@@ -1,7 +1,7 @@
 <?php
 
 require "dbconnect.php";
-if (isset($_POST['testtimonial'])) {
+if (isset($_GET['testtimonial'])) {
 	$tstimonlData = array();
     $tstimonlQuery = "SELECT `testimonial_id`, `username`, `testimonial_text` FROM `tbl_user_testimonials` WHERE `status` = 'Positive' ORDER BY `testimonial_id` DESC LIMIT 10";
     $tstimonlResult = $dbconnect->query($tstimonlQuery);
@@ -10,7 +10,7 @@ if (isset($_POST['testtimonial'])) {
             $tstimonlData[] = $tstimonlRows;
         }
         $tstimonlResult->close();
-    }                                
+    }
     foreach ($tstimonlData as $tstimonlRow) {
         echo '
             <div class="col-md-4 col-sm-6 col-xs-12 mt-4 mb-4">
@@ -23,8 +23,6 @@ if (isset($_POST['testtimonial'])) {
             </div>
         ';
     }
-} else {
-	echo "<script>javascript:document.location='error.php'</script>";
 }
 
 ?>
