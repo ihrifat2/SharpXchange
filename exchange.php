@@ -17,10 +17,10 @@ $username   = $_SESSION['user_login_session'];
     <title>SharpXchange</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/accountupdate.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/accountupdate.css">
 
     <style>
         .bd-placeholder-img {
@@ -35,10 +35,10 @@ $username   = $_SESSION['user_login_session'];
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/popper.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/popper.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
 <body>
     <div class="container">
