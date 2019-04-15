@@ -111,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
                         $failattempt = 1;
                         $_SESSION['failattempts'] = $failattempt;
                     }
-                    echo $_SESSION['failattempts'];
                 }
             }
         }
@@ -181,7 +180,8 @@ generateSessionToken();
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-12 d-flex bd-highlight">
-                            <button class="btn btn-outline-sxc bd-highlight" type="button" id="showpassword">Show Password</button>
+                            <button class="btn btn-outline-sxc mr-auto p-2 bd-highlight" type="button" id="showpassword">Show Password</button>
+                            <a class="p-2 bd-highlight" href="/confirmEmail">Forget Password?</a>
                         </div>
                     </div>
                     <div class="form-row mt-2">
