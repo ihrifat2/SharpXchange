@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
                             } else {
                                 $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
                                 $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
-                                $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `create`, `expire`) VALUES ('$code','$token','$today','$tomorrow')";
+                                $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `username`, `create`, `expire`) VALUES ('$code','$token','$sxc_signup_username','$today','$tomorrow')";
                                 $result = mysqli_query($dbconnect, $sqlQuery);
                                 $result2 = mysqli_query($dbconnect, $sqlQuery2);
                                 if ($result && $result) {

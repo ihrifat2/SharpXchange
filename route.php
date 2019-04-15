@@ -63,8 +63,12 @@ switch ($action) {
 	case 'testimonial':
 		include "testimonial.php";
 		break;
+	case 'active':
+		include "active.php";
+		break;
 	case "error":
-		echo "404 Not Found";
+		// echo "404 Not Found";
+		require_once "error.html";
 		break;
 	case "block":
 		include "block.php";
@@ -80,7 +84,6 @@ switch ($action) {
 		// }
 		break;
 }
-
 
 
 ?>
