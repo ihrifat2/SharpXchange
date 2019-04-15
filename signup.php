@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
     $code       = uniqid();
     $code2      = encode($code);
     $subject    = "Verify your account";
-    $body       = '<div style="font-family: Bookman Old Style; font-size:18px; background-color: #e9d7d7; padding: 40px;"><center><img src="https://i.imgur.com/j8L9svN.png"><p>Thanks for registration in SharpXchange. We"re happy to have you here!</p><p>You can activate your account just by <a href="https://'.$_SERVER["SERVER_NAME"].'/active?token='.$token.'&code='.$code2.'">click here</a></p><br><p>All the best,<br>From team SharpXchange</p></center></div>';
+    $body       = '<div style="font-family: Bookman Old Style; font-size:18px; background-color: #e9d7d7; padding: 40px;"><center><img src="https://i.imgur.com/j8L9svN.png"><p>Thanks for registration in SharpXchange. We"re happy to have you here!</p><p>You can activate your account just clicking the below button <br><br><br><a style="padding: 20px; background-color: #0c1640; color: white; text-decoration: none;border-radius: 5px;" href="https://'.$_SERVER["SERVER_NAME"].'/active?token='.$token.'&code='.$code2.'">Activate Your Account</a></p><br><p>All the best,<br>From team SharpXchange</p></center></div>';
     date_default_timezone_set("Asia/Dhaka");
     $today = date("Y-m-d h:i:sa");
 
@@ -69,18 +69,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
                             if ($sxc_signup_paswd != $sxc_signup_conpaswd) {
                                 $error = "Password not matched";
                             } else {
-                                $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
-                                $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
-                                $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `username`, `create`, `expire`) VALUES ('$code','$token','$sxc_signup_username','$today','$tomorrow')";
-                                $result = mysqli_query($dbconnect, $sqlQuery);
-                                $result2 = mysqli_query($dbconnect, $sqlQuery2);
-                                if ($result && $result) {
-                                    //send mail
-                                    require "mail/index.php";
-                                    sendmail($sxc_signup_email, $fullname, $subject, $body, $body);
-                                    $success = "Registration Successful. Please check your email address";
-                                } else {
-                                    $error = "Registration Failed";
+                                $sqldeltoken = "DELETE FROM `tbl_token` WHERE `username` = '$email'";
+                                $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
+                                if ($resultdeltoken) {
+                                    $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
+                                    $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
+                                    $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `email`, `create`, `expire`) VALUES ('$code','$token','$sxc_signup_email','$today','$tomorrow')";
+                                    $result = mysqli_query($dbconnect, $sqlQuery);
+                                    $result2 = mysqli_query($dbconnect, $sqlQuery2);
+                                    if ($result && $result2) {
+                                        //send mail
+                                        require "mail/index.php";
+                                        sendmail($sxc_signup_email, $fullname, $subject, $body, $body);
+                                        $success = "Registration Successful. Please check your email address";
+                                    } else {
+                                        $error = "Registration Failed";
+                                    }
                                 }
                             }
                         }
