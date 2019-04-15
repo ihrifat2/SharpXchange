@@ -22,52 +22,57 @@ $action = $params[0];
 // $others = array_slice($params, 1);
 switch ($action) {
 	case "":
-		include "index.php";
+		require_once "index.php";
 		break;
 	case 'testimonials':
-		include "testimonials.html";
+		require_once "testimonials.html";
 		break;
 	case 'contact':
-		include "contact.html";
+		require_once "contact.html";
 		break;
 	case "about":
-		include "aboutUs.php";
+		require_once "aboutUs.php";
 		break;
 	case 'policy':
-		include "policy.php";
+		require_once "policy.php";
 		break;
 	case 'track':
-		include "track.php";
+		require_once "track.php";
 		break;
 	case 'signup':
-		include "signup.php";
+		require_once "signup.php";
 		break;
 	case 'signin':
 		require_once "signin.php";
 		break;
 	case 'tstimnl.php':
-		include "tstimnl.php";
+		require_once "tstimnl.php";
 		break;
 	case 'account':
-		include "account.php";
+		require_once "account.php";
 		break;
 	case 'exchange':
-		include "exchange.php";
+		require_once "exchange.php";
 		break;
 	case 'testimonial':
-		include "testimonial.php";
+		require_once "testimonial.php";
 		break;
 	case 'logout':
-		include "logout.php";
+		require_once "logout.php";
 		break;
 	case 'testimonial':
-		include "testimonial.php";
+		require_once "testimonial.php";
 		break;
 	case 'active':
-		include "active.php";
+		require_once "active.php";
+		break;
+	case 'confirmEmail':
+		require_once "confirmEmail.php";
+		break;
+	case 'changePassword':
+		require_once "changePassword.php";
 		break;
 	case "error":
-		// echo "404 Not Found";
 		require_once "error.html";
 		break;
 	case "block":
