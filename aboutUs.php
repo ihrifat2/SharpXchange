@@ -54,10 +54,10 @@
             <header class="masthead mb-auto">
                 <div class="inner">
                     <nav class="nav nav-masthead justify-content-end">
-                        <a class="nav-link active" href="/">EXCHANGE</a>
+                        <a class="nav-link" href="/">EXCHANGE</a>
                         <a class="nav-link" href="testimonials">TESTIMONIALS</a>
                         <a class="nav-link" href="contact">CONTACT</a>
-                        <a class="nav-link" href="about">ABOUT US</a>
+                        <a class="nav-link active" href="about">ABOUT US</a>
                     </nav>
                 </div>
             </header>
