@@ -9,8 +9,8 @@
     <title>SharpXchange</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -26,9 +26,9 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
 <?php 
 
@@ -37,12 +37,20 @@ require "dbconnect.php";
 require "hash.php";
 require 'xsrf.php';
 require "helper.php";
+require "helpertwo.php";
+require "mail.php";
 
 function validate_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+
+if (isset($_SESSION['badIP'])) {
+    header("HTTP/1.1 401 Unauthorized");
+    header("Location: /block");
+    die();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Confirm_btn'])) {
@@ -74,20 +82,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Confirm_btn'])) {
         } else {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                // If there is an another token available for the email then delete pervious one and generate new one
-                $sqldeltoken = "DELETE FROM `tbl_token` WHERE `email` = '$email'";
-                $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
-                if ($resultdeltoken) {
+                $sqlQuery       = "SELECT `token_id` FROM `tbl_token` WHERE `email` = '$email'";
+                $result         = mysqli_query($dbconnect, $sqlQuery);
+                $rows           = mysqli_fetch_array($result);
+                $token_id       = $rows['token_id'];
+
+                if ($token_id == NULL || $token_id == "") {
                     $sqlConMail = "INSERT INTO `tbl_token`(`token_id`, `token`, `email`, `create`, `expire`) VALUES ('$code','$token','$email','$today','$tomorrow')";
                     $resultConMail = mysqli_query($dbconnect, $sqlConMail);
                     if ($resultConMail) {
-                        require "mail/index.php";
                         sendmail($email, $fullname, $subject, $body, $body);
                         $message = "An email has been sent to (provided email address) with further instructions. Please check your email address.";
                     }
                 } else {
-                    $message = "error.";
+                    $sqldeltoken = "DELETE FROM `tbl_token` WHERE `email` = '$email'";
+                    $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
+                    if ($resultdeltoken) {
+                        $sqlConMail = "INSERT INTO `tbl_token`(`token_id`, `token`, `email`, `create`, `expire`) VALUES ('$code','$token','$email','$today','$tomorrow')";
+                        $resultConMail = mysqli_query($dbconnect, $sqlConMail);
+                        if ($resultConMail) {
+                            echo sendmail($email, $fullname, $subject, $body, $body);
+                            $message = "An email has been sent to (provided email address) with further instructions. Please check your email address.";
+                        }
+                    }
                 }
+
+                //implement ratelimit
+                $ip = get_ip_address();
+                if (isset($_SESSION['failattempts'])) {
+                    $failattempt = $_SESSION['failattempts'];
+                    $failattempt++;
+                    $_SESSION['failattempts'] = $failattempt;
+                    if ($_SESSION['failattempts'] >= 4) {
+                        $error = "Too many request.";
+                        header("HTTP/1.1 429 Too Many Requests");
+                    }
+                    /* Rate limiting user request */
+                    if ($_SESSION['failattempts'] >= 5) {
+                        $_SESSION['badIP'] = $ip;
+                        header("HTTP/1.1 401 Unauthorized");
+                    }
+                }else{
+                    $failattempt = 1;
+                    $_SESSION['failattempts'] = $failattempt;
+                }
+                
             } else {
                 $message = "Invalid Email";
             }
@@ -96,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Confirm_btn'])) {
         $message = "We couldn’t find a user with that email address.";
     }
 }
+
 generateSessionToken();
 ?>
 <body>
@@ -104,7 +144,7 @@ generateSessionToken();
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
                     <a class="sharpxchange-header-logo text-dark" href="/">
-                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
+                        <img src="https://asset.sharpxchange.com/assets/img/logo.png">
                     </a>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
