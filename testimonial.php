@@ -1,9 +1,71 @@
 <?php
 session_start();
+require 'xsrf.php';
 require "dbconnect.php";
-require "usersqlhelper.php";
 require "auth.php";
 $username = $_SESSION['user_login_session'];
+
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+if (isset($_POST['testimonialBtn'])) {
+    $tstmnlType     = validate_input($_POST['testimonialType']);
+    $tstmnlFdbck    = validate_input($_POST['testimonialFeedback']);
+    $view           = 0;
+    $dt             = new DateTime('now', new DateTimezone('Asia/Dhaka'));
+    $time           = $dt->format('F j, Y, l g:i a');
+    $notifyText     = "New Testimonial Recieved";
+    $notifyUrl      = "testimonials.php";
+    $status         = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+    
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        if ($tstmnlType == 1 || $tstmnlType == 2) {
+            if ($tstmnlType == 1) {
+                $tstmnlType = "Positive";
+            } else {
+                $tstmnlType = "Negative";
+            }
+            $sqlQuery   = "INSERT INTO `tbl_user_testimonials`(`testimonial_id`, `username`, `testimonial_text`, `view`, `status`, `date`) VALUES (NULL,'$username','$tstmnlFdbck','$view','$tstmnlType','$time')";
+            $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
+            $result         = mysqli_query($dbconnect, $sqlQuery);
+            $resultnotify   = mysqli_query($dbconnect, $sqlQuerynotify);
+            if ($result || $resultnotify) {
+                // echo "<script>javascript:document.location='/testimonial'</script>";
+                $success = "New feedback Updated.";
+            } else {
+                $error = "Error while updating new feedback.";
+            }
+        } else {
+            echo "<script>location.replace('/error');</script>";
+        }
+    }
+}
+
+if (isset($_POST['deleteFeedbackbtn'])) {
+    $delFdbkId  = $_COOKIE['tstmonID'];
+    $status     = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        $deleteFeedbackQuery = "DELETE FROM `tbl_user_testimonials` WHERE `testimonial_id` = '$delFdbkId' AND `username` = '$username'";
+        $deleteFeedbackResult = mysqli_query($dbconnect, $deleteFeedbackQuery);
+        if ($deleteFeedbackResult) {
+            setcookie('tstmonID', '', time() - 3600);
+            echo '<script>document.cookie = "tstmonID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";</script>';
+            $success = "Feedback Deleted.";
+            // echo "<script>javascript:document.location='/testimonial'</script>";
+        } else {
+            $error = "Feedback not Deleted.";
+        }
+    }
+}
+generateSessionToken();
 ?>
 <!doctype html>
 <html lang="en">
@@ -99,6 +161,20 @@ $username = $_SESSION['user_login_session'];
     <div class="container-fluid">
         <div class="row justify-content-md-center">
             <main role="main" class="col-md-9 col-lg-9">
+                <p id="error">
+                    <?php
+                        if (isset($error)) {
+                            echo $error;
+                        }
+                    ?>
+                </p>
+                <p id="success">
+                    <?php
+                        if (isset($success)) {
+                            echo $success;
+                        }
+                    ?>
+                </p>
                 <div class="d-flex bd-highlight mt-3">
                     <div class="p-2 bd-highlight">
                         <h4>My Testimonial</h4>
@@ -109,7 +185,6 @@ $username = $_SESSION['user_login_session'];
                         </button>
                     </div>
                 </div>
-                <!-- <p id="error"></p> -->
                 <div class="row">
                     <table class="table table-striped table-hover">
                         <thead>
@@ -151,7 +226,7 @@ $username = $_SESSION['user_login_session'];
     <div class="modal fade" id="newFeedback" tabindex="-1" role="dialog" aria-labelledby="newFeedbackLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="/testimonial" method="post" accept-charset="utf-8">
+                <form action="<?php echo htmlspecialchars("/testimonial");?>" method="post" accept-charset="utf-8">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newFeedbackLabel">TESTIMONIAL</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -172,6 +247,7 @@ $username = $_SESSION['user_login_session'];
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-outline-sxc" name="testimonialBtn">Save</button>
                     </div>
@@ -195,6 +271,7 @@ $username = $_SESSION['user_login_session'];
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
+                        <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                         <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
                         <button type="Submit" class="btn btn-outline-danger" name="deleteFeedbackbtn">Yes</button>
                     </div>
@@ -249,51 +326,3 @@ $username = $_SESSION['user_login_session'];
     </script>
 </body>
 </html>
-<?php
-function validate_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-if (isset($_POST['testimonialBtn'])) {
-    $tstmnlType     = validate_input($_POST['testimonialType']);
-    $tstmnlFdbck    = validate_input($_POST['testimonialFeedback']);
-    $view           = 0;
-    $dt             = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-    $time           = $dt->format('F j, Y, l g:i a');
-    $notifyText     = "New Testimonial Recieved";
-    $notifyUrl      = "testimonials.php";
-    
-    if ($tstmnlType == 1 || $tstmnlType == 2) {
-        if ($tstmnlType == 1) {
-            $tstmnlType = "Positive";
-        } else {
-            $tstmnlType = "Negative";
-        }
-        $sqlQuery   = "INSERT INTO `tbl_user_testimonials`(`testimonial_id`, `username`, `testimonial_text`, `view`, `status`, `date`) VALUES (NULL,'$username','$tstmnlFdbck','$view','$tstmnlType','$time')";
-        $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
-        $result         = mysqli_query($dbconnect, $sqlQuery);
-        $resultnotify   = mysqli_query($dbconnect, $sqlQuerynotify);
-        if ($result || $resultnotify) {
-            echo "<script>javascript:document.location='/testimonial'</script>";
-        } else {
-            echo "<script>document.getElementById('error').innerHTML = 'Error while updating new feedback.'</script>";
-        }
-    } else {
-        echo "<script>location.replace('error.html');</script>";
-    }
-}
-if (isset($_POST['deleteFeedbackbtn'])) {
-    $deleteFeedbackId = $_COOKIE['tstmonID'];
-    $deleteFeedbackQuery = "DELETE FROM `tbl_user_testimonials` WHERE `testimonial_id` = '$deleteFeedbackId' AND `username` = '$username'";
-    $deleteFeedbackResult = mysqli_query($dbconnect, $deleteFeedbackQuery);
-    if ($deleteFeedbackResult) {
-        setcookie('tstmonID', '', time() - 3600);
-        echo '<script>document.cookie = "tstmonID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";</script>';
-        echo "<script>javascript:document.location='/testimonial'</script>";
-    } else {
-        echo "<script>document.getElementById('error').innerHTML = 'Feedback not Deleted.' </script>";
-    }
-}
-?>

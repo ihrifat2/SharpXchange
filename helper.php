@@ -1,5 +1,23 @@
 <?php
 
+function checkUsername($data){
+	require "dbconnect.php";
+	$sqlQuery       = "SELECT * FROM `tbl_user_info` WHERE `username` = '$data'";
+    $result         = mysqli_query($dbconnect, $sqlQuery);
+    $rows           = mysqli_fetch_array($result);
+    $user_count 	= $rows[0];
+    return $user_count;
+}
+
+function checkEmail($data){
+	require "dbconnect.php";
+	$sqlQuery       = "SELECT * FROM `tbl_user_info` WHERE `email` = '$data'";
+    $result         = mysqli_query($dbconnect, $sqlQuery);
+    $rows           = mysqli_fetch_array($result);
+    $user_count 	= $rows[0];
+    return $user_count;
+}
+
 function exchangeSendUs($data){
 	require "dbconnect.php";
 	$sqlQuery       = "SELECT `we_buy` FROM `tbl_gateway_info` WHERE `gateway_name` = '$data'";

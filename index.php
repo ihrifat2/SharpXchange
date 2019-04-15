@@ -4,6 +4,8 @@ require "dbconnect.php";
 require "helper.php";
 require "xsrf.php";
 require "hash.php";
+header_remove("X-Powered-By");
+header('X-Frame-Options: DENY');
 
 unset($_SESSION['sxcReceive']);
 unset($_SESSION['sxcSendUs']);

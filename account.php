@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'xsrf.php';
 require "dbconnect.php";
 require "usersqlhelper.php";
 require "auth.php";
@@ -7,6 +8,124 @@ $username   = $_SESSION['user_login_session'];
 $firstName  = getfirstname($username);
 $lastName   = getlastname($username);
 $phnnmbr    = getphonenumber($username);
+
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if (isset($_POST['changeAccountInfo'])) {
+    $changeFname = validate_input($_POST['changeFirstName']);
+    $changeLname = validate_input($_POST['changeLastName']);
+    $changephNum = validate_input($_POST['changePhone']);
+    $gender      = validate_input($_POST['gender']);
+    $status     = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+
+    if ($gender == 1) {
+        $gender = "Male";
+    } else {
+        $gender = "Female";
+    }
+    if (empty($changeFname)) {
+        $changeFname = getfirstname($username);
+    }
+    if (empty($changeLname)) {
+        $changeLname = getlastname($username);
+    }
+    if (empty($changephNum)) {
+        $changephNum = getphonenumber($username);
+        if (empty($changephNum)) {
+            $changephNum = "";
+        }
+    }
+    if (empty($gender)) {
+        $gender = getgender($username);
+    }
+    $dt         = new DateTime('now', new DateTimezone('Asia/Dhaka'));
+    $time       = $dt->format('F j, Y, l g:i a');
+    $time       = validate_input($time);
+
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        $sqlQuery   = "UPDATE `tbl_user_info` SET `first_name` = '$changeFname',`last_name` = '$changeLname',`phone` = '$changephNum', `gender` = '$gender', `acc_update` = '$time' WHERE `username` = '$username'";
+        $result     = mysqli_query($dbconnect, $sqlQuery);
+        // $result = 0;
+        if ($result) {
+            $success = "Account Info Updated.";
+            // echo "<script>javascript:document.location='/account'</script>";
+        } else {
+            $error = "Account Info Update Failed.";
+        }
+    }
+}
+if (isset($_POST['changeEmail'])) {
+    $changeEmail = validate_input($_POST['changeNewEmail']);
+    $changePaswd = validate_input($_POST['changeNEPassword']);
+    $matchpasswd = matchPassword($username, $changePaswd);
+    $status     = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        if (empty($changeEmail) || empty($changePaswd)) {
+            $error = "All fields are required.";
+        } else {
+            if ($matchpasswd) {
+                $sqlQuery   = "UPDATE `tbl_user_info` SET `email`='$changeEmail' WHERE `username` = '$username'";
+                $result     = mysqli_query($dbconnect, $sqlQuery);
+                if ($result) {
+                    $success = "Email Address Updated.";
+                    // echo "<script>javascript:document.location='/account'</script>";
+                } else {
+                    $error = "Email Address Updated failed.";
+                }
+            } else {
+                $error = "Incorrect Password.";
+            }
+        }
+    }
+}
+if (isset($_POST['changePassword'])) {
+    $changeOPswd = validate_input($_POST['changeOldPassword']);
+    $changeNPswd = validate_input($_POST['changeNewPassword']);
+    $changeCPswd = validate_input($_POST['changeConPassword']);
+    $matchpasswd = matchPassword($username, $changeOPswd);
+    $status     = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        if (empty($changeOPswd) || empty($changeNPswd) || empty($changeCPswd)) {
+            $error = "All fields are required.";
+        } else {
+            if ($matchpasswd) {
+                if ($changeNPswd == $changeCPswd) {
+                    if (strlen($changeNPswd) < 8) {
+                        $error = "Password too short. Password must be eight character long";
+                    } else {
+                        $changeNPswd    = password_hash($changeNPswd, PASSWORD_BCRYPT);
+                        $sqlQuery       = "UPDATE `tbl_user_info` SET `passwd`='$changeNPswd' WHERE `username` = '$username'";
+                        $result         = mysqli_query($dbconnect, $sqlQuery);
+                        if ($result) {
+                            $success = "Password Updated.";
+                            // echo "<script>javascript:document.location='/account'</script>";
+                        } else {
+                            $error = "Password Update Failed.";
+                        }
+                    }
+                } else {
+                    $error = "Password Not Matched.";
+                }
+            } else {
+                $error = "Incorrect Old Password.";
+            }
+        }
+    }
+}
+generateSessionToken();
 ?>
 <!doctype html>
 <html lang="en">
@@ -116,12 +235,17 @@ $phnnmbr    = getphonenumber($username);
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-9 pt-3 px-4">
                 <div class="tab-content">
-                    <p id="error"></p>
+                    <p id="error">
+                        <?php 
+                            if (isset($error)) {
+                                echo $error;
+                            }
+                        ?>
+                    </p>
                     <p id="success">
                         <?php 
-                            if (isset($_SESSION['success'])) {
-                                echo $_SESSION['success'];
-                                unset($_SESSION['success']);
+                            if (isset($success)) {
+                                echo $success;
                             }
                         ?>
                     </p>
@@ -155,6 +279,7 @@ $phnnmbr    = getphonenumber($username);
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
+                                    <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                                     <button class="btn btn-outline-sxc" type="submit" name="changeAccountInfo">
                                         <i class="glyphicon glyphicon-ok-sign"></i> Save
                                     </button>
@@ -179,6 +304,7 @@ $phnnmbr    = getphonenumber($username);
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
+                                    <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                                     <button class="btn btn-outline-sxc" type="submit" name="changeEmail">
                                         <i class="glyphicon glyphicon-ok-sign"></i> Save
                                     </button>
@@ -209,6 +335,7 @@ $phnnmbr    = getphonenumber($username);
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
+                                    <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                                     <button class="btn btn-outline-sxc" type="submit" name="changePassword">
                                         <i class="glyphicon glyphicon-ok-sign"></i> Save
                                     </button>
@@ -263,114 +390,3 @@ $phnnmbr    = getphonenumber($username);
     </script>
 </body>
 </html>
-<?php
-
-function validate_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if (isset($_POST['changeAccountInfo'])) {
-    $changeFname = validate_input($_POST['changeFirstName']);
-    $changeLname = validate_input($_POST['changeLastName']);
-    $changephNum = validate_input($_POST['changePhone']);
-    $gender      = validate_input($_POST['gender']);
-    if ($gender == 1) {
-        $gender = "Male";
-    } else {
-        $gender = "Female";
-    }
-    // echo $gender;
-    if (empty($changeFname)) {
-        $changeFname = getfirstname($username);
-    }
-    if (empty($changeLname)) {
-        $changeLname = getlastname($username);
-    }
-    // echo "<br>";
-    // echo $changephNum;
-    // echo "<br>";
-    if (empty($changephNum)) {
-        $changephNum = getphonenumber($username);
-        if (empty($changephNum)) {
-            $changephNum = "";
-        }
-    }
-    // echo $changephNum;
-    // echo "<br>";
-    if (empty($gender)) {
-        $gender = getgender($username);
-    }
-    $dt         = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-    $time       = $dt->format('F j, Y, l g:i a');
-    $time       = validate_input($time);
-    $sqlQuery   = "UPDATE `tbl_user_info` SET `first_name` = '$changeFname',`last_name` = '$changeLname',`phone` = '$changephNum', `gender` = '$gender', `acc_update` = '$time' WHERE `username` = '$username'";
-    $result     = mysqli_query($dbconnect, $sqlQuery);
-    // $result = 0;
-    if ($result) {
-        $_SESSION['success'] = "Account Info Updated.";
-        // echo "<script>document.getElementById('success').innerHTML = 'Account Info Updated.'</script>";
-        //header('Location : index.php');
-        echo "<script>javascript:document.location='/account'</script>";
-    } else {
-        // echo mysqli_error($dbconnect);
-        echo "<script>document.getElementById('error').innerHTML = 'Account Info Update Failed.'</script>";
-    }
-}
-if (isset($_POST['changeEmail'])) {
-    $changeEmail = validate_input($_POST['changeNewEmail']);
-    $changePaswd = validate_input($_POST['changeNEPassword']);
-    $matchpasswd = matchPassword($username, $changePaswd);
-    if (empty($changeEmail) || empty($changePaswd)) {
-        echo "<script>document.getElementById('error').innerHTML = 'All fields are required.'</script>";
-    } else {
-        if ($matchpasswd) {
-            $sqlQuery   = "UPDATE `tbl_user_info` SET `email`='$changeEmail' WHERE `username` = '$username'";
-            $result     = mysqli_query($dbconnect, $sqlQuery);
-            if ($result) {
-                $_SESSION['success'] = "Email Address Updated.";
-                echo "<script>javascript:document.location='/account'</script>";
-                // echo "<script>document.getElementById('success').innerHTML = 'Email Address Updated.'</script>";
-            } else {
-                echo "<script>document.getElementById('success').innerHTML = 'Email Address Updated failed.'</script>";
-            }
-        } else {
-            echo "<script>document.getElementById('error').innerHTML = 'Incorrect Password.'</script>";
-        }
-    }
-}
-if (isset($_POST['changePassword'])) {
-    $changeOPswd = validate_input($_POST['changeOldPassword']);
-    $changeNPswd = validate_input($_POST['changeNewPassword']);
-    $changeCPswd = validate_input($_POST['changeConPassword']);
-    $matchpasswd = matchPassword($username, $changeOPswd);
-    if (empty($changeOPswd) || empty($changeNPswd) || empty($changeCPswd)) {
-        echo "<script>document.getElementById('error').innerHTML = 'All fields are required.'</script>";
-    } else {
-        if ($matchpasswd) {
-            if ($changeNPswd == $changeCPswd) {
-                if (strlen($changeNPswd) < 8) {
-                    echo "<script>document.getElementById('error').innerHTML = 'Password too short. Password must be eight character long'</script>";
-                } else {
-                    $changeNPswd    = password_hash($changeNPswd, PASSWORD_BCRYPT);
-                    $sqlQuery       = "UPDATE `tbl_user_info` SET `passwd`='$changeNPswd' WHERE `username` = '$username'";
-                    $result         = mysqli_query($dbconnect, $sqlQuery);
-                    if ($result) {
-                        $_SESSION['success'] = "Password Updated.";
-                        echo "<script>javascript:document.location='/account'</script>";
-                        // echo "<script>document.getElementById('success').innerHTML = 'Password Updated.'</script>";
-                    } else {
-                        echo "<script>document.getElementById('error').innerHTML = 'Password Update Failed.'</script>";
-                    }
-                }
-            } else {
-                echo "<script>document.getElementById('error').innerHTML = 'Password Not Matched.'</script>";
-            }
-        } else {
-            echo "<script>document.getElementById('error').innerHTML = 'Incorrect Old Password.'</script>";
-        }
-    }
-}
-?>

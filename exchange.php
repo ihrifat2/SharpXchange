@@ -119,7 +119,7 @@ $username   = $_SESSION['user_login_session'];
                                 <?php
 
                                     $exchngInfodata = array();
-                                    $exchngInfoquery = "SELECT `gateway_sell`, `gateway_recieve`, `amount_sell`, `transaction_id` FROM `tbl_exchange_info` WHERE `username` = '$username'";
+                                    $exchngInfoquery = "SELECT `gateway_sell`, `gateway_recieve`, `amount_sell`, `transaction_id` FROM `tbl_exchange_info` WHERE `username` = '$username' ORDER BY `exchange_id` DESC LIMIT 10";
                                     $exchngInforesult = $dbconnect->query($exchngInfoquery);
                                     if ($exchngInforesult) {
                                         while ($exchngInforows = $exchngInforesult->fetch_array(MYSQLI_ASSOC)) {

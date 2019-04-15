@@ -1,18 +1,3 @@
-<?php 
-
-session_start();
-if (isset($_SESSION['user_login_session'])) {
-    header('Location: index.php');
-    exit();
-}
-
-if (isset($_GET['error'])) {
-    $error = "Please Login or create an account.";
-} else {
-    $error = "";
-}
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -45,6 +30,95 @@ if (isset($_GET['error'])) {
     <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
     <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
+<?php 
+
+session_start();
+require 'xsrf.php';
+require "dbconnect.php";
+require "helpertwo.php";
+
+if (isset($_SESSION['user_login_session'])) {
+    header('Location: /');
+    exit();
+}
+
+if (isset($_GET['error'])) {
+    $error = "Please Login or create an account.";
+} else {
+    $error = "";
+}
+
+if (isset($_SESSION['badIP'])) {
+    header("HTTP/1.1 401 Unauthorized");
+    header("Location: /block");
+    die();
+}
+
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
+    $sxc_Email  = validate_input($_POST['sxc_Signin_Email']);
+    $sxc_Passwd = validate_input($_POST['sxc_Signin_Password']);
+    $status     = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+
+    //echo $sxc_Email . " : " . $sxc_Passwd;
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        if (empty($sxc_Email) || empty($sxc_Passwd)) {
+            $error = "All fields are required.";
+        } else {
+            if (isset($_SESSION['badIP'])) {
+                header("HTTP/1.1 401 Unauthorized");
+                header("Location: /block");
+            } else {
+                $sqlQuery       = "SELECT `username`, `passwd` FROM `tbl_user_info` WHERE `email` = '$sxc_Email'";
+                $result         = mysqli_query($dbconnect, $sqlQuery);
+                $rows           = mysqli_fetch_array($result);
+                $store_password = $rows['passwd'];
+                $sxc_username   = $rows['username'];
+                $check          = password_verify($sxc_Passwd, $store_password);
+                // echo $store_password . " : ";
+                // echo $sxc_username;
+                if ($check) {
+                    $_SESSION['user_login_session'] = $sxc_username;
+                    unset($_SESSION['failattempts']);
+                    unset($_SESSION['badIP']);
+                    echo "<script>javascript:document.location='/'</script>";
+                }else{
+                    $error = "Username or Password Invalid.";
+                    //implement ratelimit
+                    $ip = get_ip_address();
+                    if (isset($_SESSION['failattempts'])) {
+                        $failattempt = $_SESSION['failattempts'];
+                        $failattempt++;
+                        $_SESSION['failattempts'] = $failattempt;
+                        if ($_SESSION['failattempts'] >= 6) {
+                            $error = "Too many request.";
+                            header("HTTP/1.1 429 Too Many Requests");
+                        }
+                        /* Rate limiting user request */
+                        if ($_SESSION['failattempts'] >= 16) {
+                            $_SESSION['badIP'] = $ip;
+                            header("HTTP/1.1 401 Unauthorized");
+                        }
+                    }else{
+                        $failattempt = 1;
+                        $_SESSION['failattempts'] = $failattempt;
+                    }
+                    echo $_SESSION['failattempts'];
+                }
+            }
+        }
+    }
+}
+generateSessionToken();
+?>
 <body>
     <div class="container">
         <header class="sharpxchange-header py-3">
@@ -112,6 +186,7 @@ if (isset($_GET['error'])) {
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-12 d-flex bd-highlight">
+                            <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                             <p class="mt-2">Create a account? </p><a class="mr-auto bd-highlight ml-2 mt-2" href="signup">Signup</a>
                             <button class="btn btn-outline-sxc bd-highlight" type="submit" name="sxc_Signin_btn">login</button>
                         </div>
@@ -128,10 +203,10 @@ if (isset($_GET['error'])) {
                     <h3>Quick access</h3>
                     <ul>
                         <li>
-                            <a href="index.php">Exchanger</a>
+                            <a href="/">Exchanger</a>
                         </li>
                         <li>
-                            <a href="testimonials.html">Testimonials</a>
+                            <a href="testimonials">Testimonials</a>
                         </li>
                     </ul>
                 </div>
@@ -139,13 +214,13 @@ if (isset($_GET['error'])) {
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.php">Privacy Policy</a>
+                            <a href="policy">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.php">About Us</a>
+                            <a href="about">About Us</a>
                         </li>
                         <li>
-                            <a href="contact.html">Contact</a>
+                            <a href="contact">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -174,39 +249,3 @@ if (isset($_GET['error'])) {
     </script>
 </body>
 </html>
-<?php
-
-require "dbconnect.php";
-function validate_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
-    $sxc_Signin_Email       = validate_input($_POST['sxc_Signin_Email']);
-    $sxc_Signin_Password    = validate_input($_POST['sxc_Signin_Password']);
-
-    //echo $sxc_Signin_Email . " : " . $sxc_Signin_Password;
-
-    if (empty($sxc_Signin_Email) || empty($sxc_Signin_Password)) {
-        echo "<script>document.getElementById('error').innerHTML = 'All fields are required';</script>";
-    } else {
-        $sqlQuery       = "SELECT `username`, `passwd` FROM `tbl_user_info` WHERE `email` = '$sxc_Signin_Email'";
-        $result         = mysqli_query($dbconnect, $sqlQuery);
-        $rows           = mysqli_fetch_array($result);
-        $store_password = $rows['passwd'];
-        $sxc_username   = $rows['username'];
-        $check          = password_verify($sxc_Signin_Password, $store_password);
-        // echo $store_password . " : ";
-        // echo $sxc_username;
-        if ($check) {
-            $_SESSION['user_login_session'] = $sxc_username;
-            echo "<script>javascript:document.location='/'</script>";
-        }else{
-            echo "<script>document.getElementById('error').innerHTML = 'Username or Password Invalid.';</script>";
-        }
-    }
-}
-?>

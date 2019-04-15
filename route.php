@@ -43,7 +43,7 @@ switch ($action) {
 		include "signup.php";
 		break;
 	case 'signin':
-		include "signin.php";
+		require_once "signin.php";
 		break;
 	case 'tstimnl.php':
 		include "tstimnl.php";
@@ -66,8 +66,12 @@ switch ($action) {
 	case "error":
 		echo "404 Not Found";
 		break;
+	case "block":
+		include "block.php";
+		break;
 	default:
 		// header("Location: error");
+		header("HTTP/1.1 404 Not Found");
 		echo "404 Not Found";
 		// if (isset($others[0]) && isset($others[1])) {
 		// 	include "$action/$others[0]/$others[1]";

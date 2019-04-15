@@ -1,0 +1,68 @@
+<?php 
+session_start();
+if (!isset($_SESSION['badIP'])) {
+    header("Location: /");
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Block</title>
+    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .error-template {padding: 40px 15px;text-align: center;}
+        .error-details {font-family: Courier;}
+        .error-actions {margin-top:15px;margin-bottom:15px;}
+        .error-actions .btn { margin-right:10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>Oops!</h1>
+                    <h3>Your IP Address is blocked. Please wait 5 minute and don't close this tab</h3>
+                    <h2><p id="demo"></p></h2>
+                    <div class="error-details">
+                        <strong>Error Message : </strong> SharpXchange has blocked your IP address because some suspicious activity recorded from your IP address <?php echo $_SESSION['badIP']; ?> 
+                    </div>
+                    <div class="error-actions">
+                        <img src="http://asset.sharpxchange.com/assets/img/Suspicious-activity.png"><br><br>
+                        <a href="/contact" class="btn btn-danger"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Set the time 5 minutes in countDownDate variable while blocking ip address
+        var countDownDate = new Date().getTime()+301000;
+        //var countDownDate = new Date().getTime()+10000;
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+            // Get todays time
+            var now = new Date().getTime();
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+            // Time calculations for minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML =  minutes + "m " + seconds + "s ";
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "<font color='red'>EXPIRED</font>";
+                location.reload();
+                window.location.assign("/logout")
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>

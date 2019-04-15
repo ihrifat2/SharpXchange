@@ -2,6 +2,7 @@
 
 session_start();
 require "dbconnect.php";
+require "helper.php";
 function validate_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -11,10 +12,7 @@ function validate_input($data) {
 
 if (!empty($_POST["username"])) {
 	$username 	= validate_input($_POST["username"]);
-	$query 		= "SELECT * FROM `tbl_user_info` WHERE `username` = '$username'";
-	$result		= mysqli_query($dbconnect, $query);
-	$rows 		= mysqli_fetch_array($result);
-	$user_count = $rows[0];
+	$user_count = checkUsername($username);
 	if($user_count>0) {
 		echo "Username Not Available.";
 		echo "<script>document.getElementById('sxcSignupUsername').setAttribute('class', 'form-control is-invalid')</script>";
@@ -29,10 +27,7 @@ if (!empty($_POST["username"])) {
 } elseif (!empty($_POST["email"])) {
 	$email 		= validate_input($_POST["email"]);
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		$query 		= "SELECT * FROM `tbl_user_info` WHERE `email` = '$email'";
-		$result		= mysqli_query($dbconnect, $query);
-		$rows 		= mysqli_fetch_array($result);
-		$user_count = $rows[0];
+		$user_count = checkEmail($email);
 		if($user_count>0) {
 			echo "Email Not Available.";
 			echo "<script>document.getElementById('sxcSignupEmail').setAttribute('class', 'form-control is-invalid')</script>";

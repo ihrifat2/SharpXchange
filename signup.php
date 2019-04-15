@@ -1,11 +1,98 @@
 <?php 
 
 session_start();
+require 'xsrf.php';
+require "dbconnect.php";
+require "helper.php";
+require "helpertwo.php";
+require "hash.php";
+
 if (isset($_SESSION['user_login_session'])) {
     header('Location: index.php');
     exit();
 }
 
+function validate_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
+    $sxc_signup_fname       = validate_input($_POST['sxc_signup_fname']);
+    $sxc_signup_fname       = ucfirst($sxc_signup_fname);
+    $sxc_signup_lname       = validate_input($_POST['sxc_signup_lname']);
+    $sxc_signup_lname       = ucfirst($sxc_signup_lname);
+    $sxc_signup_username    = validate_input($_POST['sxc_signup_username']);
+    $sxc_signup_email       = validate_input($_POST['sxc_signup_email']);
+    $sxc_signup_paswd       = validate_input($_POST['sxc_signup_paswd']);
+    $sxc_signup_conpaswd    = validate_input($_POST['sxc_signup_conpaswd']);
+    $user_ip                = get_ip_address();
+    $dt                     = new DateTime('now', new DateTimezone('Asia/Dhaka'));
+    $time                   = $dt->format('F j, Y, l g:i a');
+    $status                 = checkToken( $_REQUEST[ 'csrf_token' ], $_SESSION[ 'session_token' ]);
+    $fullname               = $sxc_signup_fname . " " . $sxc_signup_lname;
+
+    $token      = $sxc_signup_email . $sxc_signup_username; 
+    $token      = encrypt($token);
+    $code       = uniqid();
+    $code2      = encode($code);
+    $subject    = "Verify your account";
+    $body       = '<div style="font-family: Bookman Old Style; font-size:18px; background-color: #e9d7d7; padding: 40px;"><center><img src="https://i.imgur.com/j8L9svN.png"><p>Thanks for registration in SharpXchange. We"re happy to have you here!</p><p>You can activate your account just by <a href="https://'.$_SERVER["SERVER_NAME"].'/active?token='.$token.'&code='.$code2.'">click here</a></p><br><p>All the best,<br>From team SharpXchange</p></center></div>';
+    date_default_timezone_set("Asia/Dhaka");
+    $today = date("Y-m-d h:i:sa");
+
+    $d = strtotime("+1 day");
+    $tomorrow = date("Y-m-d h:i:sa", $d);
+
+    // echo $sxc_signup_fname . " : " . $sxc_signup_lname . " : " . $sxc_signup_username . " : " . $sxc_signup_email . " : " . $sxc_signup_paswd . " : " . $sxc_signup_conpaswd;
+
+    if (!$status) {
+        $error = "CSRF FAILED!";
+    } else {
+        if (empty($sxc_signup_fname) || empty($sxc_signup_lname) || empty($sxc_signup_username) || empty($sxc_signup_email) || empty($sxc_signup_paswd) || empty($sxc_signup_conpaswd)) {
+            $error = "All fields are required";
+        } else {
+            $uname_count = checkUsername($sxc_signup_username);
+            if($uname_count>0) {
+                $error = "Username Not Available.";
+            } else {
+                $email_count = checkEmail($sxc_signup_email);
+                if($email_count>0) {
+                    $error = "Email Not Available.";
+                } else {
+                    if (filter_var($sxc_signup_email, FILTER_VALIDATE_EMAIL)) {
+                        if (strlen($sxc_signup_paswd) <= 7) {
+                            $error = "Password too short";
+                        } else {
+                            if ($sxc_signup_paswd != $sxc_signup_conpaswd) {
+                                $error = "Password not matched";
+                            } else {
+                                $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
+                                $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
+                                $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `create`, `expire`) VALUES ('$code','$token','$today','$tomorrow')";
+                                $result = mysqli_query($dbconnect, $sqlQuery);
+                                $result2 = mysqli_query($dbconnect, $sqlQuery2);
+                                if ($result && $result) {
+                                    //send mail
+                                    require "mail/index.php";
+                                    sendmail($sxc_signup_email, $fullname, $subject, $body, $body);
+                                    $success = "Registration Successful. Please check your email address";
+                                } else {
+                                    $error = "Registration Failed";
+                                }
+                            }
+                        }
+                    } else {
+                        $error = "Invalid Email";
+                    }
+                }
+            }
+        }
+    }
+}
+generateSessionToken();
 ?>
 <!doctype html>
 <html lang="en">
@@ -77,8 +164,20 @@ if (isset($_SESSION['user_login_session'])) {
                     <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Registration</h2>
                     <div class="form-group row mt-3 justify-content-md-center">
                         <div class="col-sm-12 col-md-12">
-                            <p id="error"></p>
-                            <p id="success"></p>
+                            <p id="error">
+                                <?php 
+                                    if (isset($error)) {
+                                        echo $error;
+                                    }
+                                ?>
+                            </p>
+                            <p id="success">
+                                <?php 
+                                    if (isset($success)) {
+                                        echo $success;
+                                    }
+                                ?>
+                            </p>
                         </div>
                     </div>
                     <div class="form-row">
@@ -121,6 +220,7 @@ if (isset($_SESSION['user_login_session'])) {
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-12 d-flex bd-highlight">
+                            <input type="hidden" name="csrf_token" value="<?php echo tokenField(); ?>">
                             <p class="mt-2">Already have a account?</p><a class="mr-auto bd-highlight ml-2 mt-2" href="signin">Login</a>
                             <button class="btn btn-outline-sxc bd-highlight" id="sxcsignupbtn" type="submit" name="sxc_signup_btn" disabled>Registration</button>
                         </div>
@@ -137,10 +237,10 @@ if (isset($_SESSION['user_login_session'])) {
                     <h3>Quick access</h3>
                     <ul>
                         <li>
-                            <a href="index.php">Exchanger</a>
+                            <a href="/">Exchanger</a>
                         </li>
                         <li>
-                            <a href="testimonials.html">Testimonials</a>
+                            <a href="testimonials">Testimonials</a>
                         </li>
                     </ul>
                 </div>
@@ -148,13 +248,13 @@ if (isset($_SESSION['user_login_session'])) {
                     <h3>Terms & Support</h3>
                     <ul>
                         <li>
-                            <a href="policy.php">Privacy Policy</a>
+                            <a href="policy">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="aboutUs.php">About Us</a>
+                            <a href="about">About Us</a>
                         </li>
                         <li>
-                            <a href="contact.html">Contact</a>
+                            <a href="contact">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -183,74 +283,3 @@ if (isset($_SESSION['user_login_session'])) {
     </script>
 </body>
 </html>
-<?php
-
-require "dbconnect.php";
-require "helpertwo.php";
-
-function validate_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
-    $sxc_signup_fname       = validate_input($_POST['sxc_signup_fname']);
-    $sxc_signup_fname       = ucfirst($sxc_signup_fname);
-    $sxc_signup_lname       = validate_input($_POST['sxc_signup_lname']);
-    $sxc_signup_lname       = ucfirst($sxc_signup_lname);
-    $sxc_signup_username    = validate_input($_POST['sxc_signup_username']);
-    $sxc_signup_email       = validate_input($_POST['sxc_signup_email']);
-    $sxc_signup_paswd       = validate_input($_POST['sxc_signup_paswd']);
-    $sxc_signup_conpaswd    = validate_input($_POST['sxc_signup_conpaswd']);
-    $user_ip                = get_ip_address();
-    $dt                     = new DateTime('now', new DateTimezone('Asia/Dhaka'));
-    $time                   = $dt->format('F j, Y, l g:i a');
-    $passwdsample1          = "1234567890";
-    $passwdsample2          = "asdf1234";
-    $passwdsample3          = "adfghjkl";
-    $passwdsample4          = "qwertyuiop";
-    $passwdsample5          = "zxcvbnm";
-    $passwdsample6          = "abcd1234";
-
-    // echo $sxc_signup_fname . " : " . $sxc_signup_lname . " : " . $sxc_signup_username . " : " . $sxc_signup_email . " : " . $sxc_signup_paswd . " : " . $sxc_signup_conpaswd;
-
-    echo $time;
-
-    if (empty($sxc_signup_fname) || empty($sxc_signup_lname) || empty($sxc_signup_username) || empty($sxc_signup_email) || empty($sxc_signup_paswd) || empty($sxc_signup_conpaswd)) {
-        echo "<script>document.getElementById('error').innerHTML = 'All fields are required';</script>";
-    } else {
-        if (filter_var($sxc_signup_email, FILTER_VALIDATE_EMAIL)) {
-            if (strlen($sxc_signup_paswd) <= 7) {
-                echo strlen($sxc_signup_paswd);
-                echo "<script>document.getElementById('error').innerHTML = 'Password too short';</script>";
-            } else {
-                echo strlen($sxc_signup_paswd);
-                if ($sxc_signup_paswd != $sxc_signup_conpaswd) {
-                    echo "<script>document.getElementById('error').innerHTML = 'Password not matched';</script>";
-                } else {
-                    if ($sxc_signup_paswd == $passwdsample1 || $sxc_signup_paswd == $passwdsample2 || $sxc_signup_paswd == $passwdsample3 || $sxc_signup_paswd == $passwdsample4 || $sxc_signup_paswd == $passwdsample5 || $sxc_signup_paswd == $passwdsample6) {
-                        echo "<script>document.getElementById('error').innerHTML = 'Password too weak';</script>";
-                    } else {
-                        $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
-                        $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
-                        $result = mysqli_query($dbconnect, $sqlQuery);
-                        if ($result) {
-                            //send mail
-                            //require 'sendmail.php';
-                            //sendmail($name, $email, $subject, $body);
-                            echo "<script>document.getElementById('success').innerHTML = 'Registration Successfull'</script>";
-                        } else {
-                            echo "<script>document.getElementById('error').innerHTML = 'Registration Failed'</script>";
-                        }
-                    }
-                }
-            }
-        } else {
-            echo "<script>document.getElementById('error').innerHTML = 'Invalid Email';</script>";
-        }
-    }
-}
-
-?>
