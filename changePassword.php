@@ -9,8 +9,8 @@
     <title>SharpXchange</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -26,8 +26,8 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
 <?php 
 
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_CngPass_btn'])) {
 generateSessionToken();
 
 if (empty($storeToken) || empty($expire)) {
-    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='http://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
+    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='https://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
 } else {
     if ($today <= $expire) {
         if ($storeToken == $token) {
@@ -143,20 +143,20 @@ if (empty($storeToken) || empty($expire)) {
                     </div>
                 </div>';
         } else {
-            $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='http://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
+            $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='https://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
         }
     } else {
-        $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='http://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
+        $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='https://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found.</center></p></div>";
     }
 }
 
 if ($error == 12345) {
-    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='http://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found. Please try again.</center></p></div>";
+    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='https://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Password reset token has expired or not found. Please try again.</center></p></div>";
     $error  = "";
 }
 
 if ($error == 54321) {
-    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='http://asset.sharpxchange.com/assets/img/ok.png' height='120px'><br><br>Password Updated. You can login with your new password</center></p></div>";
+    $message = "<div class='form-group row justify-content-md-center'><p class='ml-3 mr-3 text-justify'><center><img src='https://asset.sharpxchange.com/assets/img/ok.png' height='120px'><br><br>Password Updated. You can login with your new password</center></p></div>";
     $error  = "";
 }
 
@@ -167,7 +167,7 @@ if ($error == 54321) {
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
                     <a class="sharpxchange-header-logo text-dark" href="/">
-                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
+                        <img src="https://asset.sharpxchange.com/assets/img/logo.png">
                     </a>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">

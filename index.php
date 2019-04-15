@@ -110,8 +110,8 @@ generateSessionToken();
     <base href="<?php echo $baseurl ?>">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
     <style>
@@ -126,10 +126,10 @@ generateSessionToken();
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/popper.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/popper.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -182,7 +182,7 @@ generateSessionToken();
             <header class="masthead mb-auto">
                 <div class="inner">
                     <h3 class="masthead-brand mb-3">
-                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
+                        <img src="https://asset.sharpxchange.com/assets/img/logo.png">
                     </h3>
                     <nav class="nav nav-masthead justify-content-end">
                         <a class="nav-link active" href="/">EXCHANGE</a>
@@ -271,7 +271,7 @@ generateSessionToken();
                                                 </h3>
                                                 <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                                     <div>
-                                                        <img src="http://asset.sharpxchange.com/assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
+                                                        <img src="https://asset.sharpxchange.com/assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
                                                         <p id="sxc_imageSendStatus"></p>
                                                     </div>
                                                 </div>
@@ -307,7 +307,7 @@ generateSessionToken();
                                                 </h3>
                                                 <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                                     <div>
-                                                        <img src="http://asset.sharpxchange.com/assets/img/bkash.png" id="sxc_imageReceive" width="72px" height="72px" class="img-circle img-bordered">
+                                                        <img src="https://asset.sharpxchange.com/assets/img/bkash.png" id="sxc_imageReceive" width="72px" height="72px" class="img-circle img-bordered">
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4">
