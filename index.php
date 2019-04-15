@@ -89,11 +89,10 @@ if (isset($_POST['sxcConfirmTransaction'])) {
                 $text1 .= "Thank you! If you facing any error please contact with us.";
                 $text1 .= "</div></div>";
                 echo "<script>document.getElementById('sharpxchange_step1').innerHTML = '" . $text1 . "'</script>";
-                //echo mysqli_error($dbconnect);
             }
         }
-    }        
-    // echo $sxcSendUsGT . " : " . $sxcReceiveGt . " : " . $sxcSendUsAmnt . " : " . $sxcReceiveAmnt . " : " . $uname . " : " . $sxcActEmail . " : " . $sxcActPhone . " : " . $sxcRecvGWEm . " : " . $hash . " : " . $sxctransID . " : " . $status . " : " . $time;
+    }     
+
 }
 generateSessionToken();
 
@@ -108,7 +107,7 @@ generateSessionToken();
     <meta name="author" content="Imran Hadid">
     <meta name="generator" content="Imran">
     <title>SharpXchange</title>
-    <base href="<?php echo $baseurl ?>" target="_blank">
+    <base href="<?php echo $baseurl ?>">
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
@@ -117,12 +116,12 @@ generateSessionToken();
 
     <style>
         .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
+        font-size: 1.125rem;
+        text-anchor: middle;
         }
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
-                font-size: 3.5rem;
+            font-size: 3.5rem;
             }
         }
     </style>
@@ -137,17 +136,17 @@ generateSessionToken();
         <header class="sharpxchange-header py-3 sharpxchange-section-index">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <?php
-                    if (isset($_SESSION['user_login_session'])) {
-                        echo '
+            if (isset($_SESSION['user_login_session'])) {
+                echo '
                         <div class="col-md-6 pt-1 sharpxchange-header-nav-left dropdown">
                             <a class="btn btn-outline-sxc dropdown-toggle" href="#" role="button" id="accountDetails" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Settings
+                            Settings
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDetails">
-                                <a class="dropdown-item" href="account">Account Settings</a>
-                                <a class="dropdown-item" href="exchange">Exchange Details</a>
-                                <a class="dropdown-item" href="testimonial">Testimonial</a>
-                                <a class="dropdown-item" href="logout">Logout</a>
+                            <a class="dropdown-item" href="account">Account Settings</a>
+                            <a class="dropdown-item" href="exchange">Exchange Details</a>
+                            <a class="dropdown-item" href="testimonial">Testimonial</a>
+                            <a class="dropdown-item" href="logout">Logout</a>
                             </div>
                         </div>
                         ';
@@ -203,8 +202,8 @@ generateSessionToken();
                         <center> 
                             <span class="btn notice1" >
                                 <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" id="marquee" class="scrolling">  
-                                    <span style="color: yellow">
-                                        <strong> Notice : </strong>
+                                <span style="color: yellow">
+                                <strong> Notice : </strong>
                                     </span>
                                     <?php echo $notice1; ?>
                                 </marquee>
@@ -266,25 +265,25 @@ generateSessionToken();
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-12">
-                                                <h3 class="sharpxchange-header py-3">
-                                                    <i class="fa fa-arrow-down"></i> Send Us
+                                        <div class="col-sm-12 col-md-12">
+                                        <h3 class="sharpxchange-header py-3">
+                                        <i class="fa fa-arrow-down"></i> Send Us
                                                 </h3>
                                                 <div class="col-sm-12 col-md-12 hidden-xs hidden-sm text-center">
                                                     <div>
-                                                        <img src="http://asset.sharpxchange.com/assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
-                                                        <p id="sxc_imageSendStatus"></p>
+                                                    <img src="http://asset.sharpxchange.com/assets/img/skrill.png" id="sxc_imageSendUs" width="72px" height="72px" class="img-circle">
+                                                <p id="sxc_imageSendStatus"></p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mt-4">
                                                     <select class="form-control" id="sxcSendUs" name="sxcSendUsGT" onchange="checkSendUsGateway()">
                                                         <option value="1">Bkash Personal BDT</option>
-                                                        <option value="2">DBBL Rocket BDT</option>
-                                                        <option value="3">Coinbase USD</option>
-                                                        <option value="4">Ethereum USD</option>
-                                                        <option value="5">Neteller USD</option>
-                                                        <option value="6">Payza USD</option>
-                                                        <option value="7" selected>Skrill. USD</option>
+                                                    <option value="2">DBBL Rocket BDT</option>
+                                                    <option value="3">Coinbase USD</option>
+                                                    <option value="4">Ethereum USD</option>
+                                                    <option value="5">Neteller USD</option>
+                                                    <option value="6">Payza USD</option>
+                                                    <option value="7" selected>Skrill. USD</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -293,7 +292,7 @@ generateSessionToken();
                                                 <div class="form-group">
                                                     <p id="sellUsStatus">
                                                         <?php
-                                                            echo defaultExchangeRate();
+                                                    echo defaultExchangeRate();
                                                         ?>
                                                     </p>
                                                 </div>
@@ -328,7 +327,7 @@ generateSessionToken();
                                                 <div class="form-group">
                                                     <p id="reserveStatus">
                                                         <?php 
-                                                            echo defaultReserve();
+                                                        echo defaultReserve();
                                                         ?>
                                                     </p>
                                                 </div>
