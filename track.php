@@ -37,10 +37,10 @@ if (isset($_GET['sxcTrackExID'])) {
     <title>SharpXchange</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/accountupdate.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/accountupdate.css">
 
     <style>
         .bd-placeholder-img {
@@ -55,10 +55,10 @@ if (isset($_GET['sxcTrackExID'])) {
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/popper.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/popper.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
 <body>
     <div class="container">
@@ -145,9 +145,9 @@ if (isset($_GET['sxcTrackExID'])) {
                         <tr>
                             <td colspan="2">
                                 <h2 class="text-center">
-                                    <img src="http://asset.sharpxchange.com/assets/img/<?php echo datanameToPic($gt_sell); ?>" width="50px" height="50px" class="img-circle">
+                                    <img src="https://asset.sharpxchange.com/assets/img/<?php echo datanameToPic($gt_sell); ?>" width="50px" height="50px" class="img-circle">
                                     <b><?php echo $gt_sell; ?></b><i class="fa fa-refresh ml-4 mr-4"></i>
-                                    <img src="http://asset.sharpxchange.com/assets/img/<?php echo datanameToPic($gt_rcev); ?>" width="50px" height="50px" class="img-circle">
+                                    <img src="https://asset.sharpxchange.com/assets/img/<?php echo datanameToPic($gt_rcev); ?>" width="50px" height="50px" class="img-circle">
                                     <b><?php echo $gt_rcev; ?></b>
                                 </h2>
                             </td>
