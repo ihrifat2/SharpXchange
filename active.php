@@ -27,7 +27,6 @@
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
     <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
 <?php 
@@ -40,23 +39,23 @@ if (!isset($_GET['token']) || !isset($_GET['code'])) {
     header('Location: /error');
 }
 
-$token  = $_REQUEST['token'];
+$token  = validate_input($_REQUEST['token']);
 $code   = validate_input($_GET['code']);
 
 function validate_input($data) {
-    // $data = trim($data);
-    // $data = stripslashes($data);
-    // $data = htmlspecialchars($data);
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
     return $data;
 }
 
 $code   = decode($code);
 
-$sqlQuery   = "SELECT `token`, `username`, `expire` FROM `tbl_token` WHERE `token_id` = '$code'";
+$sqlQuery   = "SELECT `token`, `email`, `expire` FROM `tbl_token` WHERE `token_id` = '$code'";
 $result     = mysqli_query($dbconnect, $sqlQuery);
 $rows       = mysqli_fetch_array($result);
 $storeToken = $rows['token'];
-$username   = $rows['username'];
+$email      = $rows['email'];
 $expire     = $rows['expire'];
 
 date_default_timezone_set("Asia/Dhaka");
@@ -64,12 +63,13 @@ $today = date("Y-m-d h:i:sa");
 $token = rawurlencode($token);
 $token = str_replace("%20", "+", $token);
 $token = str_replace("%2F", "/", $token);
-if (empty($storeToken) || empty($username) || empty($expire)) {
+
+if (empty($storeToken) || empty($email) || empty($expire)) {
     $message = "<center><img src='http://asset.sharpxchange.com/assets/img/wrong.png' height='100px'><br><br>Account activation token has expired or not found.</center>";
 } else {
     if ($today <= $expire) {
         if ($storeToken == $token) {
-            $sqlstatus  = "UPDATE `tbl_user_info` SET `acc_active`=1 WHERE `username` = '$username'";
+            $sqlstatus  = "UPDATE `tbl_user_info` SET `acc_active`=1 WHERE `email` = '$email'";
             $resultsts  = mysqli_query($dbconnect, $sqlstatus);
             $sqldelete = "DELETE FROM `tbl_token` WHERE `token_id` = '$code'";
             $resultdel = mysqli_query($dbconnect, $sqldelete);
@@ -118,8 +118,8 @@ if (empty($storeToken) || empty($username) || empty($expire)) {
 
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8 col-xl-8">
-                <form class="contactsection sharpxchange-main" method="post" action="<?php echo htmlspecialchars("/signin");?>">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-8">
+                <div class="contactsection sharpxchange-main">
                     <h2 class="sharpxchange-header sharpxchange-post-title py-4 mb-4">Account Activation Status</h2>
                     <div class="form-group row justify-content-md-center">
                         <p class="ml-3 mr-3 text-justify">
@@ -130,7 +130,7 @@ if (empty($storeToken) || empty($username) || empty($expire)) {
                             ?>
                         </p>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -175,16 +175,5 @@ if (empty($storeToken) || empty($username) || empty($expire)) {
         <p class="mt-3">Copyright © 2019. SharpXchange</p>
         <p><a href="#">Back to top</a></p>
     </footer>
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/5ca249e21de11b6e3b064991/default';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
 </body>
 </html>
