@@ -6,6 +6,7 @@ require "dbconnect.php";
 require "helper.php";
 require "helpertwo.php";
 require "hash.php";
+require "mail.php";
 
 if (isset($_SESSION['user_login_session'])) {
     header('Location: index.php');
@@ -69,9 +70,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
                             if ($sxc_signup_paswd != $sxc_signup_conpaswd) {
                                 $error = "Password not matched";
                             } else {
-                                $sqldeltoken = "DELETE FROM `tbl_token` WHERE `username` = '$email'";
-                                $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
-                                if ($resultdeltoken) {
+
+
+                                $sqlQuery   = "SELECT `token_id` FROM `tbl_token` WHERE `email` = '$sxc_signup_email'";
+                                $result     = mysqli_query($dbconnect, $sqlQuery);
+                                $rows       = mysqli_fetch_array($result);
+                                $token_id   = $rows['token_id'];
+
+
+                                if ($token_id == NULL || $token_id == "") {
                                     $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
                                     $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
                                     $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `email`, `create`, `expire`) VALUES ('$code','$token','$sxc_signup_email','$today','$tomorrow')";
@@ -79,11 +86,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_signup_btn'])) {
                                     $result2 = mysqli_query($dbconnect, $sqlQuery2);
                                     if ($result && $result2) {
                                         //send mail
-                                        require "mail/index.php";
                                         sendmail($sxc_signup_email, $fullname, $subject, $body, $body);
                                         $success = "Registration Successful. Please check your email address";
                                     } else {
                                         $error = "Registration Failed";
+                                    }
+                                } else {
+                                    $sqldeltoken = "DELETE FROM `tbl_token` WHERE `email` = '$sxc_signup_email'";
+                                    $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
+                                    if ($resultdeltoken) {
+                                        $sxc_signup_encrypt_paswd = password_hash($sxc_signup_paswd, PASSWORD_BCRYPT);
+                                        $sqlQuery = "INSERT INTO `tbl_user_info`(`user_id`, `first_name`, `last_name`, `username`, `email`, `passwd`, `signup_time`, `signup_ip`) VALUES (NULL, '$sxc_signup_fname', '$sxc_signup_lname', '$sxc_signup_username', '$sxc_signup_email', '$sxc_signup_encrypt_paswd', '$time', '$user_ip')";
+                                        $sqlQuery2 = "INSERT INTO `tbl_token`(`token_id`, `token`, `email`, `create`, `expire`) VALUES ('$code','$token','$sxc_signup_email','$today','$tomorrow')";
+                                        $result = mysqli_query($dbconnect, $sqlQuery);
+                                        $result2 = mysqli_query($dbconnect, $sqlQuery2);
+                                        if ($result && $result2) {
+                                            //send mail
+                                            sendmail($sxc_signup_email, $fullname, $subject, $body, $body);
+                                            $success = "Registration Successful. Please check your email address";
+                                        } else {
+                                            $error = "Registration Failed";
+                                        }
                                     }
                                 }
                             }
@@ -109,8 +132,8 @@ generateSessionToken();
     <title>SharpXchange</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://asset.sharpxchange.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -126,9 +149,9 @@ generateSessionToken();
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <script src="http://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
-    <script src="http://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -136,7 +159,7 @@ generateSessionToken();
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-md-6 pt-1 sharpxchange-header-nav-left">
                     <a class="sharpxchange-header-logo text-dark" href="/">
-                        <img src="http://asset.sharpxchange.com/assets/img/logo.png">
+                        <img src="https://asset.sharpxchange.com/assets/img/logo.png">
                     </a>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
