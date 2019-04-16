@@ -1,3 +1,8 @@
+<?php
+
+require "header.php";
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,17 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-        .content {
+        p {
             text-align: justify;
         }
     </style>
@@ -68,7 +63,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12">
                 <div class="aboutsection sharpxchange-main">
-                    <div class="sharpxchange-post content">
+                    <div class="sharpxchange-post">
                         <h2 class="sharpxchange-header sharpxchange-post-title py-3 mb-4">About Us</h2>
                         <?php 
                             require "dbconnect.php";
