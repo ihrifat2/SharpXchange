@@ -46,7 +46,6 @@ if (isset($_GET['sxcTrackExID'])) {
     <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/popper.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
-    <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
 </head>
 <body>
     <div class="container">
@@ -61,19 +60,19 @@ if (isset($_GET['sxcTrackExID'])) {
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="accountDetails">
-                                <a class="dropdown-item" href="account.php">Account Settings</a>
-                                <a class="dropdown-item" href="exchange.php">Exchange Details</a>
-                                <a class="dropdown-item" href="testimonial.php">Testimonial</a>
-                                <a class="dropdown-item" href="logout.php">Logout</a>
+                                <a class="dropdown-item" href="account">Account Settings</a>
+                                <a class="dropdown-item" href="exchange">Exchange Details</a>
+                                <a class="dropdown-item" href="testimonial">Testimonial</a>
+                                <a class="dropdown-item" href="logout">Logout</a>
                             </div>
                         </div>
                         ';
                     } else {
                         echo '
                         <div class="col-sm-4 col-md-4 pt-1 sharpxchange-header-nav-left">
-                            <a class="text-muted" href="signup.php">Registration</a>
+                            <a class="text-muted" href="signup">Registration</a>
                             <a>/</a>
-                            <a class="text-muted" href="signin.php">login</a>
+                            <a class="text-muted" href="signin">login</a>
                         </div>
                         ';
                     }
@@ -95,7 +94,7 @@ if (isset($_GET['sxcTrackExID'])) {
                     <nav class="nav nav-masthead justify-content-end">
                         <a class="nav-link" href="/">EXCHANGE</a>
                         <a class="nav-link" href="testimonials">TESTIMONIALS</a>
-                        <a class="nav-link active" href="contact">CONTACT</a>
+                        <a class="nav-link" href="contact">CONTACT</a>
                         <a class="nav-link" href="about">ABOUT US</a>
                     </nav>
                 </div>
