@@ -25,10 +25,10 @@ switch ($action) {
 		require_once "index.php";
 		break;
 	case 'testimonials':
-		require_once "testimonials.html";
+		require_once "testimonials.php";
 		break;
 	case 'contact':
-		require_once "contact.html";
+		require_once "contact.php";
 		break;
 	case "about":
 		require_once "aboutUs.php";
@@ -78,15 +78,19 @@ switch ($action) {
 	case "block":
 		include "block.php";
 		break;
+	case "troll":
+		include "troll.html";
+		break;
+	case "admin":
+		header("Location: /troll");
+		break;
+	case "mail":
+		header("Location: /error");
+		break;
 	default:
 		// header("Location: error");
 		header("HTTP/1.1 404 Not Found");
 		echo "404 Not Found";
-		// if (isset($others[0]) && isset($others[1])) {
-		// 	include "$action/$others[0]/$others[1]";
-		// } else {
-		// 	echo "404 Not Found";
-		// }
 		break;
 }
 
