@@ -15,12 +15,12 @@ $(document).ready(function() {
 
 function checkSendUsGateway() {
     jQuery.ajax({
-        url: "check_ajax.php",
+        url: "/check_ajax.php",
         data:'sxcSendUs='+$("#sxcSendUs").val(),
         type: "POST",
         success:function(data){
             var exchangeSell = JSON.parse(data);
-            $("#sxc_imageSendUs").attr("src","assets/img/"+exchangeSell[0]+".png");
+            $("#sxc_imageSendUs").attr("src","http://asset.sharpxchange.com/assets/img/"+exchangeSell[0]+".png");
             $("#sellUsStatus").html(exchangeSell[1]);
             $("#sxcAmountSend").val(exchangeSell[2]);
             $("#sxcAmountReceive").val(exchangeSell[3]);
@@ -32,12 +32,12 @@ function checkSendUsGateway() {
 
 function checkReceiveGateway() {
     jQuery.ajax({
-        url: "check_ajax.php",
+        url: "/check_ajax.php",
         data:'sxcReceive='+$("#sxcReceive").val(),
         type: "POST",
         success:function(data){
             var exchangeReceive = JSON.parse(data);
-            $("#sxc_imageReceive").attr("src","assets/img/"+exchangeReceive[0]+".png");
+            $("#sxc_imageReceive").attr("src","http://asset.sharpxchange.com/assets/img/"+exchangeReceive[0]+".png");
             $("#reserveStatus").html(exchangeReceive[1]);
             $("#sellUsStatus").html(exchangeReceive[2]);
             $("#sxcAmountSend").val(exchangeReceive[3]);
@@ -60,7 +60,7 @@ function calculateAmount(){
     // console.log(sellamunt);
     // console.log(reserve);
     jQuery.ajax({
-        url: "check_ajax.php",
+        url: "/check_ajax.php",
         data:'sxcAmountSend='+sellamunt+'&sellUsStatus='+excneRate+'&reserve='+reserve,
         type: "POST",
         success:function(data){
@@ -81,7 +81,7 @@ function calculateAmount(){
 
 function checkUsername() {
     jQuery.ajax({
-        url: "check_validation.php",
+        url: "/check_validation.php",
         data:'username='+$("#sxcSignupUsername").val(),
         type: "POST",
         success:function(data){
@@ -93,7 +93,7 @@ function checkUsername() {
 
 function checkEmail() {
     jQuery.ajax({
-        url: "check_validation.php",
+        url: "/check_validation.php",
         data:'email='+$("#sxcSignupEmail").val(),
         type: "POST",
         success:function(data){
@@ -105,7 +105,7 @@ function checkEmail() {
 
 function checkpasswd() {
     jQuery.ajax({
-        url: "check_validation.php",
+        url: "/check_validation.php",
         data:'passwd='+$("#sxcSignupPassword").val(),
         type: "POST",
         success:function(data){
@@ -117,7 +117,7 @@ function checkpasswd() {
 
 function checkconpasswd() {
     jQuery.ajax({
-        url: "check_validation.php",
+        url: "/check_validation.php",
         data:'conpasswd='+$("#sxcSignupConPassword").val(),
         type: "POST",
         success:function(data){
@@ -144,7 +144,7 @@ function sxc_exchange_stepone() {
     }
     // console.log(sxcSendUs+' : '+sxcReceive+' : '+sxcAmountSend+' : '+sxcAmountReceive+' : '+sellUsStatus+' : '+reserveStatus);
     jQuery.ajax({
-        url: "sxc_payout.php",
+        url: "/sxc_payout.php",
         data:'sxcSendUs='+sxcSendUs+'&sxcReceive='+sxcReceive+'&sxcAmountSend='+sxcAmountSend,
         type: "POST",
         success:function(data){
@@ -181,55 +181,6 @@ function sxc_exchange_steptwo() {
     } 
 }
 
-function contactform() {
-    var contName    = document.getElementById("sxcContName").value;
-    var contMail    = document.getElementById("sxcContMail").value;
-    var contSub     = document.getElementById("sxcContSub").value;
-    var conTxt      = document.getElementById("sxcConTxt").value;
-    var conBtn      = document.getElementById("sxcConBtn").value;
-    if (isEmpty(contName) || isEmpty(contMail) || isEmpty(contSub) || isEmpty(conTxt)) {
-        $('#sxcConBtn').addClass('hide');
-    } else {
-        $('#sxcConBtn').removeClass('hide');
-    }
-}
-
-function contactformSubmit() {
-    var contName    = document.getElementById("sxcContName").value;
-    var contMail    = document.getElementById("sxcContMail").value;
-    var contSub     = document.getElementById("sxcContSub").value;
-    var conTxt      = document.getElementById("sxcConTxt").value;
-    jQuery.ajax({
-        url: "contact.php",
-        data:'contName='+contName+'&contMail='+contMail+'&contSub='+contSub+'&conTxt='+conTxt,
-        type: "POST",
-        success:function(data){
-            // console.log(data);
-            var kontak = JSON.parse(data);
-            if (kontak[0] == 0) {
-                $('#success').html(kontak[1]);
-            }
-            if (kontak[0] == 1) {
-                $('#error').html(kontak[1]);
-            }
-        },
-        error:function (){}
-    });
-}
-
 function isEmpty(val){
     return (val === undefined || val == null || val.length <= 0) ? true : false;
-}
-
-function getTestimonels() {
-    jQuery.ajax({
-        url: "tstimnl.php",
-        data:'testtimonial=0',
-        type: "POST",
-        success:function(data){
-            console.log(data);
-            $("#sxcTstmnl").html(data);
-        },
-        error:function (){}
-    });
 }
