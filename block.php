@@ -3,6 +3,7 @@ session_start();
 if (!isset($_SESSION['badIP'])) {
     header("Location: /");
 }
+require "header.php";
 ?>
 <!DOCTYPE html>
 <html>
