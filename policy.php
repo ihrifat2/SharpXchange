@@ -1,3 +1,7 @@
+<?php
+require "dbconnect.php";
+require "header.php";
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,15 +18,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
+        p {
+            text-align: justify;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -68,7 +65,6 @@
                     <div class="sharpxchange-post">
                         <h2 class="sharpxchange-header sharpxchange-post-title py-3 mb-4">Privacy Policy</h2>
                         <?php 
-                            require "dbconnect.php";
                             $sqlQuery   = "SELECT `text` FROM `tbl_page_settings` WHERE `page_id` = 2";
                             $result     = mysqli_query($dbconnect, $sqlQuery);
                             $rows       = mysqli_fetch_array($result);
