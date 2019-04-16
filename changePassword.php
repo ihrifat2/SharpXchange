@@ -13,18 +13,6 @@
     <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
@@ -36,6 +24,8 @@ require "dbconnect.php";
 require "hash.php";
 require 'xsrf.php';
 require "helper.php";
+require "mail.php";
+require "header.php";
 
 if (!isset($_GET['token']) || !isset($_GET['code'])) {
     header('Location: /error');
@@ -100,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_CngPass_btn'])) {
                         $sqldeltoken    = "DELETE FROM `tbl_token` WHERE `token_id` = '$code2'";
                         $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
                         if ($resultdeltoken) {
-                            require "mail/index.php";
                             sendmail($email, $fullname, $subject, $body, $body);
                             $error = 54321;
                         }
