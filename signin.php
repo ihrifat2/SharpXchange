@@ -13,18 +13,6 @@
     <link rel="stylesheet" href="https://asset.sharpxchange.com/assets/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <script src="https://asset.sharpxchange.com/assets/js/jquery-3.3.1.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
@@ -36,6 +24,7 @@ session_start();
 require 'xsrf.php';
 require "dbconnect.php";
 require "helpertwo.php";
+require "header.php";
 
 if (isset($_SESSION['user_login_session'])) {
     header('Location: /');
