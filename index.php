@@ -102,9 +102,15 @@ generateSessionToken();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="SharpXchange">
-    <meta name="author" content="Imran Hadid">
-    <meta name="generator" content="Imran">
+    <meta name="description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
+    <meta name="keywords" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
+    <meta property="og:url" content="https://www.sharpxchange.com">
+    <meta property="og:title" content="Money Exchanger, Dollar Buy and Sell">
+    <meta property="og:description" content="Money Exchanger, Dollar Buy and Sell, Trusted Source">
+    <meta property="og:image" content="https://www.sharpxchange.com/assets/img/logo.png">
+    <meta property="og:type" content="SharpXchange">
+    <meta name="author" content="SharpXchange">
+    <meta name="generator" content="SharpXchange">
     <title>SharpXchange</title>
     <base href="<?php echo $baseurl ?>">
 
