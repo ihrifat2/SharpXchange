@@ -5,6 +5,18 @@ require "helper.php";
 require "xsrf.php";
 require "hash.php";
 require "header.php";
+require 'pusher/vendor/autoload.php';
+
+$options = array(
+    'cluster' => 'ap2',
+    'useTLS' => true
+);
+$pusher = new Pusher\Pusher(
+    'c0d39fd7bd9c14eb2b6a',
+    '8c4db4e31baead871afd',
+    '764369',
+    $options
+);
 
 unset($_SESSION['sxcReceive']);
 unset($_SESSION['sxcSendUs']);
@@ -83,6 +95,8 @@ if (isset($_POST['sxcConfirmTransaction'])) {
                 $text1 .= $hash;
                 $text1 .= "</div></div></div>";
                 echo "<script>document.getElementById('exchangeSection').innerHTML = '" . $text1 . "'</script>";
+                $data['message'] = 1;
+                $pusher->trigger('sharpxchange', 'notification', $data);
             } else {
                 $text1 = '<div class="row box"><div class="col-sm-12 col-md-12">';
                 $text1 .= "Thank you! If you facing any error please contact with us.";
@@ -90,11 +104,9 @@ if (isset($_POST['sxcConfirmTransaction'])) {
                 echo "<script>document.getElementById('sharpxchange_step1').innerHTML = '" . $text1 . "'</script>";
             }
         }
-    }     
-
+    }
 }
 generateSessionToken();
-
 
 ?>
 <!doctype html>
