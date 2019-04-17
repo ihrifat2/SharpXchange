@@ -136,6 +136,27 @@ generateSessionToken();
     <script src="https://asset.sharpxchange.com/assets/js/popper.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/bootstrap.min.js"></script>
     <script src="https://asset.sharpxchange.com/assets/js/sharpxchange.js"></script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script>
+    Pusher.logToConsole = false;
+
+    var pusher = new Pusher('c0d39fd7bd9c14eb2b6a', {
+        cluster: 'ap2',
+        forceTLS: true
+    });
+
+    var channel = pusher.subscribe('sharpxchange');
+    channel.bind('notification', function(data) {
+        // alert(JSON.stringify(data));
+        // console.log(data['message']);
+        if (data['message'] == 2) {
+            document.getElementById('activeStatus').innerHTML = 'Operator : <span class="badge badge-success mr-2"><i class="fa fa-check"></i>Active</span>';
+        }
+        if (data['message'] == 3) {
+            document.getElementById('activeStatus').innerHTML = 'Operator : <span class="badge badge-danger mr-2"><i class="fa fa-times"></i>Offline</span>';
+        }
+    });
+    </script>
 </head>
 <body>
     <div class="container-fluid">
@@ -167,7 +188,7 @@ generateSessionToken();
                     }
                 ?>
                 <div class="col-sm-6 col-md-6 d-flex justify-content-end align-items-center sharpxchange-header-nav-right">
-                    <span>
+                    <span id="activeStatus">
                         Operator : 
                         <?php
                         if (getActiveStatus() == 0) {
