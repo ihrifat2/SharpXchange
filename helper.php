@@ -1,5 +1,14 @@
 <?php
 
+function getSessionToken($data) {
+	require "dbconnect.php";
+	$sqlQuery       = "SELECT COUNT(`session_id`) FROM `tbl_sessiontoken` WHERE `session_email` = '$data'";
+    $result         = mysqli_query($dbconnect, $sqlQuery);
+    $rows           = mysqli_fetch_array($result);
+    $session_id 	= $rows['COUNT(`session_id`)'];
+    return $session_id;
+}
+
 function checkUsername($data){
 	require "dbconnect.php";
 	$sqlQuery       = "SELECT * FROM `tbl_user_info` WHERE `username` = '$data'";
