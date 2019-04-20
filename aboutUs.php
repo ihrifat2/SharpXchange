@@ -122,10 +122,8 @@ require "header.php";
                 </div>
             </div>
         </div>
-        <center>
-            <p class="mt-3">Copyright © 2019. SharpXchange</p>
-            <p><a href="#">Back to top</a></p>
-        </center>
+        <p class="mt-3">Copyright © 2019. SharpXchange</p>
+        <p><a href="#">Back to top</a></p>
     </footer>
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
