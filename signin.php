@@ -24,6 +24,7 @@ session_start();
 require 'xsrf.php';
 require "dbconnect.php";
 require "helpertwo.php";
+require "helper.php";
 require "header.php";
 
 if (isset($_SESSION['user_login_session'])) {
@@ -72,13 +73,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
                 $store_password = $rows['passwd'];
                 $sxc_username   = $rows['username'];
                 $check          = password_verify($sxc_Passwd, $store_password);
+                $code           = uniqid();
                 // echo $store_password . " : ";
                 // echo $sxc_username;
                 if ($check) {
-                    $_SESSION['user_login_session'] = $sxc_username;
-                    unset($_SESSION['failattempts']);
-                    unset($_SESSION['badIP']);
-                    echo "<script>javascript:document.location='/'</script>";
+
+
+                    $session_id = getSessionToken($sxc_Email);
+                    $md5uniqid = md5(uniqid());
+                    date_default_timezone_set("Asia/Dhaka");
+                    $time = date("Y-m-d h:i:sa");
+
+                    if ($session_id == 0) {
+                        $sqlSession = "INSERT INTO `tbl_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
+                        $rsltSesion = mysqli_query($dbconnect, $sqlSession);
+                        if ($rsltSesion) {
+                            $_SESSION['user_login_session'] = $sxc_username;
+                            $_SESSION['PHPSESSID'] = $md5uniqid;
+                            echo '<script>document.cookie = "SharpXchange_Cookie='.$md5uniqid.'";</script>';
+                            unset($_SESSION['failattempts']);
+                            unset($_SESSION['badIP']);
+                            echo "<script>javascript:document.location='/'</script>";
+                        }
+                    } else {
+                        $sqldeltoken = "DELETE FROM `tbl_sessiontoken` WHERE `session_email` = '$sxc_Email'";
+                        $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
+                        if ($resultdeltoken) {
+                            $sqlSession = "INSERT INTO `tbl_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
+                            $rsltSesion = mysqli_query($dbconnect, $sqlSession);
+                            if ($rsltSesion) {
+                                $_SESSION['user_login_session'] = $sxc_username;
+                                $_SESSION['PHPSESSID'] = $md5uniqid;
+                                echo '<script>document.cookie = "SharpXchange_Cookie='.$md5uniqid.'";</script>';
+                                unset($_SESSION['failattempts']);
+                                unset($_SESSION['badIP']);
+                                echo "<script>javascript:document.location='/'</script>";
+                            }
+                        }
+                    }
                 }else{
                     $error = "Username or Password Invalid.";
                     //implement ratelimit
