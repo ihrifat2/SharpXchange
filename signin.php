@@ -80,12 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
 
 
                     $session_id = getSessionToken($sxc_Email);
-                    $md5uniqid = md5(uniqid());
+                    $md5uniqid  = md5(uniqid());
                     date_default_timezone_set("Asia/Dhaka");
-                    $time = date("Y-m-d h:i:sa");
+                    $time       = date("Y-m-d h:i:sa");
 
                     if ($session_id == 0) {
-                        $sqlSession = "INSERT INTO `tbl_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
+                        $sqlSession = "INSERT INTO `tbl_user_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
                         $rsltSesion = mysqli_query($dbconnect, $sqlSession);
                         if ($rsltSesion) {
                             $_SESSION['user_login_session'] = $sxc_username;
@@ -96,10 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sxc_Signin_btn'])) {
                             echo "<script>javascript:document.location='/'</script>";
                         }
                     } else {
-                        $sqldeltoken = "DELETE FROM `tbl_sessiontoken` WHERE `session_email` = '$sxc_Email'";
+                        $sqldeltoken = "DELETE FROM `tbl_user_sessiontoken` WHERE `session_email` = '$sxc_Email'";
                         $resultdeltoken = mysqli_query($dbconnect, $sqldeltoken);
                         if ($resultdeltoken) {
-                            $sqlSession = "INSERT INTO `tbl_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
+                            $sqlSession = "INSERT INTO `tbl_user_sessiontoken`(`session_id`, `session_token`, `session_email`, `session_create`) VALUES ('$code','$md5uniqid','$sxc_Email','$time')";
                             $rsltSesion = mysqli_query($dbconnect, $sqlSession);
                             if ($rsltSesion) {
                                 $_SESSION['user_login_session'] = $sxc_username;
