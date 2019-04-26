@@ -82,7 +82,7 @@ if (isset($_POST['sxcConfirmTransaction'])) {
         if (empty($sxcSendUsGT) || empty($sxcSendUsAmnt) || empty($sxcReceiveGt) || empty($sxcReceiveAmnt) || empty($sxcActEmail) || empty($sxcRecvGWEm) || empty($sxcActPhone) || empty($hash)) {
             echo "All fields are required.";
         } else {
-            $sqlQuery = "INSERT INTO `tbl_exchange_info`(`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `date`) VALUES (NULL,'$sxcSendUsGT','$sxcReceiveGt','$sxcSendUsAmnt','$sxcReceiveAmnt','$uname','$sxcActEmail','$sxcActPhone','$sxcRecvGWEm', '$hash','$sxctransID','$status','$time')";
+            $sqlQuery = "INSERT INTO `tbl_exchange_info`(`exchange_id`, `gateway_sell`, `gateway_recieve`, `amount_sell`, `amount_recieve`, `username`, `email`, `phone_number`, `gateway_info_address`, `transaction_id`, `additional_info`, `status`, `create`) VALUES (NULL,'$sxcSendUsGT','$sxcReceiveGt','$sxcSendUsAmnt','$sxcReceiveAmnt','$uname','$sxcActEmail','$sxcActPhone','$sxcRecvGWEm', '$hash','$sxctransID','$status','$time')";
             $sqlQuerynotify = "INSERT INTO `tbl_admin_notification`(`notify_id`, `notify_text`, `notify_url`, `notify_imran`, `notify_nur`, `notify_robin`) VALUES (NULL,'$notifyText','$notifyUrl','0','0','0')";
             $result = mysqli_query($dbconnect, $sqlQuery);
             $resultnotify = mysqli_query($dbconnect, $sqlQuerynotify);
@@ -502,7 +502,7 @@ generateSessionToken();
                                 <?php
 
                                     $lastExchangedata = array();
-                                    $lastExchangequery = "SELECT `gateway_sell`, `gateway_recieve`, `amount_sell`, `username`, `status`, `date` FROM `tbl_exchange_info` ORDER BY `exchange_id` DESC LIMIT 10";
+                                    $lastExchangequery = "SELECT `gateway_sell`, `gateway_recieve`, `amount_sell`, `username`, `status`, `create` FROM `tbl_exchange_info` ORDER BY `exchange_id` DESC LIMIT 10";
                                     $lastExchangeresult = $dbconnect->query($lastExchangequery);
                                     if ($lastExchangeresult) {
                                         while ($lastExchangerows = $lastExchangeresult->fetch_array(MYSQLI_ASSOC)) {
@@ -517,8 +517,8 @@ generateSessionToken();
                                                 <td>' . $lastExchangeRate['gateway_sell'] . '</td>
                                                 <td>' . $lastExchangeRate['gateway_recieve'] . '</td>
                                                 <td>' . $lastExchangeRate['amount_sell'] . bdtOrUsbByGTName($lastExchangeRate['gateway_sell']) . '</td>
-                                                <td>' . $lastExchangeRate['username'] . '</td>
-                                                <td>' . getDateFormat($lastExchangeRate['date']) . '</td>
+                                                <td>' . ucfirst($lastExchangeRate['username']) . '</td>
+                                                <td>' . getDateFormat($lastExchangeRate['create']) . '</td>
                                                 <td>' . getbadgefromStatus($lastExchangeRate['status']) . '</td>
                                             </tr>
                                         ';
