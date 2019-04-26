@@ -19,7 +19,7 @@ if (isset($_SESSION['PHPSESSID'])) {
 
 function getSessionStatus($data) {
 	require "dbconnect.php";
-	$sqlQuery       = "SELECT COUNT(`session_id`) FROM `tbl_sessiontoken` WHERE `session_token` = '$data'";
+	$sqlQuery       = "SELECT COUNT(`session_id`) FROM `tbl_user_sessiontoken` WHERE `session_token` = '$data'";
     $result         = mysqli_query($dbconnect, $sqlQuery);
     $rows           = mysqli_fetch_array($result);
     $session_id 	= $rows['COUNT(`session_id`)'];
